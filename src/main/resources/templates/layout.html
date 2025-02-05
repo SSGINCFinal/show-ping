@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>공통 레이아웃</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script defer src="/js/scripts.js"></script>
+</head>
+<body>
+<!-- 공통 헤더 -->
+<header class="navbar">
+    <div class="navbar-container">
+        <!-- 로고 -->
+        <div class="navbar-logo">
+            <a href="/">홈페이지</a>
+        </div>
+
+        <!-- 네비게이션 메뉴 -->
+        <nav class="navbar-menu">
+            <ul class="menu-list">
+                <li class="menu-item dropdown">
+                    <a>메뉴 1</a>
+                    <!-- 드롭다운 메뉴 -->
+                    <ul class="dropdown-menu">
+                        <li><a href="#">옵션 1</a></li>
+                        <li><a href="#">옵션 2</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item dropdown">
+                    <a>메뉴 2</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">옵션 1</a></li>
+                        <li><a href="#">옵션 2</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item dropdown">
+                    <a>메뉴 3</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">옵션 1</a></li>
+                        <li><a href="#">옵션 2</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item dropdown">
+                    <a>메뉴 4</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">옵션 1</a></li>
+                        <li><a href="#">옵션 2</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- 검색 및 언어 선택 -->
+        <div class="navbar-right">
+            <div class="search-bar">
+                <form action="#" method="GET">
+                    <input type="text" name="search" placeholder="검색어를 입력하세요..." />
+                    <button type="submit">검색</button>
+                </form>
+            </div>
+            <a href="/login" class="login-button">로그인</a>
+        </div>
+    </div>
+</header>
+<!-- 페이지 내용 -->
+<main layout:fragment="content">
+</main>
+<button id="scrollToTop" class="scroll-to-top">▲</button>
+<!-- 공통 푸터 -->
+
+<footer class="footer">
+    <div class="footer-container">
+        <!-- 첫 번째 열: 카테고리 -->
+        <div class="footer-column">
+            <h4>메뉴 1</h4>
+            <ul>
+                <li><a href="#">옵션 1</a></li>
+                <li><a href="#">옵션 2</a></li>
+            </ul>
+        </div>
+
+        <!-- 두 번째 열: 파트너 -->
+        <div class="footer-column">
+            <h4>메뉴 2</h4>
+            <ul>
+                <li><a href="#">옵션 1</a></li>
+                <li><a href="#">옵션 2</a></li>
+            </ul>
+        </div>
+
+        <!-- 세 번째 열: 문의하기 -->
+        <div class="footer-column">
+            <h4>메뉴 3</h4>
+            <ul>
+                <li><a href="#">옵션 1</a></li>
+                <li><a href="#">옵션 2</a></li>
+            </ul>
+        </div>
+
+        <!-- 네 번째 열: 회사 소개 -->
+        <div class="footer-column">
+            <h4>메뉴 4</h4>
+            <ul>
+                <li><a href="#">옵션 1</a></li>
+                <li><a href="#">옵션 2</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer 하단 -->
+    <div class="footer-bottom">
+        <p>&copy; 2025 신세계 I&C. All rights reserved.</p>
+        <div class="social-icons">
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">LinkedIn</a>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
