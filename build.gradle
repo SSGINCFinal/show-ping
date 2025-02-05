@@ -1,0 +1,97 @@
+plugins {
+    id 'java'
+    id 'war'
+    id 'org.springframework.boot' version '3.3.8'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.ssginc'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //************************************************************************
+    //  template engine-thymeleaf
+    //************************************************************************
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.2.0'
+
+    //************************************************************************
+    //  spring boot core
+    //************************************************************************
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    //************************************************************************
+    //  websocket
+    //************************************************************************
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+    //************************************************************************
+    //  kafka
+    //************************************************************************
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'org.apache.kafka:kafka-streams'
+
+    //************************************************************************
+    //  db-jpa-mysql-mongodb-hikari
+    //************************************************************************
+    runtimeOnly 'mysql:mysql-connector-java:8.0.33' // 최신 버전 사용
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+    //************************************************************************
+    //  smtp
+    //************************************************************************
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    //************************************************************************
+    //  spring security
+    //************************************************************************
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    implementation 'org.springframework.security:spring-security-crypto:6.0.0'
+
+    //************************************************************************
+    //  lombok
+    //************************************************************************
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    ////////////////////////////////////////////////////////////////////////////
+    //************************************************************************
+    // Spring Boot Test
+    //************************************************************************
+    ////////////////////////////////////////////////////////////////////////////
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('bootBuildImage') {
+    builder = 'paketobuildpacks/builder-jammy-base:latest'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
