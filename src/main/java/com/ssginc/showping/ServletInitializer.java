@@ -1,4 +1,4 @@
-package com.ssginc.threadconnect;
+package com.ssginc.showping;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

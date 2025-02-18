@@ -1,4 +1,4 @@
-package com.ssginc.threadconnect;
+package com.ssginc.showping;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
