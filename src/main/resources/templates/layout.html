@@ -20,33 +20,23 @@
         <nav class="navbar-menu">
             <ul class="menu-list">
                 <li class="menu-item dropdown">
-                    <a>메뉴 1</a>
+                    <a>카테고리</a>
                     <!-- 드롭다운 메뉴 -->
                     <ul class="dropdown-menu">
-                        <li><a href="#">옵션 1</a></li>
-                        <li><a href="#">옵션 2</a></li>
+                        <li><a href="/product/payment">결제</a></li>
+                        <li><a href="/#">옵션 2</a></li>
+                        <li><a href="/#">옵션 3</a></li>
+                        <li><a href="/#">옵션 4</a></li>
                     </ul>
                 </li>
                 <li class="menu-item dropdown">
-                    <a>메뉴 2</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">옵션 1</a></li>
-                        <li><a href="#">옵션 2</a></li>
-                    </ul>
+                    <a href="/#">라이브</a>
                 </li>
                 <li class="menu-item dropdown">
-                    <a>메뉴 3</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">옵션 1</a></li>
-                        <li><a href="#">옵션 2</a></li>
-                    </ul>
+                    <a href="/#">TV 편성표</a>
                 </li>
                 <li class="menu-item dropdown">
-                    <a>메뉴 4</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">옵션 1</a></li>
-                        <li><a href="#">옵션 2</a></li>
-                    </ul>
+                    <a href="/#">이벤트</a>
                 </li>
             </ul>
         </nav>
@@ -55,11 +45,17 @@
         <div class="navbar-right">
             <div class="search-bar">
                 <form action="#" method="GET">
-                    <input type="text" name="search" placeholder="검색어를 입력하세요..." />
-                    <button type="submit">검색</button>
+                    <input type="text" name="search">
+                    <button type="submit">
+                        <img src="/img/search.png" style="height: 20px">
+                    </button>
                 </form>
             </div>
-            <a href="/login" class="login-button">로그인</a>
+            <div class="cart-bar">
+                <a href="/cart">
+                    <img src="/img/cart.png" style="height: 20px">
+                </a>
+            </div>
         </div>
     </div>
 </header>
@@ -70,51 +66,35 @@
 <!-- 공통 푸터 -->
 
 <footer class="footer">
-    <div class="footer-container">
-        <!-- 첫 번째 열: 카테고리 -->
-        <div class="footer-column">
-            <h4>메뉴 1</h4>
-            <ul>
-                <li><a href="#">옵션 1</a></li>
-                <li><a href="#">옵션 2</a></li>
-            </ul>
-        </div>
+<!--    <div class="footer-container">-->
+<!--        &lt;!&ndash; 첫 번째 열: 카테고리 &ndash;&gt;-->
+<!--        <div class="footer-column">-->
+<!--            <h4>메뉴 1</h4>-->
+<!--        </div>-->
 
-        <!-- 두 번째 열: 파트너 -->
-        <div class="footer-column">
-            <h4>메뉴 2</h4>
-            <ul>
-                <li><a href="#">옵션 1</a></li>
-                <li><a href="#">옵션 2</a></li>
-            </ul>
-        </div>
+<!--        &lt;!&ndash; 두 번째 열: 파트너 &ndash;&gt;-->
+<!--        <div class="footer-column">-->
+<!--            <h4 a href="#">라이브</h4>-->
+<!--        </div>-->
 
-        <!-- 세 번째 열: 문의하기 -->
-        <div class="footer-column">
-            <h4>메뉴 3</h4>
-            <ul>
-                <li><a href="#">옵션 1</a></li>
-                <li><a href="#">옵션 2</a></li>
-            </ul>
-        </div>
+<!--        &lt;!&ndash; 세 번째 열: 문의하기 &ndash;&gt;-->
+<!--        <div class="footer-column">-->
+<!--            <h4 a href="#">편성표</h4>-->
+<!--        </div>-->
 
-        <!-- 네 번째 열: 회사 소개 -->
-        <div class="footer-column">
-            <h4>메뉴 4</h4>
-            <ul>
-                <li><a href="#">옵션 1</a></li>
-                <li><a href="#">옵션 2</a></li>
-            </ul>
-        </div>
-    </div>
+<!--        &lt;!&ndash; 네 번째 열: 회사 소개 &ndash;&gt;-->
+<!--        <div class="footer-column">-->
+<!--            <h4 a href="#">이벤트</h4>-->
+<!--        </div>-->
+<!--    </div>-->
 
     <!-- Footer 하단 -->
     <div class="footer-bottom">
         <p>&copy; 2025 신세계 I&C. All rights reserved.</p>
         <div class="social-icons">
-            <a href="#">Facebook</a>
-            <a href="#">Twitter</a>
-            <a href="#">LinkedIn</a>
+            <a href="/#">Facebook</a>
+            <a href="/#">Twitter</a>
+            <a href="/#">LinkedIn</a>
         </div>
     </div>
 </footer>
