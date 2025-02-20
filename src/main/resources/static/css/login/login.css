@@ -1,0 +1,142 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f4f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo-area h1 {
+    color: #498af0;
+    margin-bottom: 10px;
+}
+
+.logo {
+    background-color: #498af0;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.login-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-form h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.login-form input {
+    width: 80%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.login-form button {
+    background-color: #498af0;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.remember-me input {
+    margin-right: 5px;
+}
+
+.find-links {
+    margin-top: 10px;
+}
+
+.find-links a {
+    color: #498af0;
+    text-decoration: none;
+}
+
+.social-login {
+    display: flex;
+    margin-top: 20px;
+}
+
+.social-login button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 5px;
+    color: white;
+}
+
+.social-login .naver-login {
+    background-color: #03E866 !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px !important;
+    font-size: 16px !important;
+    cursor: pointer !important;
+}
+
+.social-login .kakao-login {
+    background-color: #FFE812 !important;
+    color: black !important;
+    border: none !important;
+    padding: 10px !important;
+    font-size: 16px !important;
+    cursor: pointer !important;
+}
+.social-login .social-icon {
+    width: 20px; /* 로고 크기 줄이기 */
+    height: 20px;
+}
+.signup-link {
+    margin-top: 20px;
+}
+
+.signup-link a {
+    color: #498af0;
+}

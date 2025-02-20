@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <link rel="stylesheet" href="/css/login/login.css">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="logo-area">
+        <h1>ShowPing!</h1>
+        <div class="logo">S</div>
+    </div>
+    <div class="login-form">
+        <h2>ShowPing에 오신 것을 환영합니다.</h2>
+        <input type="text" placeholder="ID">
+        <input type="password" placeholder="Password">
+        <button>로그인</button>
+        <div class="social-login">
+            <button class="naver-login">
+                <img src="/img/naver.png" alt="네이버 로고" class="social-icon">
+                네이버 로그인
+            </button>
+            <button class="kakao-login">
+                <img src="/img/kakao.png" alt="카카오 로고" class="social-icon">
+                카카오 로그인
+            </button>
+        </div>
+        <div class="signup-link">
+            <p>아직 회원이 아니신가요? <a href="/login/signup">회원가입</a></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
