@@ -21,8 +21,10 @@ public interface StreamRepository extends JpaRepository<Stream, Long> {
      */
     @Query("""
         SELECT new com.ssginc.showping.dto.response.VodResponseDto
-        (s.streamNo, s.streamTitle, p.productName, p.productPrice, p.productSale, p.productImg, s.streamStartTime, s.streamEndTime)
-        FROM Stream s JOIN Product p ON s.product.productNo = p.productNo WHERE s.streamStatus = 'ENDED'
+        (s.streamNo, s.streamTitle, c.categoryNo, c.categoryName, p.productName,
+        p.productPrice, p.productSale, p.productImg, s.streamStartTime, s.streamEndTime)
+        FROM Stream s JOIN Product p ON s.product.productNo = p.productNo
+        JOIN Category c ON p.category.categoryNo = c.categoryNo WHERE s.streamStatus = 'ENDED'
     """)
     List<VodResponseDto> findAllVod();
 }

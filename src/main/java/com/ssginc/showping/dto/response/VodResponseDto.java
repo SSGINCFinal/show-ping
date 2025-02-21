@@ -20,6 +20,8 @@ public class VodResponseDto {
 
     private Long streamNo;                  // 영상 번호
     private String streamTitle;             // 영상 제목
+    private Long categoryNo;                // 카테고리 번호
+    private String categoryName;            // 카테고리 이름
     private String productName;             // 상품 이름
     private Long productPrice;              // 상품 가격
     private int productSale;                // 상품 할인율
