@@ -30,4 +30,13 @@ public class StreamServiceImpl implements StreamService {
         return streamRepository.findAllVod();
     }
 
+    /**
+     * 특정 카테고리의 Vod 목록을 반환하는 메소드
+     * @param categoryNo 카테고리 번호
+     * @return vod 목록
+     */
+    @Override
+    public List<VodResponseDto> getAllVodByCategory(Long categoryNo) {
+        return streamRepository.findAllVodByCategory(categoryNo);
+    }
 }

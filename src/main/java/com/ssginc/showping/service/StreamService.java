@@ -8,4 +8,6 @@ public interface StreamService {
 
     List<VodResponseDto> getAllVod();
 
+    List<VodResponseDto> getAllVodByCategory(Long categoryNo);
+
 }

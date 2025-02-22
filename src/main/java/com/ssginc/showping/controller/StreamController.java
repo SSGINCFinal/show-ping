@@ -5,9 +5,7 @@ import com.ssginc.showping.service.StreamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,4 +36,18 @@ public class StreamController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+
+    /**
+     * 전체 Vod 목록을 반환해주는 컨트롤러 메소드
+     * @param categoryNo 카테고리 번호
+     * @return 전달할 응답객체 (json 형태로 전달)
+     */
+    @GetMapping("/vod/list/{categoryNo}")
+    public ResponseEntity<Map<String, Object>> getVodListByCategory(@PathVariable Long categoryNo) {
+        List<VodResponseDto> vodList = streamService.getAllVodByCategory(categoryNo);
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("vodList", vodList);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
