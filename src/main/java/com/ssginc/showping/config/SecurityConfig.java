@@ -1,5 +1,7 @@
 package com.ssginc.showping.config;
 
+import com.ssginc.showping.jwt.JwtFilter;
+import com.ssginc.showping.service.MemberDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,11 +10,14 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final MemberDetailsServiceImpl memberDetailsService;
+    private final JwtFilter jwtFilter;
     ////////////////////////////////////////////////////////////////////////////////////////////
     ///  3. custome한 login form있는 html파일 지정 ===> jwt적용
     @Bean
@@ -53,7 +58,8 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
