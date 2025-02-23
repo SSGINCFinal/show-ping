@@ -24,7 +24,6 @@ public class Watch {
 
     // 회원
     // 시청 : 회원은 N : 1의 관계를 가진다.
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_no", referencedColumnName = "member_no")
     private Member member;
