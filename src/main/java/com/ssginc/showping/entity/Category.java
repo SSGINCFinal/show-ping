@@ -1,5 +1,6 @@
 package com.ssginc.showping.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,11 +25,8 @@ public class Category {
     @Column(name = "category_name", length = 100)
     private String categoryName;
 
-    // =========== 관계 연결 ===========
-
-    // 상품
-    // 카테고리 : 상품은 1 : N의 관계를 가진다.
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Product> products;
+//    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private List<Product> products;
 
 }
