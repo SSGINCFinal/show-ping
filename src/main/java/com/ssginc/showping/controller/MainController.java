@@ -13,10 +13,4 @@ public class MainController {
     public String index() {
         return "index";
     }
-
-    @GetMapping("/category/{categoryNo}")
-    public String viewCategoryProducts(@PathVariable Long categoryNo, Model model) {
-        model.addAttribute("categoryNo", categoryNo);
-        return "product/product_list"; // category.html 렌더링
-    }
 }
