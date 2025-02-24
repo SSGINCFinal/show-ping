@@ -15,11 +15,12 @@ function loadProducts(categoryNo) {
             } else {
                 products.forEach(product => {
                     const productDiv = document.createElement('div');
+                    const formattedPrice = product.productPrice.toLocaleString('ko-KR');
                     productDiv.classList.add('product-item');
                     productDiv.innerHTML = `
                         <img src="/img/product_img/${product.productImg}" alt="${product.productName}" />
                         <p id="product-name">${product.productName}</p>
-                        <p id="product-price">${product.productPrice}원</p>
+                        <p id="product-price">${formattedPrice}원</p>
                     `;
                     productGrid.appendChild(productDiv);
                 });
