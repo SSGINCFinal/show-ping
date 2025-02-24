@@ -6,6 +6,7 @@
     <title>공통 레이아웃</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <script defer src="/js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <!-- 공통 헤더 -->
@@ -26,8 +27,7 @@
                         <li class="menu-item dropdown">
                             <ul class="dropdown-menu">
                                 <!-- 카테고리 리스트 동적 추가 -->
-                                <li th:each="category : ${categories}">
-                                    <a th:href="@{/category/{id}(id=${category.id})}" th:text="${category.name}"></a>
+                                <li>
                                 </li>
                             </ul>
                         </li>
