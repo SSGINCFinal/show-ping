@@ -59,10 +59,7 @@ function loadProductDetail(productNo) {
 
                     <div class="product-info">
                         <h1>${product.productName}</h1>
-                        <div class="rating">
-                            ⭐⭐⭐⭐☆
-                            <span>5개의 상품평</span>
-                        </div>
+
                         <div class="final-price">
                             <p>가격: ${formattedPrice}원</p>
                         </div>
@@ -86,23 +83,66 @@ function loadProductDetail(productNo) {
                     <img src="/img/product_detail_img/${product.productDescript}" alt="상품 상세 설명 이미지" />
                 </div>
                 
-                        <!-- 상품 리뷰 -->
+            `;
+        })
+        .catch(error => {
+            console.error("상품 상세 정보를 불러오는 중 오류 발생:", error);
+        });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const productNo = window.location.pathname.split('/').pop(); // URL에서 productNo 추출
+    loadProductReview(productNo);
+});
+
+function loadProductReview(productNo) {
+    axios.get(`/api/products/${productNo}/reviews`)
+        .then(response => {
+            const reviews = response.data;
+            console.log(reviews);
+            const productReviews = document.getElementById('product-review');
+        // 리뷰가 비어있는지 확인
+            if (reviews.length === 0) {
+                productReviews.innerHTML = `
         <div class="product-reviews">
             <h2>상품 리뷰 ⭐⭐⭐⭐☆</h2>
-            <div class="review-carousel">
-                <img src="/img/review1.jpg" alt="리뷰 이미지 1">
-                <img src="/img/review2.jpg" alt="리뷰 이미지 2">
-                <img src="/img/review3.jpg" alt="리뷰 이미지 3">
-                <img src="/img/review4.jpg" alt="리뷰 이미지 4">
-            </div>
-
-            <!-- 리뷰 상세 -->
-            <div class="review">
-                <h3>이수근 ⭐⭐⭐⭐☆</h3>
-                <p>사용해본 결과 가볍고 성능이 매우 뛰어납니다. 디자인도 정말 예쁘고 만족합니다!</p>
-            </div>
+            <p>아직 등록된 리뷰가 없습니다.</p>
         </div>
-            `;
+    `;
+            } else {
+                // ⭐ 평균 별점 계산
+                const totalRating = reviews.reduce((sum, review) => sum + review.reviewRating, 0);
+                const averageRating = (totalRating / reviews.length).toFixed(1); // 소수점 1자리까지
+
+                // 리뷰 리스트 생성
+                let reviewListHtml = '';
+
+                reviews.forEach((review, index) => {
+                    reviewListHtml += `
+            <div class="review">
+                <h3>${review.memberName}님 ${'⭐'.repeat(review.reviewRating)} (${review.reviewRating}/5)</h3>
+                <p>${review.reviewComment}</p>
+                <small>작성일: ${new Date(review.reviewCreateAt).toLocaleDateString()}</small>
+                <div class="review-image">
+// <!--                    <img src="/img/${review.reviewUrl}.jpg" alt="리뷰 이미지 ${index + 1}" />-->
+                </div>
+            </div>
+        `;
+                });
+
+                // 전체 리뷰 섹션 생성
+                productReviews.innerHTML = `
+        <div class="product-reviews">
+            <h3>상품 리뷰 ${'⭐'.repeat(Math.round(averageRating))} (${averageRating}/5)</h3>
+<!--            <div class="review-carousel">-->
+
+<!--            </div>-->
+
+            <!-- 동적으로 삽입된 리뷰 목록 -->
+            ${reviewListHtml}
+        </div>
+    `;
+            }
         })
         .catch(error => {
             console.error("상품 상세 정보를 불러오는 중 오류 발생:", error);
