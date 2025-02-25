@@ -72,6 +72,15 @@ body {
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 내부 요소들(입력 필드, 버튼) 중앙 정렬 */
+    width: 100%;
 }
 
 .remember-me {

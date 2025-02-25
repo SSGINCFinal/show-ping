@@ -23,13 +23,24 @@ public class JwtUtil {
         this.expiration = expiration;
     }
 
-    // **JWT 생성 (Role 포함)**
-    public String generateToken(String username, String role) {
+//    // **JWT 생성 (Role 포함)**
+//    public String generateToken(String memberId, String role) {
+//        return Jwts.builder()
+//                .setSubject(memberId)
+//                .addClaims(Map.of("role",role))
+//                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+//                .signWith(key, SignatureAlgorithm.HS256)
+//                .compact();
+//    }
+
+        // **JWT 생성 (Role 포함)**
+    public String generateToken(String memberId, String role) {
         return Jwts.builder()
-                .setSubject(username)
-                .addClaims(Map.of("role",role))
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(key, SignatureAlgorithm.HS256)
+                .setSubject(memberId) // 사용자 ID 저장
+                .claim("role", role)  // 권한(role) 추가
+                .setIssuedAt(new Date()) // 토큰 발행 시간
+                .setExpiration(new Date(System.currentTimeMillis() + expiration)) // 만료 시간 설정
+                .signWith(key, SignatureAlgorithm.HS256) // 서명
                 .compact();
     }
 

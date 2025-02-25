@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller
+//@Controller
 public class GlobalExceptionHandler implements ErrorController {
 
     // 기본 예외 처리
@@ -25,7 +25,7 @@ public class GlobalExceptionHandler implements ErrorController {
         return "error";
     }
     */
-    @RequestMapping("/error")
+   // @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
         // HTTP 상태 코드 가져오기
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);

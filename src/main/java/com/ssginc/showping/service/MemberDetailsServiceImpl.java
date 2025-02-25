@@ -27,7 +27,7 @@ public class MemberDetailsServiceImpl implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 member.getMemberId(),   // 로그인 ID
                 member.getMemberPassword(), // 암호화된 비밀번호
-                Collections.singleton(new SimpleGrantedAuthority("ROLE_" + member.getMemberRole().name())) // ROLE_ 접두사 추가
+                Collections.singleton(new SimpleGrantedAuthority(member.getMemberRole().name())) // ROLE_ 접두사 추가
         );
     }
 }

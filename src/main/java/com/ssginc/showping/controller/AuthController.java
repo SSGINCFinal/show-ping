@@ -11,12 +11,12 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@RestController
-@RequestMapping("/auth")
+@Controller
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -28,9 +28,11 @@ public class AuthController {
     /**
      * ✅ 로그인 API (JWT 발급)
      */
-    @PostMapping("/login3")
-    public Map<String, String> login(@RequestBody Member member, HttpServletResponse response) {
-        System.out.println("📢 로그인 요청: " + member);
+    @PostMapping("/login")
+    @ResponseBody
+    public Map<String, String> login(Member member, HttpServletResponse response) {
+        System.out.println("login call=======================");
+        System.out.println("📢 로그인 요청: " + member.getMemberId() + " " +  member.getMemberPassword());
 
         String memberId = member.getMemberId();
         String memberPassword = member.getMemberPassword();
@@ -87,7 +89,8 @@ public class AuthController {
     /**
      * ✅ 로그아웃 API (JWT 삭제)
      */
-    @PostMapping("/logout3")
+    @PostMapping("/logout")
+    @ResponseBody
     public Map<String, String> logout(HttpServletResponse response) {
         // ✅ 쿠키에서 JWT 제거
 /// /////////////////////////////// 실습 부분 //////////////////////////////////////////////
