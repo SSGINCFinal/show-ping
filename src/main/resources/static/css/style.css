@@ -126,13 +126,12 @@ main {
 
 /* 검색 입력 필드 */
 .search-bar input[type="text"] {
-    width: 300px; /* 입력 필드 너비 */
+    width: 400px; /* 입력 필드 너비 */
     height: 30px;
     padding: 5px 10px;
-    border: 1px solid #ccc;
+    border: 2px solid black;
+    margin-right: 50px;
     font-size: 14px;
-    background-color: #E7F1F9;
-    color: black;
     border-radius: 20px;
 }
 
@@ -149,15 +148,10 @@ main {
     transition: background-color 0.3s;
 }
 
-/* 검색 버튼 호버 효과 */
-/*.search-bar button:hover {*/
-/*    background-color: #E7F1F9;*/
-/*    color: #38A7FF;*/
-/*}*/
-
 .cart-bar {
     padding: 10px;
     padding-top: 10px;
+    margin-right: 80px;
 }
 
 /* 스크롤 */
