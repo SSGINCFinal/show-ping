@@ -105,12 +105,12 @@ function loadProductReview(productNo) {
             if (reviews.length === 0) {
                 productReviews.innerHTML = `
         <div class="product-reviews">
-            <h2>상품 리뷰 ⭐⭐⭐⭐☆</h2>
+            <h2>상품 리뷰 ☆☆☆☆☆</h2>
             <p>아직 등록된 리뷰가 없습니다.</p>
         </div>
     `;
             } else {
-                // ⭐ 평균 별점 계산
+                // ★ 평균 별점 계산
                 const totalRating = reviews.reduce((sum, review) => sum + review.reviewRating, 0);
                 const averageRating = (totalRating / reviews.length).toFixed(1); // 소수점 1자리까지
 
@@ -120,11 +120,11 @@ function loadProductReview(productNo) {
                 reviews.forEach((review, index) => {
                     reviewListHtml += `
             <div class="review">
-                <h3>${review.memberName}님 ${'⭐'.repeat(review.reviewRating)} (${review.reviewRating}/5)</h3>
+                <h3>${review.memberName}님 ${'★'.repeat(review.reviewRating)} (${review.reviewRating}/5)</h3>
                 <p>${review.reviewComment}</p>
                 <small>작성일: ${new Date(review.reviewCreateAt).toLocaleDateString()}</small>
                 <div class="review-image">
-// <!--                    <img src="/img/${review.reviewUrl}.jpg" alt="리뷰 이미지 ${index + 1}" />-->
+<!--                    <img src="/img/${review.reviewUrl}.jpg" alt="리뷰 이미지 ${index + 1}" />-->
                 </div>
             </div>
         `;
@@ -133,7 +133,7 @@ function loadProductReview(productNo) {
                 // 전체 리뷰 섹션 생성
                 productReviews.innerHTML = `
         <div class="product-reviews">
-            <h3>상품 리뷰 ${'⭐'.repeat(Math.round(averageRating))} (${averageRating}/5)</h3>
+            <h3>상품 리뷰 ${'★'.repeat(Math.round(averageRating))} (${averageRating}/5)</h3>
 <!--            <div class="review-carousel">-->
 
 <!--            </div>-->
