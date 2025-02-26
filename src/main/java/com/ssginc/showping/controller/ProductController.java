@@ -28,7 +28,7 @@ public class ProductController {
         return productService.getProductById(productNo);
     }
 
-    @GetMapping("/{productNo}/reviews")
+    @GetMapping("/reviews/{productNo}")
     public List<ReviewDto> getProductReviews(@PathVariable Long productNo) {
         return reviewService.getReviewsByProductNo(productNo);
     }
