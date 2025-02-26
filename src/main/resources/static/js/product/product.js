@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function loadProductReview(productNo) {
-    axios.get(`/api/products/${productNo}/reviews`)
+    axios.get(`/api/products/reviews/${productNo}`)
         .then(response => {
             const reviews = response.data;
             console.log(reviews);
