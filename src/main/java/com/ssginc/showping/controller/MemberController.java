@@ -52,7 +52,7 @@ public class MemberController {
         }
 
         String role = member.getMemberRole().name();
-        String token = jwtUtil.generateToken(memberId, role);
+        String token = jwtUtil.generateAccessToken(memberId, role);
 
         System.out.println("로그인 성공! 토큰: " + token);
         redirectAttributes.addFlashAttribute("message", "로그인 성공!");
