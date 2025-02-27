@@ -1,13 +1,13 @@
 package com.ssginc.showping.service;
 
-import com.ssginc.showping.dto.response.VodResponseDto;
+import com.ssginc.showping.dto.response.StreamResponseDto;
 
 import java.util.List;
 
 public interface StreamService {
 
-    List<VodResponseDto> getAllVod();
+    List<StreamResponseDto> getAllVod();
 
-    List<VodResponseDto> getAllVodByCategory(Long categoryNo);
+    List<StreamResponseDto> getAllVodByCategory(Long categoryNo);
 
 }

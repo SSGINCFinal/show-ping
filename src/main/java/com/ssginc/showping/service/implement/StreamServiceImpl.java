@@ -1,6 +1,6 @@
 package com.ssginc.showping.service.implement;
 
-import com.ssginc.showping.dto.response.VodResponseDto;
+import com.ssginc.showping.dto.response.StreamResponseDto;
 import com.ssginc.showping.repository.StreamRepository;
 import com.ssginc.showping.service.StreamService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class StreamServiceImpl implements StreamService {
      * @return vod 목록
      */
     @Override
-    public List<VodResponseDto> getAllVod() {
+    public List<StreamResponseDto> getAllVod() {
         return streamRepository.findAllVod();
     }
 
@@ -36,7 +36,8 @@ public class StreamServiceImpl implements StreamService {
      * @return vod 목록
      */
     @Override
-    public List<VodResponseDto> getAllVodByCategory(Long categoryNo) {
+    public List<StreamResponseDto> getAllVodByCategory(Long categoryNo) {
         return streamRepository.findAllVodByCategory(categoryNo);
     }
+
 }

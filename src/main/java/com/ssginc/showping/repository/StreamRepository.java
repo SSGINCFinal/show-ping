@@ -1,6 +1,6 @@
 package com.ssginc.showping.repository;
 
-import com.ssginc.showping.dto.response.VodResponseDto;
+import com.ssginc.showping.dto.response.StreamResponseDto;
 import com.ssginc.showping.entity.Stream;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,13 +20,13 @@ public interface StreamRepository extends JpaRepository<Stream, Long> {
      * @return vod 목록
      */
     @Query("""
-        SELECT new com.ssginc.showping.dto.response.VodResponseDto
+        SELECT new com.ssginc.showping.dto.response.StreamResponseDto
         (s.streamNo, s.streamTitle, c.categoryNo, c.categoryName, p.productName,
         p.productPrice, p.productSale, p.productImg, s.streamStartTime, s.streamEndTime)
         FROM Stream s JOIN Product p ON s.product.productNo = p.productNo
         JOIN Category c ON p.category.categoryNo = c.categoryNo WHERE s.streamStatus = 'ENDED'
     """)
-    List<VodResponseDto> findAllVod();
+    List<StreamResponseDto> findAllVod();
 
     /**
      * 특정 카테고리의 Vod 목록을 반환해주는 쿼리 메소드
@@ -34,12 +34,13 @@ public interface StreamRepository extends JpaRepository<Stream, Long> {
      * @return vod 목록
      */
     @Query("""
-        SELECT new com.ssginc.showping.dto.response.VodResponseDto
+        SELECT new com.ssginc.showping.dto.response.StreamResponseDto
         (s.streamNo, s.streamTitle, c.categoryNo, c.categoryName, p.productName,
         p.productPrice, p.productSale, p.productImg, s.streamStartTime, s.streamEndTime)
         FROM Stream s JOIN Product p ON s.product.productNo = p.productNo
         JOIN Category c ON p.category.categoryNo = c.categoryNo WHERE s.streamStatus = 'ENDED'
         AND c.categoryNo = :categoryNo
     """)
-    List<VodResponseDto> findAllVodByCategory(Long categoryNo);
+    List<StreamResponseDto> findAllVodByCategory(Long categoryNo);
+
 }
