@@ -99,7 +99,6 @@ function loadProductReview(productNo) {
     axios.get(`/api/products/reviews/${productNo}`)
         .then(response => {
             const reviews = response.data;
-            console.log(reviews);
             const productReviews = document.getElementById('product-review');
         // 리뷰가 비어있는지 확인
             if (reviews.length === 0) {
