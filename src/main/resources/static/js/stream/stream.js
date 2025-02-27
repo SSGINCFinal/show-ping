@@ -37,7 +37,7 @@ function loadLive() {
 
                 // 상품 클릭 시 상세 페이지로 이동
                 liveDiv.addEventListener('click', () => {
-                    window.location.href = `/stream/live/${live.streamNo}`;
+                    window.location.href = `/watch/live/${live.streamNo}`;
                 });
                 liveGrid.appendChild(liveDiv);
             }
@@ -82,7 +82,7 @@ function loadVods() {
 
                     // 상품 클릭 시 상세 페이지로 이동
                     vodDiv.addEventListener('click', () => {
-                        window.location.href = `/stream/vod/${vod.streamNo}`;
+                        window.location.href = `/watch/vod/${vod.streamNo}`;
                     });
 
                     vodGrid.appendChild(vodDiv);
