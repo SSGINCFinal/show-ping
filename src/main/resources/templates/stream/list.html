@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout.html">
+
+<head>
+    <link rel="stylesheet" href="/css/stream/stream.css">
+    <script defer src="/js/stream/stream.js"></script>
+</head>
+
+<div layout:fragment="content">
+    <div class="live-content">
+        <div class="title">
+            <h1>LIVE</h1>
+        </div>
+        <div class="live-grid" id="live-grid">
+        </div>
+    </div>
+    <div class="vod-content">
+        <div class="title">
+            <h1>VOD</h1>
+        </div>
+        <div class="vod-grid" id="vod-grid">
+        </div>
+        <div class="page-container">
+            <h1>페이지 넘버 들어갈곳</h1>
+        </div>
+    </div>
+</div>
+</html>
