@@ -3,9 +3,7 @@ package com.ssginc.showping.controller;
 import com.ssginc.showping.entity.Category;
 import com.ssginc.showping.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

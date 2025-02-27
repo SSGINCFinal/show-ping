@@ -75,9 +75,10 @@
 }
 
 .product-detail img {
-    width: 450px;
+    width: 300px;
     height: auto;
     border-radius: 10px;
+    margin-right: 100px;
 }
 
 .product-info {
@@ -273,7 +274,7 @@ table {
 }
 th, td {
     padding: 10px;
-    text-align: left;
+    text-align: center;
 }
 th {
     background: #e3efff;
@@ -292,6 +293,7 @@ th {
 .remove-btn {
     cursor: pointer;
 }
+
 .checkout-btn {
     display: block;
     width: 100%;
@@ -303,6 +305,7 @@ th {
     cursor: pointer;
     margin-top: 20px;
 }
+
 .checkout-btn:hover {
     background-color: #E7F1F9;
     color: black;

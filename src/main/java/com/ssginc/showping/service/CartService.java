@@ -33,7 +33,8 @@ public class CartService {
                         cart.getProduct().getProductNo(),
                         cart.getProduct().getProductName(),
                         cart.getProduct().getProductPrice(),
-                        cart.getCartProductQuantity()
+                        cart.getCartProductQuantity(),
+                        cart.getProduct().getProductImg()
                 ))
                 .collect(Collectors.toList());
     }

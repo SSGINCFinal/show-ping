@@ -66,12 +66,12 @@ function loadProductDetail(productNo) {
 
                         <div class="purchase-section">
                             <div class="quantity-control">
-                                <button>-</button>
-                                <input type="text" value="1">
-                                <button>+</button>
+                                <button id="decrease-btn">-</button>
+                                <input type="text" id="quantity-input" value="1" readonly>
+                                <button id="increase-btn">+</button>
                             </div>
                             <div class="purchase-buttons">
-                                <button>장바구니</button>
+                                <button id="add-to-cart-btn">장바구니</button>
                                 <button>바로 결제</button>
                             </div>
                         </div>
@@ -84,6 +84,9 @@ function loadProductDetail(productNo) {
                 </div>
                 
             `;
+
+            setupEventListeners(productNo); // 수량 조절 및 장바구니 추가 기능 연결
+
         })
         .catch(error => {
             console.error("상품 상세 정보를 불러오는 중 오류 발생:", error);
@@ -100,7 +103,7 @@ function loadProductReview(productNo) {
         .then(response => {
             const reviews = response.data;
             const productReviews = document.getElementById('product-review');
-        // 리뷰가 비어있는지 확인
+            // 리뷰가 비어있는지 확인
             if (reviews.length === 0) {
                 productReviews.innerHTML = `
         <div class="product-reviews">
@@ -146,4 +149,46 @@ function loadProductReview(productNo) {
         .catch(error => {
             console.error("상품 상세 정보를 불러오는 중 오류 발생:", error);
         });
+}
+
+function setupEventListeners(productNo) {
+    const quantityInput = document.getElementById("quantity-input");
+    const decreaseBtn = document.getElementById("decrease-btn");
+    const increaseBtn = document.getElementById("increase-btn");
+    const addToCartBtn = document.getElementById("add-to-cart-btn");
+
+    let quantity = 1;  // 기본 수량
+
+    // - 버튼 클릭 시 수량 감소 (최소 1)
+    decreaseBtn.addEventListener("click", function () {
+        if (quantity > 1) {
+            quantity--;
+            quantityInput.value = quantity;
+        }
+    });
+
+    // + 버튼 클릭 시 수량 증가
+    increaseBtn.addEventListener("click", function () {
+        quantity++;
+        quantityInput.value = quantity;
+    });
+
+    // 장바구니 버튼 클릭 시 상품 추가 요청
+    addToCartBtn.addEventListener("click", function () {
+        const memberNo = 1;  // 임시로 memberNo를 1로 설정 (실제 서비스에서는 로그인 정보를 사용)
+
+        axios.post(`/api/carts/add?memberNo=${memberNo}`, {
+            productNo: productNo,
+            quantity: quantity
+        })
+            .then(response => {
+                quantityInput.value = 1;
+                if (confirm("장바구니에 상품이 추가되었습니다. 장바구니로 이동하시겠습니까?")) {
+                    window.location.href = "/cart"; // 장바구니 페이지로 이동
+                }
+            })
+            .catch(error => {
+                alert("장바구니 추가 실패: " + error.response.data);
+            });
+    });
 }
