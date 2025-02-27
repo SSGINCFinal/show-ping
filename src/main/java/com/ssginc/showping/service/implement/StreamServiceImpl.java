@@ -40,4 +40,14 @@ public class StreamServiceImpl implements StreamService {
         return streamRepository.findAllVodByCategory(categoryNo);
     }
 
+    /**
+     * 방송중인 라이브 방송 하나를 반환하는 메소드
+     * @return 라이브 방송정보 1개
+     */
+    @Override
+    public StreamResponseDto getLive() {
+        List<StreamResponseDto> liveList = streamRepository.findLive();
+        return liveList.isEmpty() ? null : liveList.get(0);
+    }
+
 }

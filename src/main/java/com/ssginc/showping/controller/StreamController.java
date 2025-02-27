@@ -33,6 +33,19 @@ public class StreamController {
      * 전체 Vod 목록을 반환해주는 컨트롤러 메소드
      * @return 전달할 응답객체 (json 형태로 전달)
      */
+    @GetMapping("/live")
+    public ResponseEntity<Map<String, Object>> getLive() {
+        StreamResponseDto live = streamService.getLive();
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("live", live);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    /**
+     * 전체 Vod 목록을 반환해주는 컨트롤러 메소드
+     * @return 전달할 응답객체 (json 형태로 전달)
+     */
     @GetMapping("/vod/list")
     public ResponseEntity<Map<String, Object>> getVodList() {
         List<StreamResponseDto> vodList = streamService.getAllVod();

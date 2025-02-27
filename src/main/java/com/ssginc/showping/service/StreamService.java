@@ -10,4 +10,5 @@ public interface StreamService {
 
     List<StreamResponseDto> getAllVodByCategory(Long categoryNo);
 
+    StreamResponseDto getLive();
 }
