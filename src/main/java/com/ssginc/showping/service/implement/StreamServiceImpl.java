@@ -5,7 +5,12 @@ import com.ssginc.showping.repository.StreamRepository;
 import com.ssginc.showping.service.StreamService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -19,7 +24,13 @@ import java.util.List;
 @Slf4j
 public class StreamServiceImpl implements StreamService {
 
+    @Value("${download.path}")
+    private String VIDEO_PATH;
+
     private final StreamRepository streamRepository;
+
+    @Qualifier("webApplicationContext")
+    private final ResourceLoader resourceLoader;
 
     /**
      * 전체 Vod 목록을 반환해주는 메소드
@@ -48,6 +59,18 @@ public class StreamServiceImpl implements StreamService {
     public StreamResponseDto getLive() {
         List<StreamResponseDto> liveList = streamRepository.findLive();
         return liveList.isEmpty() ? null : liveList.get(0);
+    }
+
+    @Override
+    public StreamResponseDto getVodByNo(Long streamNo) {
+        return streamRepository.findVodByNo(streamNo);
+    }
+
+    @Override
+    public Mono<Resource> getVideo(String title) {
+        String filePath = VIDEO_PATH + title + ".mp4";
+        return Mono.fromSupplier(() ->
+                resourceLoader.getResource(String.format(filePath)));
     }
 
 }
