@@ -5,14 +5,13 @@ document.addEventListener("DOMContentLoaded", function () {
 function loadCategories() {
     axios.get('/api/categories')
         .then(response => {
-            console.log("정상")
             const categories = response.data;
             const dropdownMenu = document.querySelector('.dropdown-menu');
 
             dropdownMenu.innerHTML = ''; // 초기화
 
             categories.forEach(category => {
-                const listItem = document.createElement('li');
+                const listItem = document.createElement('li' );
                 const link = document.createElement('a');
                 link.href = `/category/${category.categoryNo}`; // 해당 category로 이동
                 link.textContent = category.categoryName;
