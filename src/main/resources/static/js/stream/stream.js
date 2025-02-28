@@ -55,6 +55,7 @@ function loadVods(pageNo) {
         }
     })
         .then(response => {
+            const pageInfo = response.data['pageInfo'];
             const vodContent = pageInfo['content'];
             const vodGrid = document.getElementById('vod-grid');
             vodGrid.innerHTML = '';
@@ -94,7 +95,7 @@ function loadVods(pageNo) {
                 });
 
                 // 페이지 버튼 영역 생성
-                const pageInfo = response.data['pageInfo'];
+
                 const pageContainer = document.getElementById('page-container');
                 pageContainer.innerHTML = '';
                 const totalPages = pageInfo['totalPages'];
