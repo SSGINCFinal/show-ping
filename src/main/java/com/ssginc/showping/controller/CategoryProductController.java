@@ -33,4 +33,9 @@ public class CategoryProductController {
     public String viewCart() {
         return "product/product_cart";
     }
+
+    @GetMapping("/payment")
+    public String viewPayment() {
+        return "product/product_payment";
+    }
 }

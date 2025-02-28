@@ -255,6 +255,7 @@
     width: 95%;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    min-height: 1000px;
 }
 .cart-items {
     flex: 2;
@@ -307,6 +308,126 @@ th {
 }
 
 .checkout-btn:hover {
+    background-color: #E7F1F9;
+    color: black;
+}
+
+/* 전체 페이지 스타일 */
+.payment-page {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+/* 결제 컨테이너 */
+.payment-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 40px;
+    margin: 20px auto;
+    width: 80%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* 왼쪽 결제 정보 입력 영역 */
+.payment-info {
+    flex: 1;
+    padding-right: 40px;
+}
+
+.payment-info h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.payment-info label {
+    font-size: 16px;
+    font-weight: bold;
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.payment-info input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.payment-info input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+/* 오른쪽 결제 요약 영역 */
+.payment-summary {
+    flex: 1;
+    background: #eef5ff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-left: 20px;
+    top: 20%;
+}
+
+.payment-summary h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.payment-summary .order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.payment-summary .order-item img {
+    width: 60px;
+    height: auto;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.payment-summary .subtotal {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+    margin-top: 20px;
+    color: #222;
+}
+
+.payment-summary .total {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: right;
+    margin-top: 10px;
+    color: #007bff;
+}
+
+/* 결제 버튼 */
+.payment-button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: white;
+    border: 2px solid black;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+.payment-button:hover {
     background-color: #E7F1F9;
     color: black;
 }

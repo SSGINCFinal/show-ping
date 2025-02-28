@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout.html">
+
+<head>
+    <link rel="stylesheet" href="/css/product/product.css">
+    <script defer src="/js/product/product.js"></script>
+</head>
+
+<div layout:fragment="content">
+    <div class="product-payment" id="product-payment">
+        <div class="payment-page">
+            <div class="payment-container">
+                <!-- 왼쪽: 결제 정보 입력 -->
+                <div class="payment-info">
+                    <h1>주문 / 결제</h1>
+                    <label for="name">이름</label>
+                    <input type="text" id="name" placeholder="이름을 입력하세요">
+
+                    <label for="phone">휴대폰</label>
+                    <input type="text" id="phone" placeholder="휴대폰 번호를 입력하세요">
+
+                    <label for="email">이메일</label>
+                    <input type="email" id="email" placeholder="이메일을 입력하세요">
+
+                    <label for="address">주소</label>
+                    <input type="text" id="address" placeholder="주소를 입력하세요">
+                </div>
+
+                <!-- 오른쪽: 결제 요약 -->
+                <div class="payment-summary">
+                    <h2>결제 정보</h2>
+                    <div class="order-item">
+                        <span>LG전자 2024 그램 17 코어i5 인텔 13세대 x 1</span>
+                    </div>
+                    <div class="total">총 합계 금액: <strong>1,405,470 원</strong></div>
+
+                    <button class="payment-button">결제하기</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</html>

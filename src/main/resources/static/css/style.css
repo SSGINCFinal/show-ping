@@ -17,6 +17,7 @@ main {
 
 .main-content {
     width: 1300px;
+    min-height: 1000px;
     margin: auto;
     background-color: white;
     border: 1px solid gainsboro;

@@ -49,6 +49,7 @@ function setupEventListeners() {
     const checkboxes = document.querySelectorAll(".product-checkbox");
     const selectAllCheckbox = document.querySelector(".product-checkbox-all");
     const totalPriceElement = document.querySelector(".cart-summary strong");
+    const buyButton = document.querySelector(".checkout-btn");
 
     let updateTimeout = null; // 서버 업데이트 딜레이 타이머
 
@@ -126,8 +127,7 @@ function setupEventListeners() {
             const productNo = this.getAttribute("data-product-no");
             axios.delete(`/api/carts/remove?memberNo=1&productNo=${productNo}`)
                 .then(response => {
-                    alert("상품이 장바구니에서 삭제되었습니다.");
-                    loadCartItems(memberNo); // 장바구니 다시 불러오기
+                    location.reload()
                 })
                 .catch(error => {
                     alert("상품 삭제 실패: " + error.response.data);
