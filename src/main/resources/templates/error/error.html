@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>오류 발생</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 100px;
+        }
+        h1 {
+            color: #dc3545;
+        }
+        .error-details {
+            font-size: 18px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Oops! 오류가 발생했습니다.</h1>
+    <p class="error-details">요청을 처리하는 동안 문제가 발생했습니다.</p>
+    <img th:src="@{/images/034.png}" alt="" />
+    <p class="error-details">에러 코드: <span th:text="${status}"></span></p>
+    <p class="error-details">메시지: <span th:text="${error}"></span></p>
+    <p><hr color="red">
+    <a   href="/">
+        <button>홈으로 돌아가기</button>
+    </a></p>
+</div>
+</body>
+</html>
