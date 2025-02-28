@@ -33,7 +33,7 @@ public class Stream {
     // 상품
     // 영상 : 상품은 1 : 1의 관계를 가진다.
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_no", referencedColumnName = "product_no")
     private Product product;
 
