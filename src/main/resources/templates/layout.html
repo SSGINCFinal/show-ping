@@ -22,30 +22,20 @@
             <ul class="menu-list">
                 <li class="menu-item dropdown">
                     <a>카테고리</a>
-                    <!-- 드롭다운 메뉴 -->
-                    <ul class="dropdown-menu">
-                        <li class="menu-item dropdown">
-                            <ul class="dropdown-menu">
-                                <!-- 카테고리 리스트 동적 추가 -->
-                                <li>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
                 </li>
                 <li class="menu-item dropdown">
                     <a th:href="@{/stream/list}">라이브</a>
                 </li>
                 <li class="menu-item dropdown">
-                    <a href="/#">TV 편성표</a>
+                    <a href="/tv-schedule">TV 편성표</a>
                 </li>
                 <li class="menu-item dropdown">
-                    <a href="/#">이벤트</a>
+                    <a href="/events">이벤트</a>
                 </li>
             </ul>
         </nav>
 
-        <!-- 검색 및 언어 선택 -->
+        <!-- 검색 및 사용자 메뉴 -->
         <div class="navbar-right">
             <div class="search-bar">
                 <form action="#" method="GET">
@@ -60,43 +50,28 @@
                     <img src="/img/cart.png" style="height: 20px">
                 </a>
             </div>
+
+            <!-- 로그인 상태에 따른 버튼 변경 -->
+            <div class="user-menu" th:if="${#authorization.expression('isAuthenticated()')}">
+                <span th:text="'환영합니다, ' + ${#authentication.name} + '님'"></span>
+                <form id="logoutForm" action="/logout" method="post" style="display: inline;">
+                    <button type="submit" class="logout-button">로그아웃</button>
+                </form>
+            </div>
+            <a href="/login" class="login-button" th:unless="${#authorization.expression('isAuthenticated()')}">로그인</a>
         </div>
     </div>
 </header>
 <!-- 페이지 내용 -->
 <div class="main-content">
     <main layout:fragment="content">
-
     </main>
 </div>
 
 <button id="scrollToTop" class="scroll-to-top">▲</button>
+
 <!-- 공통 푸터 -->
-
 <footer class="footer">
-<!--    <div class="footer-container">-->
-<!--        &lt;!&ndash; 첫 번째 열: 카테고리 &ndash;&gt;-->
-<!--        <div class="footer-column">-->
-<!--            <h4>메뉴 1</h4>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash; 두 번째 열: 파트너 &ndash;&gt;-->
-<!--        <div class="footer-column">-->
-<!--            <h4 a href="#">라이브</h4>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash; 세 번째 열: 문의하기 &ndash;&gt;-->
-<!--        <div class="footer-column">-->
-<!--            <h4 a href="#">편성표</h4>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash; 네 번째 열: 회사 소개 &ndash;&gt;-->
-<!--        <div class="footer-column">-->
-<!--            <h4 a href="#">이벤트</h4>-->
-<!--        </div>-->
-<!--    </div>-->
-
-    <!-- Footer 하단 -->
     <div class="footer-bottom">
         <p>&copy; 2025 신세계 I&C. All rights reserved.</p>
         <div class="social-icons">
