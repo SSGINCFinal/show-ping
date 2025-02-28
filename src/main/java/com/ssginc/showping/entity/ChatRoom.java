@@ -23,9 +23,9 @@ public class ChatRoom {
     private Long chatRoomNo;
 
     // 영상
-    // 채팅방 : 영상은 N : 1의 관계를 가진다.
+    // 채팅방 : 영상은 1 : 1의 관계를 가진다.
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stream_no", referencedColumnName = "stream_no")
     private Stream stream;
 

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class VodResponseDto {
+public class StreamResponseDto {
 
     private Long streamNo;                  // 영상 번호
     private String streamTitle;             // 영상 제목

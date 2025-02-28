@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout.html">
+
+<head>
+    <link rel="stylesheet" href="/css/stream/stream.css">
+    <script defer src="/js/stream/stream.js"></script>
+</head>
+
+<div layout:fragment="content">
+    <div class="live-content">
+        <div class="title">
+            <h1>LIVE</h1>
+        </div>
+        <div class="live-grid" id="live-grid">
+        </div>
+    </div>
+    <div class="vod-content" id="vod-list" th:value="${pageNo}">
+        <div class="title">
+            <h1>VOD</h1>
+        </div>
+        <div class="vod-grid" id="vod-grid">
+        </div>
+        <div class="page-container" id="page-container">
+        </div>
+    </div>
+</div>
+</html>

@@ -1,0 +1,118 @@
+.video {
+    width: 300px;
+    height: 480px;
+    display: flex;
+    justify-content: center; /* 가운데 정렬 */
+    align-items: center;
+    overflow: hidden; /* 넘치는 부분 자르기 */
+    background-color: #fff; /* 비디오 로딩 전 배경 */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow
+    ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.main-contents {
+    justify-content: center;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    gap: 10px;
+    padding-top: 40px;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    padding-top: 15px;
+}
+
+.vod-container {
+    width: 300px;
+}
+
+.chat-container {
+    width: 300px;
+}
+
+.product-container {
+    width: 300px;
+}
+
+#vod {
+    width: 100%; /* 부모 요소 너비에 맞춤 */
+    height: 100%; /* 부모 요소 높이에 맞춤 */
+    object-fit: cover; /* 비율을 유지하면서 div에 꽉 차게 조정 */
+}
+
+#chat {
+    width: 300px;
+    height: 480px;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    justify-content : center;
+    align-items : center;
+}
+
+#product {
+    width: 300px;
+    height: 480px;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    justify-content : center;
+    align-items : center;
+}
+
+div.dragged {
+    cursor: all-scroll !important;
+    border-color: blue !important;
+    z-index: 10 !important;
+}
+
+.settings-buttons {
+    width: 100%;
+    justify-content: end;
+    padding-bottom: 20px;
+}
+
+
+.buttons-container {
+    width: 85%;
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+}
+
+#subtitle-on {
+    background-color: #04AA6D;
+    width: 100px;
+    height: 30px;
+    border-radius: 6px;
+    font-size: 20px;
+    color: white;
+}
+
+#subtitle-off {
+    background-color: #f44336;
+    width: 100px;
+    height: 30px;
+    border-radius: 6px;
+    font-size: 20px;
+    color: white;
+}
+

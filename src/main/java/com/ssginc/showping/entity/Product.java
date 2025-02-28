@@ -58,8 +58,8 @@ public class Product {
     private List<Review> reviews;
 
     // 영상
-    // 상품 : 영상은 1 : 1의 관계를 가진다.
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
-    private Stream stream;
+    // 상품 : 영상은 1 : N의 관계를 가진다.
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Stream> streams;
 
 }
