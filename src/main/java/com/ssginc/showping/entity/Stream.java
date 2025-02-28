@@ -67,7 +67,7 @@ public class Stream {
 
     // 채팅방
     // 영상 : 채팅방은 1 : N의 관계를 가진다.
-    @OneToMany(mappedBy = "stream", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ChatRoom> chatRooms;
+    @OneToOne(mappedBy = "stream", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private ChatRoom chatRoom;
 
 }
