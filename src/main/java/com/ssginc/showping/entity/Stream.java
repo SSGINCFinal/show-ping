@@ -66,7 +66,7 @@ public class Stream {
     private List<Watch> watches;
 
     // 채팅방
-    // 영상 : 채팅방은 1 : N의 관계를 가진다.
+    // 영상 : 채팅방은 1 : 1의 관계를 가진다.
     @OneToOne(mappedBy = "stream", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private ChatRoom chatRoom;
 
