@@ -1,17 +1,15 @@
-/* 4x4 그리드 */
 .live-grid {
     display: grid;
-    grid-template-columns: repeat(1, 1fr); /* 4개씩 한 줄 */
+    grid-template-columns: repeat(1, 1fr); /* 1개씩 한 줄 */
     justify-items: center; /* 그리드 아이템을 가운데 정렬 */
     gap: 10px;
     width: 100%;
 }
 
 
-/* 4x4 그리드 */
 .vod-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 4개씩 한 줄 */
+    grid-template-columns: repeat(4, 1fr); /* 4개씩 한 줄 */
     justify-items: center; /* 그리드 아이템을 가운데 정렬 */
     gap: 10px;
     width: 100%;
@@ -40,6 +38,19 @@
     flex-direction: column;
     justify-content: center; /* 내부 요소 수직 정렬 */
     align-items: center; /* 내부 요소 수평 정렬 */
+}
+
+/* 개별 페이지 박스 */
+.page-item {
+    padding: 15px;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .item:hover {
@@ -81,4 +92,23 @@
 
 #product-price {
     font-size: 10px;
+}
+
+
+.prev-next {
+    width: 40px;
+    height: 40px;
+    background-color: #E7F1F9;
+    border-radius: 6px;
+    color: black;
+    border: none;
+}
+
+.current {
+    width: 40px;
+    height: 40px;
+    background-color: #38A7FF;
+    border-radius: 6px;
+    color: white;
+    border: none;
 }
