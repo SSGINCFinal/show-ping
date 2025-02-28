@@ -1,8 +1,9 @@
 package com.ssginc.showping.repository;
 
 import com.ssginc.showping.dto.response.StreamResponseDto;
-import com.ssginc.showping.entity.Product;
 import com.ssginc.showping.entity.Stream;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -28,6 +29,20 @@ public interface StreamRepository extends JpaRepository<Stream, Long> {
         JOIN Category c ON p.category.categoryNo = c.categoryNo WHERE s.streamStatus = 'ENDED'
     """)
     List<StreamResponseDto> findAllVod();
+
+    /**
+     * VOD 목록과 페이지 정보를 반환해주는 쿼리 메소드
+     * @param pageable 페이징 정보 객체
+     * @return 페이징 정보가 포함된 VOD 목록
+     */
+    @Query("""
+        SELECT new com.ssginc.showping.dto.response.StreamResponseDto
+        (s.streamNo, s.streamTitle, c.categoryNo, c.categoryName, p.productName,
+        p.productPrice, p.productSale, p.productImg, s.streamStartTime, s.streamEndTime)
+        FROM Stream s JOIN Product p ON s.product.productNo = p.productNo
+        JOIN Category c ON p.category.categoryNo = c.categoryNo WHERE s.streamStatus = 'ENDED'
+    """)
+    Page<StreamResponseDto> findAllVodByPage(Pageable pageable);
 
     /**
      * 특정 카테고리의 Vod 목록을 반환해주는 쿼리 메소드
@@ -70,4 +85,5 @@ public interface StreamRepository extends JpaRepository<Stream, Long> {
         JOIN Category c ON p.category.categoryNo = c.categoryNo WHERE s.streamNo = :streamNo
     """)
     StreamResponseDto findVodByNo(Long streamNo);
+
 }

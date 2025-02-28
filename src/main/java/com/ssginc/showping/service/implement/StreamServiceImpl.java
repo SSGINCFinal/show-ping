@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -42,7 +44,17 @@ public class StreamServiceImpl implements StreamService {
     }
 
     /**
-     * 특정 카테고리의 Vod 목록을 반환하는 메소드
+     * 페이징 정보가 포함된 Vod 목록을 반환해주는 메소드
+     * @param pageable 페이징 정보 객체
+     * @return 페이징 정보가 있는 vod 목록
+     */
+    @Override
+    public Page<StreamResponseDto> getAllVodByPage(Pageable pageable) {
+        return streamRepository.findAllVodByPage(pageable);
+    }
+
+    /**
+     * 특정 카테고리의 vod 목록을 반환하는 메소드
      * @param categoryNo 카테고리 번호
      * @return vod 목록
      */
@@ -61,14 +73,27 @@ public class StreamServiceImpl implements StreamService {
         return liveList.isEmpty() ? null : liveList.get(0);
     }
 
+    /**
+     * 영상번호로 vod 정보를 반환하는 메소드
+     * @param streamNo 영상번호
+     * @return vod 정보 객체
+     */
     @Override
     public StreamResponseDto getVodByNo(Long streamNo) {
         return streamRepository.findVodByNo(streamNo);
     }
 
+    /**
+     * 영상 제목으로 vod 파일을 받아오는 메소드
+     * @param title 영상 제목
+     * @return vod 파일
+     */
     @Override
     public Mono<Resource> getVideo(String title) {
+        // 가져올 VOD 전체 경로저장
         String filePath = VIDEO_PATH + title + ".mp4";
+
+        // 지정된 경로의 VOD 파일을 가져오기
         return Mono.fromSupplier(() ->
                 resourceLoader.getResource(String.format(filePath)));
     }
