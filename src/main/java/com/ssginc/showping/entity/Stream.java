@@ -33,7 +33,7 @@ public class Stream {
     // 상품
     // 영상 : 상품은 1 : 1의 관계를 가진다.
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_no", referencedColumnName = "product_no")
     private Product product;
 
@@ -66,8 +66,8 @@ public class Stream {
     private List<Watch> watches;
 
     // 채팅방
-    // 영상 : 채팅방은 1 : N의 관계를 가진다.
-    @OneToMany(mappedBy = "stream", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ChatRoom> chatRooms;
+    // 영상 : 채팅방은 1 : 1의 관계를 가진다.
+    @OneToOne(mappedBy = "stream", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private ChatRoom chatRoom;
 
 }
