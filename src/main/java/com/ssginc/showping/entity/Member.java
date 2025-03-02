@@ -2,10 +2,7 @@ package com.ssginc.showping.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -15,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "member")
+@Builder
 public class Member {
 
     @Id
@@ -52,6 +50,10 @@ public class Member {
 
     @Column(name = "member_point")
     private Long memberPoint;
+
+    @NotNull
+    @Column(name = "member_address")
+    private Long memberAddress;
 
     // =========== 관계 연결 ===========
 

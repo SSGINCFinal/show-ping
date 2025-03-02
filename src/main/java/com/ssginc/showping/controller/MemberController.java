@@ -3,24 +3,33 @@ package com.ssginc.showping.controller;
 import com.ssginc.showping.entity.Member;
 import com.ssginc.showping.jwt.JwtUtil;
 import com.ssginc.showping.repository.MemberRepository;
+import com.ssginc.showping.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class MemberController {
 
     private final JwtUtil jwtUtil;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @Autowired
-    public MemberController(JwtUtil jwtUtil, MemberRepository memberRepository) {
+    public MemberController(JwtUtil jwtUtil, MemberRepository memberRepository, MemberService memberService) {
         this.jwtUtil = jwtUtil;
         this.memberRepository = memberRepository;
+        this.memberService = memberService;
     }
     // 로그인 페이지 요청 처리
     @GetMapping("/login")
@@ -79,5 +88,38 @@ public class MemberController {
         return "로그인하지 않은 사용자입니다.";
     }
      */
+    @GetMapping("/signup/check-id")
+    public Map<String, Object> checkId(@RequestParam("memberId") String memberId) {
+        Map<String, Object> response = new HashMap<>();
+
+        // DB에서 아이디가 존재하는지 확인
+        boolean exists = memberRepository.existsByMemberId(memberId);
+
+        // exists를 기준으로 중복 여부 반환
+        response.put("exists", exists);
+
+        return response;
+    }
+
+    @PostMapping("/register")
+    public String registerMember(Member member) {
+        // 입력받은 회원 정보를 DB에 저장
+        memberService.saveMember(member);
+        return "redirect:/success";
+    }
+
+    @GetMapping("/check-duplicate")
+    public ResponseEntity<?> checkDuplicate(@RequestParam("id") String memberId) {
+        // ID 중복 확인 로직을 추가
+        boolean isDuplicate = memberService.isDuplicateId(memberId);
+
+        // 중복 여부에 따라 응답 처리
+        if (isDuplicate) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("중복된 아이디입니다");
+        } else {
+            return ResponseEntity.ok("사용 가능한 아이디입니다.");
+        }
+    }
 
 }
