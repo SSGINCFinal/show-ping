@@ -28,10 +28,12 @@
             <button class="verify-code-btn">확인</button>
         </div>
 
-        <div class="input-group">
-            <input type="text" placeholder="아이디" id="user-id">
-            <button class="check-id-btn">중복 확인</button>
-        </div>
+        <form id="signup-form" onsubmit="return false;">
+            <div class="input-group">
+                <input type="text" placeholder="아이디" id="memberId" name="memberId">
+                <button class="button" onclick="checkDuplicate()">중복 확인</button>
+            </div>
+        </form>
 
         <div class="input-group">
             <input type="password" id="password" placeholder="비밀번호">
@@ -112,7 +114,7 @@
         const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
         const emailCode = document.getElementById('email-code').value.trim();
-        const userId = document.getElementById('user-id').value.trim();
+        const userId = document.getElementById('memberId').value.trim();
         const password = document.getElementById('password').value.trim();
         const confirmPassword = document.getElementById('confirm-password').value.trim();
         const address = document.getElementById('address').value.trim();
@@ -138,32 +140,43 @@
             alert("아이디를 입력해주세요.");
             return;
         }
-        if (!password) {
-            alert("비밀번호를 입력해주세요.");
-            return;
-        }
-        if (!confirmPassword) {
-            alert("비밀번호 확인을 입력해주세요.");
-            return;
-        }
-        if (password !== confirmPassword) {
-            alert("비밀번호가 일치하지 않습니다.");
-            return;
-        }
-        if (!address) {
-            alert("주소를 입력해주세요.");
-            return;
-        }
-        if (!phone) {
-            alert("전화번호를 입력해주세요.");
-            return;
-        }
-        if (!validatePhone(phone)) {
-            alert("올바른 전화번호를 입력하세요. (예: 010-1234-5678)");
-            return;
-        }
 
-        alert("회원가입이 완료되었습니다!");
+        // 중복 확인 후에 진행
+        fetch(`/signup/check-id?userId=${encodeURIComponent(userId)}`)
+            .then(response => response.json())
+            .then(data => {
+                // 비밀번호, 주소, 전화번호 유효성 검사를 진행
+                if (!password) {
+                    alert("비밀번호를 입력해주세요.");
+                    return;
+                }
+                if (!confirmPassword) {
+                    alert("비밀번호 확인을 입력해주세요.");
+                    return;
+                }
+                if (password !== confirmPassword) {
+                    alert("비밀번호가 일치하지 않습니다.");
+                    return;
+                }
+                if (!address) {
+                    alert("주소를 입력해주세요.");
+                    return;
+                }
+                if (!phone) {
+                    alert("전화번호를 입력해주세요.");
+                    return;
+                }
+                if (!validatePhone(phone)) {
+                    alert("올바른 전화번호를 입력하세요. (예: 010-1234-5678)");
+                    return;
+                }
+
+                alert("회원가입이 완료되었습니다!");
+            })
+            .catch(error => {
+                console.error("오류 발생:", error);
+                alert("아이디 중복 검사에 실패했습니다.");
+            });
     });
 
     // 이메일 인증 코드 전송 버튼 이벤트
@@ -206,6 +219,31 @@
         const phoneRegex = /^01[0-9]-\d{3,4}-\d{4}$/;
         return phoneRegex.test(phone);
     };
+
+    // 중복 확인 버튼 이벤트
+    function checkDuplicate() {
+        const memberId = document.getElementById("memberId").value;
+
+        // 아이디가 비어있지 않으면 Ajax 요청
+        if (memberId) {
+            fetch(`/check-duplicate?id=${memberId}`)
+                .then(response => {
+                    if (response.ok) {
+                        return response.text(); // 서버에서 성공적인 응답을 받으면 메시지 반환
+                    } else {
+                        throw new Error('중복된 아이디입니다.'); // 중복된 경우 오류 메시지
+                    }
+                })
+                .then(message => {
+                    alert("사용 가능한 아이디입니다."); // 중복되지 않은 ID일 경우
+                })
+                .catch(error => {
+                    alert(error.message); // 중복된 ID일 경우
+                });
+        } else {
+            alert("아이디를 입력해주세요.");
+        }
+    }
 </script>
 
 <style>
