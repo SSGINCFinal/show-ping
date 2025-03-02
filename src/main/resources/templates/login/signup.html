@@ -16,56 +16,52 @@
     <div class="signup-form">
         <h2>회원가입</h2>
 
-        <!-- 이름 입력 -->
-        <input type="text" placeholder="이름">
+        <input type="text" placeholder="이름" id="name">
 
-        <!-- 이메일 인증 -->
         <div class="input-group">
             <input type="email" placeholder="이메일" id="email">
             <button class="verify-btn">인증 코드 보내기</button>
         </div>
 
-        <!-- 이메일 인증 코드 입력 -->
         <div class="input-group" id="email-verify-section">
             <input type="text" placeholder="인증 코드 입력" id="email-code">
             <button class="verify-code-btn">확인</button>
         </div>
 
-        <!-- 아이디 입력 & 중복 확인 -->
         <div class="input-group">
-            <input type="text" placeholder="아이디">
+            <input type="text" placeholder="아이디" id="user-id">
             <button class="check-id-btn">중복 확인</button>
         </div>
 
-        <!-- 비밀번호 입력 -->
         <div class="input-group">
             <input type="password" id="password" placeholder="비밀번호">
             <button type="button" class="toggle-password">👁</button>
         </div>
 
-        <!-- 비밀번호 확인 -->
         <div class="input-group">
             <input type="password" id="confirm-password" placeholder="비밀번호 확인">
             <button type="button" class="toggle-password">👁</button>
         </div>
 
-        <!-- 비밀번호 확인 버튼 -->
         <div>
             <button type="button" class="check-password-btn">비밀번호 확인</button>
         </div>
 
-        <!-- 주소 입력 & 검색 -->
         <div class="input-group">
             <input type="text" placeholder="주소" id="address">
             <button type="button" class="find-address-btn">주소 검색</button>
         </div>
 
-        <button type="submit">가입하기</button>
+        <!-- 전화번호 입력 -->
+        <div class="input-group">
+            <input type="text" placeholder="전화번호" id="phone">
+        </div>
+
+        <button type="submit" class="signup-btn">가입하기</button>
     </div>
 </div>
 
 <script>
-    // 비밀번호 보이기/숨기기 기능
     document.querySelectorAll('.toggle-password').forEach(button => {
         button.addEventListener('click', function () {
             const input = this.previousElementSibling;
@@ -79,33 +75,6 @@
         });
     });
 
-    document.querySelector('.verify-btn').addEventListener('click', function () {
-        const email = document.getElementById('email').value;
-
-        if (!validateEmail(email)) {
-            alert("올바른 이메일 주소를 입력하세요.");
-            return;
-        }
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-
-        fetch('/signup/send-code', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email })
-        })
-            .then(response => response.text())
-            .then(data => {
-                alert("인증 코드가 이메일로 전송되었습니다.");
-                console.log("서버 응답:", data);
-            })
-            .catch(error => {
-                console.error("오류 발생:", error);
-                alert("이메일 전송 실패");
-            });
-    });
 
     document.querySelector('.verify-code-btn').addEventListener('click', function () {
         const email = document.getElementById('email').value;
@@ -128,7 +97,6 @@
             });
     });
 
-    // 비밀번호 확인
     document.querySelector('.check-password-btn').addEventListener('click', function () {
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirm-password').value;
@@ -139,21 +107,105 @@
             alert("비밀번호가 일치하지 않습니다.");
         }
     });
-    fetch('/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ memberId: 'test123', password: 'password123' })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.accessToken) {
-                localStorage.setItem('accessToken', data.accessToken);
-                localStorage.setItem('refreshToken', data.refreshToken);
-                console.log('로그인 성공:', data);
-            } else {
-                console.log('로그인 실패:', data.error);
-            }
-        });
+
+    document.querySelector('.signup-btn').addEventListener('click', function () {
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const emailCode = document.getElementById('email-code').value.trim();
+        const userId = document.getElementById('user-id').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const confirmPassword = document.getElementById('confirm-password').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+
+        if (!name) {
+            alert("이름을 입력해주세요.");
+            return;
+        }
+        if (!email) {
+            alert("이메일을 입력해주세요.");
+            return;
+        }
+        if (!validateEmail(email)) {
+            alert("올바른 이메일 주소를 입력하세요.");
+            return;
+        }
+        if (!emailCode) {
+            alert("이메일 인증 코드를 입력해주세요.");
+            return;
+        }
+        if (!userId) {
+            alert("아이디를 입력해주세요.");
+            return;
+        }
+        if (!password) {
+            alert("비밀번호를 입력해주세요.");
+            return;
+        }
+        if (!confirmPassword) {
+            alert("비밀번호 확인을 입력해주세요.");
+            return;
+        }
+        if (password !== confirmPassword) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return;
+        }
+        if (!address) {
+            alert("주소를 입력해주세요.");
+            return;
+        }
+        if (!phone) {
+            alert("전화번호를 입력해주세요.");
+            return;
+        }
+        if (!validatePhone(phone)) {
+            alert("올바른 전화번호를 입력하세요. (예: 010-1234-5678)");
+            return;
+        }
+
+        alert("회원가입이 완료되었습니다!");
+    });
+
+    // 이메일 인증 코드 전송 버튼 이벤트
+    document.querySelector('.verify-btn').addEventListener('click', function () {
+        const email = document.getElementById('email').value.trim();
+
+        if (!email) {
+            alert("이메일을 입력해주세요.");
+            return;
+        }
+        if (!validateEmail(email)) {
+            alert("올바른 이메일 주소를 입력하세요.");
+            return;
+        }
+
+        fetch('/signup/send-code', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email })
+        })
+            .then(response => response.text())
+            .then(data => {
+                alert("인증 코드가 이메일로 전송되었습니다.");
+                console.log("서버 응답:", data);
+            })
+            .catch(error => {
+                console.error("오류 발생:", error);
+                alert("이메일 전송 실패");
+            });
+    });
+
+    // 이메일 유효성 검사 함수
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
+    // 전화번호 유효성 검사 함수
+    function validatePhone(phone) {
+        const phoneRegex = /^01[0-9]-\d{3,4}-\d{4}$/;
+        return phoneRegex.test(phone);
+    };
 </script>
 
 <style>
