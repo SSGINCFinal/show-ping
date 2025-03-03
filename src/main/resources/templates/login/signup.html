@@ -114,7 +114,7 @@
         const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
         const emailCode = document.getElementById('email-code').value.trim();
-        const userId = document.getElementById('memberId').value.trim();
+        const memberId = document.getElementById('memberId').value.trim();
         const password = document.getElementById('password').value.trim();
         const confirmPassword = document.getElementById('confirm-password').value.trim();
         const address = document.getElementById('address').value.trim();
@@ -136,13 +136,13 @@
             alert("이메일 인증 코드를 입력해주세요.");
             return;
         }
-        if (!userId) {
+        if (!memberId) {
             alert("아이디를 입력해주세요.");
             return;
         }
 
         // 중복 확인 후에 진행
-        fetch(`/signup/check-id?userId=${encodeURIComponent(userId)}`)
+        fetch(`/signup/check-id?memberId=${encodeURIComponent(memberId)}`)
             .then(response => response.json())
             .then(data => {
                 // 비밀번호, 주소, 전화번호 유효성 검사를 진행
