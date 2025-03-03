@@ -59,6 +59,7 @@ public class MemberService {
                 .memberEmail(memberDTO.getMemberEmail())
                 .memberPassword(passwordEncoder.encode(memberDTO.getMemberPassword())) // 비밀번호 암호화
                 .memberAddress(memberDTO.getMemberAddress())
+                .memberPhone(memberDTO.getMemberPhone())
                 .build();
 
         memberRepository.save(member);
