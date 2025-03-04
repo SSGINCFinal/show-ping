@@ -5,7 +5,7 @@
 
 <head>
     <link rel="stylesheet" href="/css/product/product.css">
-    <script defer src="/js/product/product.js"></script>
+    <script defer src="/js/product/payment.js"></script>
 </head>
 
 <div layout:fragment="content">
@@ -31,10 +31,8 @@
                 <!-- 오른쪽: 결제 요약 -->
                 <div class="payment-summary">
                     <h2>결제 정보</h2>
-                    <div class="order-item">
-                        <span>LG전자 2024 그램 17 코어i5 인텔 13세대 x 1</span>
-                    </div>
-                    <div class="total">총 합계 금액: <strong>1,405,470 원</strong></div>
+                    <div id="order-items"></div> <!-- 선택된 상품 정보가 여기에 추가됨 -->
+                    <div class="total">총 합계 금액: <strong id="total-price">0 원</strong></div>
 
                     <button class="payment-button">결제하기</button>
                 </div>

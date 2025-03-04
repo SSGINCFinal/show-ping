@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
     axios.get("/api/carts/info")
         .then(response => {
             memberNo = response.data.memberNo;
-            console.log(memberNo)
             loadCartItems(memberNo);
         })
         .catch(error => {
@@ -14,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 });
 
-// ✅ 장바구니 데이터 불러오기 및 테이블 생성
+// 장바구니 데이터 불러오기 및 테이블 생성
 function loadCartItems(memberNo) {
     axios.get(`/api/carts/${memberNo}`)
         .then(response => {
@@ -27,7 +26,12 @@ function loadCartItems(memberNo) {
                 const formattedPrice = item.productPrice.toLocaleString('ko-KR') + "원"; // 가격 포맷
                 const row = `
                     <tr>
-                        <td><input type="checkbox" class="product-checkbox"></td>
+                        <td>
+                            <input type="checkbox" class="product-checkbox"
+                                   data-name="${item.productName}" 
+                                   data-price="${item.productPrice}" 
+                                   data-quantity="${item.cartProductQuantity}">
+                        </td>
                         <td class="product-order">
                             <img class="product-img" src="/img/product_img/${item.productImg}" alt="${item.productName}">
                             ${item.productName}
@@ -55,21 +59,19 @@ function loadCartItems(memberNo) {
         });
 }
 
-// ✅ 체크박스 및 수량 변경 이벤트 설정
+// 체크박스 및 수량 변경 이벤트 설정
 function setupEventListeners() {
     const checkboxes = document.querySelectorAll(".product-checkbox");
     const selectAllCheckbox = document.querySelector(".product-checkbox-all");
     const totalPriceElement = document.querySelector(".cart-summary strong");
-    const buyButton = document.querySelector(".checkout-btn");
 
     let updateTimeout = null; // 서버 업데이트 딜레이 타이머
 
-    // ✅ 가격 포맷 변환 함수
     function formatPrice(price) {
         return price.toLocaleString('ko-KR') + "원";
     }
 
-    // ✅ 총 상품 금액 업데이트
+    // 총 상품 금액 업데이트
     function updateTotalPrice() {
         let totalPrice = 0;
         checkboxes.forEach((checkbox) => {
@@ -82,23 +84,27 @@ function setupEventListeners() {
         totalPriceElement.textContent = formatPrice(totalPrice);
     }
 
-    // ✅ 전체 선택 체크박스 클릭 시 모든 체크박스 선택/해제
-    selectAllCheckbox.addEventListener("change", function () {
-        checkboxes.forEach((checkbox) => {
-            checkbox.checked = selectAllCheckbox.checked;
+    // 전체 선택 체크박스 클릭 시 모든 체크박스 선택/해제
+    if (selectAllCheckbox) {
+        selectAllCheckbox.addEventListener("change", function () {
+            checkboxes.forEach((checkbox) => {
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+            updateTotalPrice();
         });
-        updateTotalPrice();
-    });
+    }
 
-    // ✅ 개별 체크박스 변경 시 총 금액 업데이트
+    // 개별 체크박스 변경 시 총 금액 업데이트
     checkboxes.forEach((checkbox) => {
         checkbox.addEventListener("change", function () {
             updateTotalPrice();
-            selectAllCheckbox.checked = [...checkboxes].every(cb => cb.checked);
+            if (selectAllCheckbox) {
+                selectAllCheckbox.checked = [...checkboxes].every(cb => cb.checked);
+            }
         });
     });
 
-    // ✅ 수량 변경 시 서버에 1초 딜레이 후 업데이트 요청 & 가격 업데이트
+    // 수량 변경 시 서버에 1초 딜레이 후 업데이트 요청 & 가격 업데이트
     document.querySelectorAll(".quantity-input").forEach(input => {
         input.addEventListener("input", function () {
             if (this.value < 1) this.value = 1; // 최소값 유지
@@ -115,7 +121,6 @@ function setupEventListeners() {
 
             updateTotalPrice(); // 총 상품 금액 업데이트
 
-            // ✅ 기존 요청이 있으면 취소하고 새로운 1초 딜레이 시작
             clearTimeout(updateTimeout);
             updateTimeout = setTimeout(() => {
                 axios.put(`/api/carts/update?memberNo=${memberNo}`, {
@@ -128,11 +133,11 @@ function setupEventListeners() {
                     .catch(error => {
                         console.error("장바구니 수량 업데이트 실패:", error.response.data);
                     });
-            }, 1000); // ⏳ 1초 딜레이 후 요청 실행
+            }, 1000); // 1초 딜레이 후 요청 실행
         });
     });
 
-    // ✅ 상품 삭제 기능
+    // 상품 삭제 기능
     document.querySelectorAll(".remove-btn").forEach(button => {
         button.addEventListener("click", function () {
             const productNo = this.getAttribute("data-product-no");
@@ -146,3 +151,33 @@ function setupEventListeners() {
         });
     });
 }
+
+document.getElementById("checkout-btn").addEventListener("click", function (event) {
+    event.preventDefault();
+
+    const selectedItems = [];
+    const checkboxes = document.querySelectorAll(".product-checkbox:checked");
+
+    checkboxes.forEach(checkbox => {
+        const row = checkbox.closest("tr");
+        const productName = row.querySelector(".product-order").textContent.trim();
+        const productPrice = parseInt(row.querySelector(".product-price").getAttribute("data-price"));
+        const quantity = parseInt(row.querySelector(".quantity-input").value);
+
+        selectedItems.push({
+            name: productName,
+            quantity: quantity,
+            totalPrice: productPrice
+        });
+    });
+
+    if (selectedItems.length === 0) {
+        alert("선택된 상품이 없습니다.");
+        return;
+    }
+
+    console.log("선택된 상품:", selectedItems);
+    sessionStorage.setItem("selectedItems", JSON.stringify(selectedItems));
+
+    window.location.href = "/payment";
+});
