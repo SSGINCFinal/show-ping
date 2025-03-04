@@ -158,6 +158,16 @@ function setupEventListeners(productNo) {
     const addToCartBtn = document.getElementById("add-to-cart-btn");
 
     let quantity = 1;  // 기본 수량
+    let memberNo = null; // 전역 변수로 선언
+
+    // 로그인한 사용자의 memberNo 가져오기
+    axios.get('/api/carts/info')
+        .then(response => {
+            memberNo = response.data.memberNo;
+        })
+        .catch(error => {
+            console.error("사용자 정보를 가져오는 중 오류 발생:", error);
+        });
 
     // - 버튼 클릭 시 수량 감소 (최소 1)
     decreaseBtn.addEventListener("click", function () {
@@ -175,7 +185,6 @@ function setupEventListeners(productNo) {
 
     // 장바구니 버튼 클릭 시 상품 추가 요청
     addToCartBtn.addEventListener("click", function () {
-        const memberNo = 1;  // 임시로 memberNo를 1로 설정 (실제 서비스에서는 로그인 정보를 사용)
 
         axios.post(`/api/carts/add?memberNo=${memberNo}`, {
             productNo: productNo,
