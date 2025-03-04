@@ -1,5 +1,6 @@
 package com.ssginc.showping.controller;
 
+import com.ssginc.showping.dto.object.MemberDTO;
 import com.ssginc.showping.entity.Member;
 import com.ssginc.showping.jwt.JwtUtil;
 import com.ssginc.showping.repository.MemberRepository;
@@ -10,9 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
@@ -31,6 +30,7 @@ public class MemberController {
         this.memberRepository = memberRepository;
         this.memberService = memberService;
     }
+
     // 로그인 페이지 요청 처리
     @GetMapping("/login")
     public String login() {
@@ -77,35 +77,24 @@ public class MemberController {
         System.out.println("로그인한 userId = " + userId);
         return "user/userInfo";
     }
-    /*
-    @GetMapping("/user-info")
-    public String getUserInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            return "현재 로그인한 사용자: " + userDetails.getUsername();
-        }
-        return "로그인하지 않은 사용자입니다.";
-    }
-     */
-    @GetMapping("/signup/check-id")
-    public Map<String, Object> checkId(@RequestParam("memberId") String memberId) {
-        Map<String, Object> response = new HashMap<>();
-
-        // DB에서 아이디가 존재하는지 확인
-        boolean exists = memberRepository.existsByMemberId(memberId);
-
-        // exists를 기준으로 중복 여부 반환
-        response.put("exists", exists);
-
-        return response;
-    }
 
     @PostMapping("/register")
-    public String registerMember(Member member) {
-        // 입력받은 회원 정보를 DB에 저장
-        memberService.saveMember(member);
-        return "redirect:/success";
+    public String registerMember(@RequestBody MemberDTO memberDto, RedirectAttributes redirectAttributes) throws Exception {
+
+        System.out.println(memberDto.toString());
+
+        try {
+            // 회원가입 처리 (회원 정보 DB 저장)
+            Member member = memberService.registerMember(memberDto);
+
+            // 성공 시 메시지와 함께 로그인 페이지로 리다이렉트
+            redirectAttributes.addFlashAttribute("message", "회원가입이 완료되었습니다.");
+            return "redirect:/login";
+        } catch (Exception e) {
+            // 회원가입 실패 시 예외 처리
+            redirectAttributes.addFlashAttribute("message", "회원가입에 실패했습니다. 다시 시도해주세요.");
+            return "redirect:/login/signup";  // 실패 시 회원가입 페이지로 리다이렉트
+        }
     }
 
     @GetMapping("/check-duplicate")
@@ -121,5 +110,4 @@ public class MemberController {
             return ResponseEntity.ok("사용 가능한 아이디입니다.");
         }
     }
-
 }

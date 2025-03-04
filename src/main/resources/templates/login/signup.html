@@ -6,6 +6,7 @@
     <title>ShowPing 회원가입</title>
     <link rel="stylesheet" href="/css/login/signup.css">
     <script src="/js/jwt.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -140,42 +141,39 @@
             alert("아이디를 입력해주세요.");
             return;
         }
+        if (!password){
+            alert("비밀번호를 입력해주세요.")
+            return;
+        }
+        if (!confirmPassword){
+            alert("비밀번호를 확인해주세요.")
+            return;
+        }
+        if (!address){
+            alert("주소를 입력해주세요.")
+            return;
+        }
+        if (!phone){
+            alert("핸드폰 번호를 입력해주세요.")
+            return;
+        }
+        if(!validatePhone(phone)){
+            alert("올바른 핸드폰 번호를 입력해주세요.(010-1234-5678)")
+            return;
+        }
 
         // 중복 확인 후에 진행
-        fetch(`/signup/check-id?memberId=${encodeURIComponent(memberId)}`)
+        axios.post('/register', {
+            memberId: memberId,
+            memberName: name,
+            memberEmail: email,
+            memberPassword: password,
+            memberAddress: address,
+            memberPhone: phone
+        })
             .then(response => response.json())
-            .then(data => {
-                // 비밀번호, 주소, 전화번호 유효성 검사를 진행
-                if (!password) {
-                    alert("비밀번호를 입력해주세요.");
-                    return;
-                }
-                if (!confirmPassword) {
-                    alert("비밀번호 확인을 입력해주세요.");
-                    return;
-                }
-                if (password !== confirmPassword) {
-                    alert("비밀번호가 일치하지 않습니다.");
-                    return;
-                }
-                if (!address) {
-                    alert("주소를 입력해주세요.");
-                    return;
-                }
-                if (!phone) {
-                    alert("전화번호를 입력해주세요.");
-                    return;
-                }
-                if (!validatePhone(phone)) {
-                    alert("올바른 전화번호를 입력하세요. (예: 010-1234-5678)");
-                    return;
-                }
-
-                alert("회원가입이 완료되었습니다!");
-            })
             .catch(error => {
                 console.error("오류 발생:", error);
-                alert("아이디 중복 검사에 실패했습니다.");
             });
     });
 
