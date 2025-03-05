@@ -3,279 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShowPing 회원가입</title>
+    <title>회원가입 | ShowPing</title>
     <link rel="stylesheet" href="/css/login/signup.css">
-    <script src="/js/jwt.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <div class="container">
     <div class="logo-area">
-        <h1>ShowPing!</h1>
-        <div class="logo">S</div>
+        <h2>ShowPing</h2>
+        <h5>회원가입</h5>
+        <h6>회원이 되어 다양한 혜택을 경험해보세요!</h6>
     </div>
+
     <div class="signup-form">
-        <h2>회원가입</h2>
+        <form id="signup-form">
 
-        <form id="signup-form" onsubmit="return false;">
+            <label for="memberId">아이디</label>
             <div class="input-group">
-                <input type="text" placeholder="아이디" id="memberId" name="memberId">
-                <button class="button" onclick="checkDuplicate()">중복 확인</button>
+                <input type="text" id="memberId" placeholder="아이디" required>
+                <button type="button" class="button" onclick="checkDuplicate()">중복 확인</button>
             </div>
+
+            <label for="password">비밀번호</label>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="비밀번호" required>
+                <button type="button" class="toggle-password">👁</button>
+            </div>
+
+            <label for="confirm-password">비밀번호 확인</label>
+            <div id="password-message" style="color: red; font-size: 12px; display: none;"></div>
+            <div class="input-group">
+                <input type="password" id="confirm-password" placeholder="비밀번호 확인" required>
+                <button type="button" class="toggle-password">👁</button>
+            </div>
+
+            <label for="name">이름</label>
+            <div class="input-group">
+                <input type="text" id="name" placeholder="이름" required>
+            </div>
+
+            <label for="phone">전화번호</label>
+            <div class="input-group">
+                <input type="text" id="phone" placeholder="전화번호 (010-1234-5678)" required>
+            </div>
+
+            <label for="email">이메일</label>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="이메일" required>
+                <button type="button" class="verify-btn" onclick="sendVerificationCode()">인증 코드 보내기</button>
+            </div>
+
+            <div class="input-group hidden" id="email-verify-section">
+                <input type="text" id="email-code" placeholder="인증 코드 입력">
+                <button type="button" class="verify-code-btn">확인</button>
+            </div>
+
+            <label for="address">주소</label>
+            <div class="input-group">
+                <input type="text" id="address" placeholder="주소">
+            </div>
+
+            <button type="submit" class="signup-btn">가입하기</button>
         </form>
-
-        <div class="input-group">
-            <input type="password" id="password" placeholder="비밀번호">
-            <button type="button" class="toggle-password">👁</button>
-        </div>
-
-        <div class="input-group">
-            <input type="password" id="confirm-password" placeholder="비밀번호 확인">
-            <button type="button" class="toggle-password">👁</button>
-        </div>
-
-        <div>
-            <button type="button" class="check-password-btn">비밀번호 확인</button>
-        </div>
-
-        <input type="text" placeholder="이름" id="name">
-
-        <!-- 전화번호 입력 -->
-        <div class="input-group">
-            <input type="text" placeholder="전화번호" id="phone">
-        </div>
-
-        <div class="input-group">
-            <input type="email" placeholder="이메일" id="email">
-            <button class="verify-btn">인증 코드 보내기</button>
-        </div>
-
-        <div class="input-group" id="email-verify-section">
-            <input type="text" placeholder="인증 코드 입력" id="email-code">
-            <button class="verify-code-btn">확인</button>
-        </div>
-
-        <div class="input-group">
-            <input type="text" placeholder="주소" id="address">
-            <button type="button" class="find-address-btn">주소 검색</button>
-        </div>
-
-        <button type="submit" class="signup-btn">가입하기</button>
     </div>
 </div>
 
-<script>
-    document.querySelectorAll('.toggle-password').forEach(button => {
-        button.addEventListener('click', function () {
-            const input = this.previousElementSibling;
-            if (input.type === "password") {
-                input.type = "text";
-                this.textContent = "🔒";
-            } else {
-                input.type = "password";
-                this.textContent = "👁";
-            }
-        });
-    });
-
-
-    document.querySelector('.verify-code-btn').addEventListener('click', function () {
-        const email = document.getElementById('email').value;
-        const emailCode = document.getElementById('email-code').value;
-
-        fetch(`/signup/verify-code?email=${encodeURIComponent(email)}&code=${encodeURIComponent(emailCode)}`, {
-            method: 'POST'
-        })
-            .then(response => response.json())
-            .then(isValid => {
-                if (isValid) {
-                    alert("이메일 인증 완료!");
-                } else {
-                    alert("인증 코드가 일치하지 않습니다.");
-                }
-            })
-            .catch(error => {
-                console.error("오류 발생:", error);
-                alert("인증 코드 확인 실패");
-            });
-    });
-
-    document.querySelector('.check-password-btn').addEventListener('click', function () {
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirm-password').value;
-
-        if (password === confirmPassword) {
-            alert("비밀번호가 일치합니다.");
-        } else {
-            alert("비밀번호가 일치하지 않습니다.");
-        }
-    });
-
-    document.querySelector('.signup-btn').addEventListener('click', function () {
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const emailCode = document.getElementById('email-code').value.trim();
-        const memberId = document.getElementById('memberId').value.trim();
-        const password = document.getElementById('password').value.trim();
-        const confirmPassword = document.getElementById('confirm-password').value.trim();
-        const address = document.getElementById('address').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-
-        if (!memberId) {
-            alert("아이디를 입력해주세요.");
-            return;
-        }
-        if (!password){
-            alert("비밀번호를 입력해주세요.")
-            return;
-        }
-        if (!confirmPassword){
-            alert("비밀번호를 확인해주세요.")
-            return;
-        }
-        if (!name) {
-            alert("이름을 입력해주세요.");
-            return;
-        }
-        if (!phone){
-            alert("핸드폰 번호를 입력해주세요.")
-            return;
-        }
-        if(!validatePhone(phone)){
-            alert("올바른 핸드폰 번호를 입력해주세요.(010-1234-5678)")
-            return;
-        }
-        if (!email) {
-            alert("이메일을 입력해주세요.");
-            return;
-        }
-        if (!validateEmail(email)) {
-            alert("올바른 이메일 주소를 입력하세요.");
-            return;
-        }
-        if (!emailCode) {
-            alert("이메일 인증 코드를 입력해주세요.");
-            return;
-        }
-        if (!address){
-            alert("주소를 입력해주세요.")
-            return;
-        }
-
-        // 중복 확인 후에 진행
-        axios.post('/register', {
-            memberId: memberId,
-            memberPassword: password,
-            memberName: name,
-            memberPhone: phone,
-            memberEmail: email,
-            memberAddress: address,
-        })
-            .then(response => {
-                alert("회원가입이 완료 되었습니다!")
-                window.location.href = "/login";
-            })
-            .catch(error => {
-                console.error("오류 발생:", error);
-                alert("회원가입 중 문제가 발생했습니다. 다시 시도해주세요.")
-            });
-    });
-
-    // 이메일 인증 코드 전송 버튼 이벤트
-    document.querySelector('.verify-btn').addEventListener('click', function () {
-        const email = document.getElementById('email').value.trim();
-
-        if (!email) {
-            alert("이메일을 입력해주세요.");
-            return;
-        }
-        if (!validateEmail(email)) {
-            alert("올바른 이메일 주소를 입력하세요.");
-            return;
-        }
-
-        fetch('/signup/send-code', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email })
-        })
-            .then(response => response.text())
-            .then(data => {
-                alert("인증 코드가 이메일로 전송되었습니다.");
-                console.log("서버 응답:", data);
-            })
-            .catch(error => {
-                console.error("오류 발생:", error);
-                alert("이메일 전송 실패");
-            });
-    });
-
-    // 이메일 유효성 검사 함수
-    function validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-    }
-
-    // 전화번호 유효성 검사 함수
-    function validatePhone(phone) {
-        const phoneRegex = /^01[0-9]-\d{3,4}-\d{4}$/;
-        return phoneRegex.test(phone);
-    };
-
-    // 중복 확인 버튼 이벤트
-    function checkDuplicate() {
-        const memberId = document.getElementById("memberId").value;
-
-        // 아이디가 비어있지 않으면 Ajax 요청
-        if (memberId) {
-            fetch(`/check-duplicate?id=${memberId}`)
-                .then(response => {
-                    if (response.ok) {
-                        return response.text(); // 서버에서 성공적인 응답을 받으면 메시지 반환
-                    } else {
-                        throw new Error('중복된 아이디입니다.'); // 중복된 경우 오류 메시지
-                    }
-                })
-                .then(message => {
-                    alert("사용 가능한 아이디입니다."); // 중복되지 않은 ID일 경우
-                })
-                .catch(error => {
-                    alert(error.message); // 중복된 ID일 경우
-                });
-        } else {
-            alert("아이디를 입력해주세요.");
-        }
-    }
-
-    function validatePassword(password) {
-        // 비밀번호가 8자 이상인지 확인
-        if (password.length < 8) {
-            alert("비밀번호는 8자 이상이어야 합니다.");
-            return false;
-        }
-        // 비밀번호에 특수문자가 포함되어 있는지 확인
-        const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
-        if (!specialCharRegex.test(password)) {
-            alert("비밀번호는 특수문자를 포함해야 합니다.");
-            return false;
-        }
-        return true;
-    }
-</script>
-
-<style>
-    .input-group {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 10px;
-    }
-    .input-group input {
-        flex: 1;
-    }
-    .hidden {
-        display: none;
-    }
-</style>
-
+<script src="/js/signup.js"></script>
 </body>
 </html>
