@@ -175,22 +175,36 @@ function setupEventListeners(productNo) {
 
     // 장바구니 버튼 클릭 시 상품 추가 요청
     addToCartBtn.addEventListener("click", async function () {
+        try {
+            const response = await axios.get("/api/carts/info");
 
-        const response = await axios.get("/api/carts/info");
-        const memberNo = response.data.memberNo;
+            const memberNo = response.data.memberNo;
 
-        axios.post(`/api/carts/add?memberNo=${memberNo}`, {
-            productNo: productNo,
-            quantity: quantity
-        })
-            .then(response => {
-                quantityInput.value = 1;
-                if (confirm("장바구니에 상품이 추가되었습니다. 장바구니로 이동하시겠습니까?")) {
-                    window.location.href = "/cart"; // 장바구니 페이지로 이동
+            // 로그인 여부 확인
+            if (!memberNo) {
+                if (confirm("로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) {
+                    window.location.href = "/login"; // 로그인 페이지로 이동
                 }
+                return; // 함수 종료
+            }
+
+            axios.post(`/api/carts/add?memberNo=${memberNo}`, {
+                productNo: productNo,
+                quantity: quantity
             })
-            .catch(error => {
-                alert("장바구니 추가 실패: " + error.response.data);
-            });
+                .then(response => {
+                    quantityInput.value = 1;
+                    if (confirm("장바구니에 상품이 추가되었습니다. 장바구니로 이동하시겠습니까?")) {
+                        window.location.href = "/cart"; // 장바구니 페이지로 이동
+                    }
+                })
+                .catch(error => {
+                    alert("장바구니 추가 실패: " + (error.response?.data || "알 수 없는 오류"));
+                });
+        } catch (error) {
+            if(confirm("로그인 이후 장바구니를 사용할 수 있습니다. 로그인 하시겠습니까?")){
+                window.location.href = "/login"
+            }
+        }
     });
 }
