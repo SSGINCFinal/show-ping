@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout.html">
+
+<head>
+  <link rel="stylesheet" th:href="@{/css/watch/history.css}">
+
+  <script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+      var memberNo = [[${member.memberNo}]];
+      loadWatchHistory(memberNo);
+    });
+  </script>
+
+  <script th:src="@{/js/watch/history.js}"></script>
+</head>
+
+<div layout:fragment="content">
+  <div class="history-container">
+    <div class="history-items">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th></th>
+            <th>시청 목록</th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        <!-- 장바구니 데이터가 JS에서 동적으로 삽입됨 -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</html>
