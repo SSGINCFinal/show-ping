@@ -1,8 +1,10 @@
 package com.ssginc.showping.controller;
 
+import com.ssginc.showping.dto.request.WatchRequestDto;
 import com.ssginc.showping.dto.response.StreamResponseDto;
 import com.ssginc.showping.dto.response.WatchResponseDto;
 import com.ssginc.showping.entity.Member;
+import com.ssginc.showping.entity.Watch;
 import com.ssginc.showping.jwt.JwtUtil;
 import com.ssginc.showping.service.MemberService;
 import com.ssginc.showping.service.StreamService;
@@ -13,9 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +66,15 @@ public class WatchController {
 
         Map<String, Object> result = new HashMap<>();
         result.put("historyList", historyList);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/insert")
+    public ResponseEntity<Watch> insertWatchHistory(@RequestBody WatchRequestDto watchRequestDto) {
+        System.out.println(watchRequestDto);
+
+        Watch result = watchService.insertWatchHistory(watchRequestDto);
+
         return ResponseEntity.ok(result);
     }
 
