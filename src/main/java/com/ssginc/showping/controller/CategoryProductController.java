@@ -38,4 +38,14 @@ public class CategoryProductController {
     public String viewPayment() {
         return "product/product_payment";
     }
+
+    @GetMapping("/portone")
+    public String viewPortone() {
+        return "test_payment";
+    }
+
+    @GetMapping("/success")
+    public String viewSucess() {
+        return "payment/success";
+    }
 }
