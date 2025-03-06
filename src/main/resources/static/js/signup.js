@@ -1,3 +1,9 @@
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("password").value = "";
+    document.getElementById("confirm-password").value = "";
+    document.getElementById("email").value = "";
+})
+
 document.querySelectorAll('.toggle-password').forEach(button => {
     button.addEventListener('click', function () {
         const input = this.previousElementSibling;
@@ -172,25 +178,37 @@ function checkDuplicate() {
     }
 }
 
+// 비밀번호 유효성 검사 함수 (문자, 숫자, 특수문자 포함 8~20자)
 function validatePassword(password) {
-    // 비밀번호가 8자 이상인지 확인
-    if (password.length < 8) {
-        alert("비밀번호는 8자 이상이어야 합니다.");
-        return false;
-    }
-    // 비밀번호에 특수문자가 포함되어 있는지 확인
-    const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
-    if (!specialCharRegex.test(password)) {
-        alert("비밀번호는 특수문자를 포함해야 합니다.");
-        return false;
-    }
-    return true;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,20}$/;
+    return passwordRegex.test(password);
 }
+
+// 비밀번호 입력 시 유효성 검사
+document.getElementById('password').addEventListener('input', function () {
+    const password = this.value.trim();
+    const messageDiv = document.getElementById('password-message');
+
+    if (password === '') {
+        messageDiv.style.display = 'none';
+        return;
+    }
+
+    if (!validatePassword(password)) {
+        messageDiv.textContent = "비밀번호는 문자, 숫자, 특수문자를 포함해 8~20자여야 합니다.";
+        messageDiv.style.color = 'red';
+        messageDiv.style.display = 'block';
+    } else {
+        messageDiv.textContent = "사용 가능한 비밀번호입니다.";
+        messageDiv.style.color = 'green';
+        messageDiv.style.display = 'block';
+    }
+});
 
 function checkPasswordMatch() {
     const password = document.getElementById('password').value.trim();
     const confirmPassword = document.getElementById('confirm-password').value.trim();
-    const messageDiv = document.getElementById('password-message');
+    const messageDiv = document.getElementById('confirm-password-message');
 
     // 둘 중 하나라도 입력되지 않으면 메시지를 숨김
     if (password === '' || confirmPassword === '') {
@@ -211,6 +229,33 @@ function checkPasswordMatch() {
         messageDiv.style.display = 'block';
     }
 }
+
+function validateMemberId(memberId) {
+    const memberIdRegex = /^[A-Za-z0-9]{6,20}$/;
+    return memberIdRegex.test(memberId);
+}
+
+
+// 아이디 입력 시 유효성 검사
+document.getElementById('memberId').addEventListener('input', function () {
+    const memberId = this.value.trim();
+    const messageDiv = document.getElementById('memberId-message'); // 아이디 메시지 div
+
+    if (memberId === '') {
+        messageDiv.style.display = 'none';  // 입력이 없으면 숨김
+        return;
+    }
+
+    if (!validateMemberId(memberId)) {
+        messageDiv.textContent = "아이디는 영문 또는 숫자로 6~20자여야 합니다.";
+        messageDiv.style.color = 'red';
+        messageDiv.style.display = 'block';
+    } else {
+        messageDiv.textContent = "사용 가능한 아이디입니다.";
+        messageDiv.style.color = 'green';
+        messageDiv.style.display = 'block';
+    }
+});
 
 document.getElementById('password').addEventListener('input', checkPasswordMatch);
 document.getElementById('confirm-password').addEventListener('input', checkPasswordMatch);

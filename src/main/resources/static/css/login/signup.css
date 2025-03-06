@@ -117,6 +117,20 @@ label {
     display: none
 }
 
+#confirm-password-message {
+    text-align: left;
+    color: red;
+    font-size: 12px;
+    display: none
+}
+
+#memberId-message {
+    text-align: left;
+    color: red;
+    font-size: 12px;
+    display: none
+}
+
 /* 버튼 스타일 조정 */
 button {
     font-size: 8px;  /* 글자 크기 줄이기 */
