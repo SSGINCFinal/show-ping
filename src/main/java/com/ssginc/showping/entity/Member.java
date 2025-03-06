@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -45,7 +46,7 @@ public class Member {
     private MemberRole memberRole;
 
     @NotNull
-    @Column(name = "stream_key")
+    @Column(name = "stream_key", unique = true)
     private String streamKey;
 
     @Column(name = "member_point")
@@ -83,8 +84,8 @@ public class Member {
     // ⭐ 기본값 설정
     @PrePersist
     public void setDefaultValues() {
-        if (this.streamKey == null) {
-            this.streamKey = "defaultStreamKey";
+        if (this.streamKey == null || this.streamKey.isEmpty()) {
+            this.streamKey = UUID.randomUUID().toString();
         }
         if (this.memberRole == null) {
             this.memberRole = MemberRole.ROLE_USER;
