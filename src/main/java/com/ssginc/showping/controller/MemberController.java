@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -52,22 +53,7 @@ public class MemberController {
 
     @PostMapping("/login/authenticate")
     public String authenticate(String memberId, String password, RedirectAttributes redirectAttributes) {
-        Member member = memberRepository.findByMemberId(memberId).orElse(null);
-
-        if (member == null || !member.getMemberPassword().equals(password)) {
-            System.out.println("로그인 실패: 아이디 또는 비밀번호 오류");
-            redirectAttributes.addFlashAttribute("message", "아이디 또는 비밀번호가 올바르지 않습니다.");
-            return "redirect:/login";  // 로그인 실패 시 다시 로그인 페이지로 이동
-        }
-
-        String role = member.getMemberRole().name();
-        String token = jwtUtil.generateAccessToken(memberId, role);
-
-        System.out.println("로그인 성공! 토큰: " + token);
-        redirectAttributes.addFlashAttribute("message", "로그인 성공!");
-        redirectAttributes.addFlashAttribute("token", token);
-
-        return "redirect:/login";  // 로그인 성공 후 리다이렉트
+        return memberService.authenticate(memberId, password, redirectAttributes); // ✅ 서비스에서 로그인 처리
     }
 
     @GetMapping("/user-info")
@@ -80,13 +66,10 @@ public class MemberController {
 
     @PostMapping("/register")
     public String registerMember(@RequestBody MemberDTO memberDto, RedirectAttributes redirectAttributes) throws Exception {
-
         System.out.println(memberDto.toString());
-
         try {
             // 회원가입 처리 (회원 정보 DB 저장)
             Member member = memberService.registerMember(memberDto);
-
             // 성공 시 메시지와 함께 로그인 페이지로 리다이렉트
             redirectAttributes.addFlashAttribute("message", "회원가입이 완료되었습니다.");
             return "redirect:/login";
@@ -110,4 +93,5 @@ public class MemberController {
             return ResponseEntity.ok("사용 가능한 아이디입니다.");
         }
     }
+
 }
