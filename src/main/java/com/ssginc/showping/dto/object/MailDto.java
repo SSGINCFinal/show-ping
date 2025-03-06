@@ -9,4 +9,5 @@ import lombok.Setter;
 @Setter
 public class MailDto {
     private String email;
+    private String emailCode;
 }

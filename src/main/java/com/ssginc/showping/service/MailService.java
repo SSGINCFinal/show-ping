@@ -56,7 +56,14 @@ public class MailService {
 
     // 인증 코드 검증
     public boolean verifyCode(String email, String inputCode) {
-        return emailCodeStorage.containsKey(email) && emailCodeStorage.get(email).equals(inputCode);
+        System.out.println("입력된 이메일: " + email);
+        System.out.println("입력된 인증 코드: " + inputCode);
+        System.out.println("저장된 인증 코드: " + emailCodeStorage.get(email));
+
+        boolean isValid = emailCodeStorage.containsKey(email) && emailCodeStorage.get(email).equals(inputCode);
+        System.out.println("인증 결과: " + isValid);
+
+        return isValid;
     }
 
 

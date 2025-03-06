@@ -20,7 +20,7 @@ public class MailController {
 
     // 인증 코드 확인하기
     @PostMapping("/verify-code")
-    public boolean verifyCode(@RequestParam String email, @RequestParam String code) {
-        return mailService.verifyCode(email, code);
+    public boolean verifyCode(@RequestBody MailDto mailDto) {
+        return mailService.verifyCode(mailDto.getEmail(), mailDto.getEmailCode());
     }
 }
