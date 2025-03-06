@@ -24,10 +24,12 @@
     </div>
 
     <div class="login-form">
-        <form th:action="@{/login}" method="post">
+        <form th:action="@{/login}" method="post" autocomplete="off">
             <h2>ShowPing에 오신 것을 환영합니다.</h2>
-            <input type="text" name="memberId" placeholder="ID" required>
-            <input type="password" name="memberPassword" placeholder="Password" required>
+            <input type="text" name="memberId" id = "memberId" placeholder="ID" required autocomplete="off" readonly
+            onfocus="this.removeAttribute('readonly');">
+            <input type="password" name="memberPassword" id="memberPassword" placeholder="Password" required autocomplete="off" readonly
+            onfocus="this.removeAttribute('readonly');">
             <button type="submit">로그인</button>
         </form>
 
