@@ -22,4 +22,30 @@ public class CategoryProductController {
         model.addAttribute("reviewNo", productNo);
         return "product/product_detail"; // templates/product/productDetail.html 반환
     }
+
+//    @GetMapping("/cart")
+//    public String viewCart(@PathVariable Long memberNo, Model model) {
+//        model.addAttribute("memberNo", memberNo);
+//        return "product/product_cart";
+//    }
+
+    @GetMapping("/cart")
+    public String viewCart() {
+        return "product/product_cart";
+    }
+
+    @GetMapping("/payment")
+    public String viewPayment() {
+        return "product/product_payment";
+    }
+
+    @GetMapping("/portone")
+    public String viewPortone() {
+        return "test_payment";
+    }
+
+    @GetMapping("/success")
+    public String viewSucess() {
+        return "payment/success";
+    }
 }

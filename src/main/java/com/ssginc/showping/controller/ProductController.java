@@ -5,6 +5,8 @@ import com.ssginc.showping.dto.response.ReviewDto;
 import com.ssginc.showping.service.ProductService;
 import com.ssginc.showping.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,4 +34,5 @@ public class ProductController {
     public List<ReviewDto> getProductReviews(@PathVariable Long productNo) {
         return reviewService.getReviewsByProductNo(productNo);
     }
+
 }

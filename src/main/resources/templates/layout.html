@@ -22,6 +22,16 @@
             <ul class="menu-list">
                 <li class="menu-item dropdown">
                     <a>카테고리</a>
+                    <!-- 드롭다운 메뉴 -->
+                    <ul class="dropdown-menu">
+                        <li class="menu-item dropdown">
+                            <ul class="dropdown-menu">
+                                <!-- 카테고리 리스트 동적 추가 -->
+                                <li>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </li>
                 <li class="menu-item dropdown">
                     <a th:href="@{/stream/list}">라이브</a>
@@ -37,14 +47,14 @@
 
         <!-- 검색 및 사용자 메뉴 -->
         <div class="navbar-right">
-            <div class="search-bar">
-                <form action="#" method="GET">
-                    <input type="text" name="search">
-                    <button type="submit">
-                        <img src="/img/search.png" style="height: 20px">
-                    </button>
-                </form>
-            </div>
+<!--            <div class="search-bar">-->
+<!--                <form action="#" method="GET">-->
+<!--                    <input type="text" name="search">-->
+<!--                    <button type="submit">-->
+<!--                        <img src="/img/search.png" style="height: 20px">-->
+<!--                    </button>-->
+<!--                </form>-->
+<!--            </div>-->
             <div class="cart-bar">
                 <a href="/cart">
                     <img src="/img/cart.png" style="height: 20px">
