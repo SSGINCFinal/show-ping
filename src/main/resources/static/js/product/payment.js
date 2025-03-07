@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const name = document.getElementById("name").value.trim();
         const phone = document.getElementById("phone").value.trim();
         const email = document.getElementById("email").value.trim();
-        const totalPrice = parseInt(document.getElementById("total-price").textContent.replace(" 원", "").replace(",", ""), 10);
+        const totalPrice = parseInt(document.getElementById("total-price").textContent.replace(" 원", "").replaceAll(",", ""), 10);
 
         if (!name || !phone || !email || totalPrice <= 0) {
             alert("모든 정보를 입력하고, 결제 금액을 확인해주세요.");
