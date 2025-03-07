@@ -1,4 +1,4 @@
-package com.ssginc.showping.config;
+package com.ssginc.showping.util;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
