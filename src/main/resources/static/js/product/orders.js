@@ -14,6 +14,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         const orderResponse = await axios.get(`/api/orders/member/${memberNo}`);
         const orders = orderResponse.data;
 
+        console.log(orderResponse)
+
         if (!orders || orders.length === 0) {
             document.getElementById("order-list").innerHTML = "<p>최근 주문 내역이 없습니다.</p>";
             return;

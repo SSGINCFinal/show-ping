@@ -160,14 +160,16 @@ document.getElementById("checkout-btn").addEventListener("click", function (even
 
     checkboxes.forEach(checkbox => {
         const row = checkbox.closest("tr");
+        const productNo = row.querySelector(".quantity-input").getAttribute("data-product-no"); // ✅ productNo 가져오기
         const productName = row.querySelector(".product-order").textContent.trim();
         const productPrice = parseInt(row.querySelector(".product-price").getAttribute("data-price"));
         const quantity = parseInt(row.querySelector(".quantity-input").value);
 
         selectedItems.push({
+            productNo: parseInt(productNo),
             name: productName,
             quantity: quantity,
-            totalPrice: productPrice
+            totalPrice: productPrice,
         });
     });
 
@@ -176,7 +178,7 @@ document.getElementById("checkout-btn").addEventListener("click", function (even
         return;
     }
 
-    console.log("선택된 상품:", selectedItems);
+    console.log("선택된 상품:", selectedItems); // ✅ 콘솔에서 productNo 포함 여부 확인
     sessionStorage.setItem("selectedItems", JSON.stringify(selectedItems));
 
     window.location.href = "/payment";

@@ -1,10 +1,10 @@
 package com.ssginc.showping.dto.response;
 
 import com.ssginc.showping.entity.Orders;
-import lombok.Getter;
+import lombok.Data;
 import java.time.LocalDateTime;
 
-@Getter
+@Data
 public class OrdersDto {
     private Long ordersNo;
     private String ordersStatus;
