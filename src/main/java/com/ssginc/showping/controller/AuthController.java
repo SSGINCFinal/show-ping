@@ -35,15 +35,23 @@ public class AuthController {
      */
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletResponse response) {
-        // 현재 인증된 사용자 정보 가져오기
+        System.out.println("📢 로그아웃 요청 도착!");
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null && authentication.isAuthenticated()) {
-            String username = authentication.getName();
-            refreshTokenService.deleteRefreshToken(username); // ✅ Refresh Token 삭제
-            memberService.logout(username, response); // ✅ username과 response 함께 전달
+            String refreshToken = authentication.getName();
+            System.out.println("📢 로그아웃 처리 중: " + refreshToken);
+
+            refreshTokenService.deleteRefreshToken(refreshToken); // ✅ Redis에서 Refresh Token 삭제
+            memberService.logout(refreshToken, response); // ✅ Access Token 삭제 (쿠키 삭제)
+
+            System.out.println("✅ 로그아웃 완료!");
+        } else {
+            System.out.println("🚨 로그아웃 실패: 인증된 사용자 없음");
         }
 
+        // ✅ 200 OK 응답 반환 (리다이렉트 없음)
         return ResponseEntity.ok(Map.of("message", "로그아웃 성공"));
     }
 

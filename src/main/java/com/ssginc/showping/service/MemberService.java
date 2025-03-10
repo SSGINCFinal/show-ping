@@ -75,7 +75,7 @@ public class MemberService {
 
         refreshTokenService.saveRefreshToken(memberId, refreshToken);
 
-        // ✅ JSON 응답으로 Access Token 반환
+        // JSON 응답으로 Access Token 반환
         return ResponseEntity.ok(Map.of(
                 "accessToken", accessToken,
                 "refreshToken", refreshToken
@@ -125,14 +125,11 @@ public class MemberService {
     }
 
 
-    /**
-     * ✅ 로그아웃 처리 메서드
-     */
     public void logout(String username, HttpServletResponse response) {
-        // ✅ Refresh Token 삭제 (이미 AuthController에서 처리 가능)
+        // Refresh Token 삭제
         refreshTokenService.deleteRefreshToken(username);
 
-        // ✅ JWT Access Token 삭제 (쿠키 제거)
+        // JWT Access Token 삭제 (쿠키 제거)
         response.setHeader("Set-Cookie", "accessToken=; HttpOnly; Secure; Path=/; Max-Age=0");
         response.setHeader("Set-Cookie", "refreshToken=; HttpOnly; Secure; Path=/; Max-Age=0");
 

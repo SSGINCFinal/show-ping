@@ -27,8 +27,10 @@ public class RefreshTokenService {
     }
 
     // ✅ Refresh Token 삭제 (로그아웃 시 사용)
-    public void deleteRefreshToken(String username) {
-        redisTemplate.delete("refreshToken:" + username);
+    public void deleteRefreshToken(String refreshToken) {
+        System.out.println("🗑️ Redis에서 Refresh Token 삭제 요청: " + refreshToken);
+        redisTemplate.delete("refreshToken:user");
+        System.out.println("✅ Redis에서 Refresh Token 삭제 완료!");
     }
 
     public String checkRefreshToken(String username) {

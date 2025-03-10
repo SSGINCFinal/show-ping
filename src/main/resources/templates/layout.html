@@ -41,26 +41,36 @@
                 if (loginButton) loginButton.style.display = "block";
             }
 
-            // ✅ 로그아웃 기능
             if (logoutButton) {
+                console.log("로그아웃 버튼이 제대로 선택됨")
                 logoutButton.addEventListener("click", function (event) {
-                    event.preventDefault(); // 기본 동작 방지
+                    event.preventDefault(); // 기본 링크 동작 방지
 
-                    fetch("/api/auth/logout", {
+                    console.log("🚀 로그아웃 버튼 클릭됨 API 요청 실행");
+
+                    fetch("/api/auth/logout", {  // ✅ 올바른 URL
                         method: "POST",
                         headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`,
                             "Content-Type": "application/json"
                         },
-                        credentials: "include" // 쿠키 포함
+                        credentials: "include" // 쿠키를 포함하여 요청
                     })
-                        .then(() => {
-                            sessionStorage.removeItem("accessToken"); // ✅ 토큰 삭제
-                            sessionStorage.removeItem("refreshToken");
-                            alert("로그아웃 완료!");
-                            window.location.href = "/login"; // ✅ 로그인 페이지로 이동
+                        .then(response => {
+                            console.log("✅ 로그아웃 요청 완료, 응답 상태 코드:", response.status);
+                            if (response.ok) {
+                                sessionStorage.removeItem("accessToken"); // ✅ Access Token 삭제
+                                sessionStorage.removeItem("refreshToken"); // ✅ Refresh Token 삭제
+                                console.log("✅ 세션 토큰 삭제 완료");
+                                window.location.href = "/login"; // ✅ 로그인 페이지로 이동
+                            } else {
+                                console.error("🚨 로그아웃 실패: ", response.statusText);
+                            }
                         })
                         .catch(error => console.error("🚨 로그아웃 오류:", error));
                 });
+            }else {
+                console.log("로그아웃 버튼을 찾을 수 없음")
             }
         });
     </script>
