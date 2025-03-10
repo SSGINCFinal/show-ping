@@ -1,12 +1,66 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>공통 레이아웃</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <script defer src="/js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const accessToken = sessionStorage.getItem("accessToken"); // ✅ Access Token 가져오기
+            const userMenu = document.getElementById("user-menu");
+            const loginButton = document.getElementById("login-button");
+            const logoutButton = document.querySelector(".logout-button");
+
+            if (accessToken) {
+                // ✅ 로그인 상태: 사용자 정보 요청하여 표시
+                fetch("/api/auth/user-info", {
+                    method: "GET",
+                    headers: { Authorization: `Bearer ${accessToken}` }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.username) {
+                            document.getElementById("user-greeting").innerText = `환영합니다, ${data.username}님`;
+                            userMenu.style.display = "block";
+                            loginButton.style.display = "none";
+                        }
+                    })
+                    .catch(error => {
+                        console.log("로그인 정보 불러오기 실패:", error);
+                        sessionStorage.removeItem("accessToken"); // 로그인 실패 시 토큰 삭제
+                        userMenu.style.display = "none";
+                        loginButton.style.display = "block";
+                    });
+            } else {
+                // ✅ 비로그인 상태
+                userMenu.style.display = "none";
+                loginButton.style.display = "block";
+            }
+            if (logoutButton) {
+                logoutButton.addEventListener("click", function (event) {
+                    event.preventDefault(); // 기본 링크 동작 방지
+
+                    fetch("/logout", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        credentials: "include" // 쿠키를 포함하여 요청
+                    })
+                        .then(() => {
+                            sessionStorage.removeItem("accessToken"); // 토큰 삭제
+                            sessionStorage.removeItem("refreshToken");
+                            window.location.href = "/login"; // 로그인 페이지로 이동
+                        })
+                        .catch(error => console.error("🚨 로그아웃 오류:", error));
+                });
+            }
+        });
+
+    </script>
 </head>
 <body>
 <!-- 공통 헤더 -->
@@ -47,28 +101,22 @@
 
         <!-- 검색 및 사용자 메뉴 -->
         <div class="navbar-right">
-<!--            <div class="search-bar">-->
-<!--                <form action="#" method="GET">-->
-<!--                    <input type="text" name="search">-->
-<!--                    <button type="submit">-->
-<!--                        <img src="/img/search.png" style="height: 20px">-->
-<!--                    </button>-->
-<!--                </form>-->
-<!--            </div>-->
             <div class="cart-bar">
                 <a href="/cart">
                     <img src="/img/cart.png" style="height: 20px">
                 </a>
             </div>
 
-            <!-- 로그인 상태에 따른 버튼 변경 -->
-            <div class="user-menu" th:if="${#authorization.expression('isAuthenticated()')}">
-                <span th:text="'환영합니다, ' + ${#authentication.name} + '님'"></span>
-                <form id="logoutForm" action="/logout" method="post" style="display: inline;">
-                    <button type="submit" class="logout-button">로그아웃</button>
-                </form>
+            <!-- ✅ 로그인 상태 (Spring Security 사용) -->
+            <div sec:authorize="isAuthenticated()">
+                <span>환영합니다, <span sec:authentication="name"></span>님</span>
+                <a href="/logout" class="logout-button">로그아웃</a>
             </div>
-            <a href="/login" class="login-button" th:unless="${#authorization.expression('isAuthenticated()')}">로그인</a>
+
+            <!-- ✅ 비로그인 상태 -->
+            <div sec:authorize="isAnonymous()">
+                <a href="/login" class="login-button">로그인</a>
+            </div>
         </div>
     </div>
 </header>

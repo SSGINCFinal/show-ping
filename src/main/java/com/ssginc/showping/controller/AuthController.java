@@ -1,53 +1,78 @@
 package com.ssginc.showping.controller;
 
 import com.ssginc.showping.entity.Member;
-import com.ssginc.showping.jwt.JwtUtil;
-import com.ssginc.showping.service.MemberDetailsServiceImpl;
 import com.ssginc.showping.service.MemberService;
-import jakarta.servlet.http.Cookie;
+import com.ssginc.showping.service.RefreshTokenService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@Controller
+@RestController  // ✅ JSON 응답을 반환하도록 변경
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
     private final MemberService memberService;
 
-    @PostMapping("/login")
-    public String login(Member member, HttpServletResponse response, Model model) {
-        boolean loginSuccess = memberService.login(member, response);
+    private final RefreshTokenService refreshTokenService;
 
-        if (!loginSuccess) {
-            model.addAttribute("message", "아이디 또는 비밀번호가 올바르지 않습니다.");
-            return "login/login";  // 로그인 페이지로 다시 이동
+    /**
+     * ✅ 로그인 처리 (Access Token & Refresh Token 반환)
+     */
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Member member, HttpServletResponse response) {
+        return memberService.login(member, response);
+    }
+
+    /**
+     * ✅ 로그아웃 처리 (Access Token 삭제, Refresh Token 삭제)
+     */
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+        // 현재 인증된 사용자 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            String username = authentication.getName();
+            refreshTokenService.deleteRefreshToken(username); // ✅ Refresh Token 삭제
+            memberService.logout(username, response); // ✅ username과 response 함께 전달
         }
 
-        return "redirect:/";  // 로그인 성공 시 홈으로 이동
+        return ResponseEntity.ok(Map.of("message", "로그아웃 성공"));
     }
 
-    @PostMapping("/logout")
-    public String logout(HttpServletResponse response) {
-        memberService.logout(response); // ✅ 서비스에서 로그아웃 처리
-        return "redirect:/";  // 홈페이지로 이동
+    /**
+     * ✅ 현재 로그인한 사용자 정보 조회
+     */
+    @GetMapping("/user-info")
+    public ResponseEntity<Map<String, Object>> getUserInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).body(Map.of("message", "인증되지 않은 사용자"));
+        }
+
+        // 사용자 정보 반환
+        return ResponseEntity.ok(Map.of(
+                "message", "사용자 정보 요청 성공",
+                "username", authentication.getName(),
+                "authorities", authentication.getAuthorities()
+        ));
     }
 
-    @GetMapping("/user-info3")
-    @ResponseBody
-    public Map<String, String> getUserInfo(Authentication authentication) {
-        return memberService.getUserInfo(authentication); // ✅ 서비스에서 사용자 정보 조회
+    @GetMapping("/refresh-token-check")
+    public ResponseEntity<?> checkRefreshToken(@RequestParam String username) {
+        String token = refreshTokenService.checkRefreshToken(username);
+        if (token != null) {
+            return ResponseEntity.ok(Map.of("refreshToken", token));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "저장된 Refresh Token 없음"));
+        }
     }
-
 }
-
