@@ -1,19 +1,18 @@
 package com.ssginc.showping.jwt;
 
-import io.jsonwebtoken.ExpiredJwtException;
+import com.ssginc.showping.jwt.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -52,13 +51,16 @@ public class JwtFilter extends OncePerRequestFilter {
                 String username = jwtUtil.getUsernameFromToken(token);
                 String role = jwtUtil.getRoleFromToken(token);
 
+                // ✅ UserDetails 생성
                 UserDetails userDetails = new User(username, "", List.of(new SimpleGrantedAuthority(role)));
-                SecurityContextHolder.getContext().setAuthentication(
-                        new UsernamePasswordAuthenticationFilter().attemptAuthentication(request, response)
-                );
+
+                // ✅ Spring Security에 인증 객체 등록 (기존 오류 수정)
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        } catch (ExpiredJwtException e) {
-            System.out.println("❌ Access Token 만료됨");
+        } catch (Exception e) {
+            System.out.println("❌ JWT 검증 실패: " + e.getMessage());
         }
 
         chain.doFilter(request, response);

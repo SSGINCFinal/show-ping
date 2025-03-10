@@ -51,19 +51,15 @@ public class AuthController {
      * ✅ 현재 로그인한 사용자 정보 조회
      */
     @GetMapping("/user-info")
-    public ResponseEntity<Map<String, Object>> getUserInfo() {
+    public ResponseEntity<Map<String, String>> getUserInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null || !authentication.isAuthenticated()) {
-            return ResponseEntity.status(401).body(Map.of("message", "인증되지 않은 사용자"));
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+            return ResponseEntity.status(401).body(Map.of("message", "인증되지 않은 사용자입니다."));
         }
 
-        // 사용자 정보 반환
-        return ResponseEntity.ok(Map.of(
-                "message", "사용자 정보 요청 성공",
-                "username", authentication.getName(),
-                "authorities", authentication.getAuthorities()
-        ));
+        String username = authentication.getName();
+        return ResponseEntity.ok(Map.of("username", username));
     }
 
     @GetMapping("/refresh-token-check")

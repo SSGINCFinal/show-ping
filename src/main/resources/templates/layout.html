@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
     <title>공통 레이아웃</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <script defer src="/js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const accessToken = sessionStorage.getItem("accessToken"); // ✅ Access Token 가져오기
@@ -24,42 +25,44 @@
                     .then(data => {
                         if (data.username) {
                             document.getElementById("user-greeting").innerText = `환영합니다, ${data.username}님`;
-                            userMenu.style.display = "block";
-                            loginButton.style.display = "none";
+                            if (userMenu) userMenu.style.display = "block";
+                            if (loginButton) loginButton.style.display = "none";
                         }
                     })
                     .catch(error => {
-                        console.log("로그인 정보 불러오기 실패:", error);
+                        console.log("❌ 로그인 정보 불러오기 실패:", error);
                         sessionStorage.removeItem("accessToken"); // 로그인 실패 시 토큰 삭제
-                        userMenu.style.display = "none";
-                        loginButton.style.display = "block";
+                        if (userMenu) userMenu.style.display = "none";
+                        if (loginButton) loginButton.style.display = "block";
                     });
             } else {
                 // ✅ 비로그인 상태
-                userMenu.style.display = "none";
-                loginButton.style.display = "block";
+                if (userMenu) userMenu.style.display = "none";
+                if (loginButton) loginButton.style.display = "block";
             }
+
+            // ✅ 로그아웃 기능
             if (logoutButton) {
                 logoutButton.addEventListener("click", function (event) {
-                    event.preventDefault(); // 기본 링크 동작 방지
+                    event.preventDefault(); // 기본 동작 방지
 
-                    fetch("/logout", {
+                    fetch("/api/auth/logout", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
                         },
-                        credentials: "include" // 쿠키를 포함하여 요청
+                        credentials: "include" // 쿠키 포함
                     })
                         .then(() => {
-                            sessionStorage.removeItem("accessToken"); // 토큰 삭제
+                            sessionStorage.removeItem("accessToken"); // ✅ 토큰 삭제
                             sessionStorage.removeItem("refreshToken");
-                            window.location.href = "/login"; // 로그인 페이지로 이동
+                            alert("로그아웃 완료!");
+                            window.location.href = "/login"; // ✅ 로그인 페이지로 이동
                         })
                         .catch(error => console.error("🚨 로그아웃 오류:", error));
                 });
             }
         });
-
     </script>
 </head>
 <body>
@@ -81,8 +84,7 @@
                         <li class="menu-item dropdown">
                             <ul class="dropdown-menu">
                                 <!-- 카테고리 리스트 동적 추가 -->
-                                <li>
-                                </li>
+                                <li></li>
                             </ul>
                         </li>
                     </ul>
@@ -107,23 +109,21 @@
                 </a>
             </div>
 
-            <!-- ✅ 로그인 상태 (Spring Security 사용) -->
-            <div sec:authorize="isAuthenticated()">
-                <span>환영합니다, <span sec:authentication="name"></span>님</span>
-                <a href="/logout" class="logout-button">로그아웃</a>
+            <!-- ✅ 로그인 상태 -->
+            <div id="user-menu" class="user-menu" style="display: none;">
+                <span id="user-greeting"></span>
+                <button class="logout-button">로그아웃</button>
             </div>
 
             <!-- ✅ 비로그인 상태 -->
-            <div sec:authorize="isAnonymous()">
-                <a href="/login" class="login-button">로그인</a>
-            </div>
+            <a href="/login" id="login-button" class="login-button">로그인</a>
         </div>
     </div>
 </header>
+
 <!-- 페이지 내용 -->
 <div class="main-content">
-    <main layout:fragment="content">
-    </main>
+    <main layout:fragment="content"></main>
 </div>
 
 <button id="scrollToTop" class="scroll-to-top">▲</button>
