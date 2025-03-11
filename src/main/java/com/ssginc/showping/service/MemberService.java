@@ -17,6 +17,7 @@ import org.springframework.security.authentication.AuthenticationTrustResolverIm
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -55,6 +56,10 @@ public class MemberService {
             System.out.println("❌ 로그인 실패: 잘못된 ID 또는 비밀번호");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "아이디 또는 비밀번호가 올바르지 않습니다."));
         }
+
+        // ✅ SecurityContext에 사용자 정보 저장 (중요)
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        System.out.println("✅ SecurityContext에 사용자 설정 완료: " + authentication.getName());
 
         // 사용자 정보 조회
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();

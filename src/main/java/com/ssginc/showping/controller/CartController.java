@@ -53,6 +53,8 @@ public class CartController {
 
     @GetMapping("/info")
     public ResponseEntity<?> getMemberInfo(@AuthenticationPrincipal UserDetails userDetails) {
+        System.out.println("============================");
+        System.out.println(userDetails.getUsername());
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }

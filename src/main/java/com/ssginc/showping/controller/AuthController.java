@@ -30,30 +30,31 @@ public class AuthController {
         return memberService.login(member, response);
     }
 
-    /**
-     * ✅ 로그아웃 처리 (Access Token 삭제, Refresh Token 삭제)
-     */
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletResponse response) {
         System.out.println("📢 로그아웃 요청 도착!");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("🔍 현재 SecurityContext 상태: " + authentication);
 
-        if (authentication != null && authentication.isAuthenticated()) {
-            String refreshToken = authentication.getName();
-            System.out.println("📢 로그아웃 처리 중: " + refreshToken);
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication.getPrincipal() instanceof String && authentication.getPrincipal().equals("anonymousUser"))) {
 
-            refreshTokenService.deleteRefreshToken(refreshToken); // ✅ Redis에서 Refresh Token 삭제
-            memberService.logout(refreshToken, response); // ✅ Access Token 삭제 (쿠키 삭제)
+            String username = authentication.getName(); // ✅ username 가져오기
+            System.out.println("📢 로그아웃 처리 중: " + username);
+
+            refreshTokenService.deleteRefreshToken(username); // ✅ Redis에서 Refresh Token 삭제
+            memberService.logout(username, response); // ✅ Access Token 삭제 (쿠키 삭제)
+            SecurityContextHolder.clearContext();
 
             System.out.println("✅ 로그아웃 완료!");
         } else {
             System.out.println("🚨 로그아웃 실패: 인증된 사용자 없음");
         }
 
-        // ✅ 200 OK 응답 반환 (리다이렉트 없음)
         return ResponseEntity.ok(Map.of("message", "로그아웃 성공"));
     }
+
 
     /**
      * ✅ 현재 로그인한 사용자 정보 조회
