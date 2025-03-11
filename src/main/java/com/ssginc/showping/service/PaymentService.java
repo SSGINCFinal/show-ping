@@ -1,10 +1,5 @@
 package com.ssginc.showping.service;
 
-import com.ssginc.showping.entity.Orders;
-import com.ssginc.showping.entity.Payment;
-import com.ssginc.showping.entity.PaymentMethod;
-import com.ssginc.showping.service.PortOneService;
-import jakarta.transaction.Transactional;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -43,24 +38,4 @@ public class PaymentService {
         }
         throw new IllegalStateException("결제 검증 실패");
     }
-
-//    @Transactional
-//    public Payment savePayment(Map<String, Object> paymentData) {
-//        Orders order = new Orders();
-//        order.setOrdersStatus(OrderStatus.PAID);
-//        order.setOrdersTotalPrice((Long) paymentData.get("amount"));
-//        order.setOrdersDate(LocalDateTime.now());
-//
-//        Payment payment = new Payment();
-//        payment.setOrder(order);
-//        payment.setPaymentAmount((Long) paymentData.get("amount"));
-//        payment.setPaymentStatus(PaymentStatus.SUCCESS);
-//        payment.setPaymentMethod(PaymentMethod.valueOf((String) paymentData.get("pay_method")));
-//        payment.setPaymentPgProvider((String) paymentData.get("pg_provider"));
-//        payment.setPaymentPgTid((String) paymentData.get("pg_tid"));
-//        payment.setPaymentCreateAt(LocalDateTime.now());
-//
-//        ordersRepository.save(order);
-//        return paymentRepository.save(payment);
-//    }
 }

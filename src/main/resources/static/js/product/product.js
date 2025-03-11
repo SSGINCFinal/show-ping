@@ -80,7 +80,7 @@ function loadProductDetail(productNo) {
 
                 <!-- 상품 상세 설명 이미지 추가 -->
                 <div class="promotion-banner">
-                    <img src="/img/product_detail_img/${product.productDescript}" alt="상품 상세 설명 이미지" />
+                    <img src="/img/product_img/${product.productDescript}" alt="상품 상세 설명 이미지" />
                 </div>
                 
             `;
@@ -177,7 +177,7 @@ function setupEventListeners(productNo) {
     addToCartBtn.addEventListener("click", async function () {
         try {
             const response = await axios.get("/api/carts/info");
-
+            console.log(response)
             const memberNo = response.data.memberNo;
 
             // 로그인 여부 확인
