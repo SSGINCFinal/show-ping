@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     axios.get("/api/carts/info")
         .then(response => {
             memberNo = response.data.memberNo;
+            console.log(memberNo)
             loadCartItems(memberNo);
         })
         .catch(error => {

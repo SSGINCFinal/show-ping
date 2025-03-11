@@ -16,6 +16,8 @@ public class RefreshTokenService {
 
     // ✅ Refresh Token 저장
     public void saveRefreshToken(String username, String refreshToken) {
+
+        System.out.println("refreshToken 저장 단계 : \"" + username +"\"");
         ValueOperations<String, String> valueOps = redisTemplate.opsForValue();
         valueOps.set("refreshToken:" + username, refreshToken, REFRESH_TOKEN_EXPIRATION, TimeUnit.MILLISECONDS);
     }
@@ -27,9 +29,9 @@ public class RefreshTokenService {
     }
 
     // ✅ Refresh Token 삭제 (로그아웃 시 사용)
-    public void deleteRefreshToken(String refreshToken) {
-        System.out.println("🗑️ Redis에서 Refresh Token 삭제 요청: " + refreshToken);
-        redisTemplate.delete("refreshToken:user");
+    public void deleteRefreshToken(String username) {
+        System.out.println("🗑️ Redis에서 Refresh Token 삭제 요청: " + username);
+        redisTemplate.delete("refreshToken:" + username);
         System.out.println("✅ Redis에서 Refresh Token 삭제 완료!");
     }
 

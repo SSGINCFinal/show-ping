@@ -31,7 +31,7 @@ public class JwtFilter extends OncePerRequestFilter {
         // ✅ 인증이 필요 없는 경로 (예외 처리)
         if (requestURI.equals("/") || requestURI.startsWith("/css/") || requestURI.startsWith("/js/") ||
                 requestURI.startsWith("/images/") || requestURI.startsWith("/assets/") ||
-                requestURI.equals("/api/auth/login") || requestURI.equals("/api/auth/logout") ||
+                requestURI.equals("/api/auth/login") ||
                 requestURI.equals("/login/signup") || requestURI.equals("/api/register")) {
             chain.doFilter(request, response);
             return;
@@ -58,6 +58,8 @@ public class JwtFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                System.out.println("✅ SecurityContext에 사용자 설정 완료: " + username);
             }
         } catch (Exception e) {
             System.out.println("❌ JWT 검증 실패: " + e.getMessage());
