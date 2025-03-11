@@ -45,6 +45,7 @@ public class AuthController {
 
             refreshTokenService.deleteRefreshToken(username); // ✅ Redis에서 Refresh Token 삭제
             memberService.logout(username, response); // ✅ Access Token 삭제 (쿠키 삭제)
+            SecurityContextHolder.clearContext();
 
             System.out.println("✅ 로그아웃 완료!");
         } else {
