@@ -8,7 +8,7 @@
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    background-color: #E7F1F9;
+    /*background-color: #E7F1F9;*/
 }
 
 main {
@@ -16,11 +16,11 @@ main {
 }
 
 .main-content {
-    width: 1300px;
-    min-height: 1000px;
+    max-width: 1300px;
+    min-height: 600px;
     margin: auto;
     background-color: white;
-    border: 1px solid gainsboro;
+    /*border: 1px solid gainsboro;*/
 }
 
 /* 네비게이션 바 스타일 */
@@ -28,6 +28,7 @@ main {
     color: black;
     position: sticky;
     top: 0;
+    border-bottom: 1px gainsboro;
 }
 
 .navbar-container {
@@ -36,7 +37,7 @@ main {
     align-items: center;
     max-width: 1300px;
     margin: auto;
-    border: 1px solid gainsboro;
+    /*border: 1px solid gainsboro;*/
     background-color: white;
 }
 
