@@ -1,47 +1,42 @@
-let currentPage = 0;
-const itemsPerPage = 8;
-let allProducts = [];
+let currentPage = 0; // 현재 페이지 번호
+const itemsPerPage = 8; // 한 번에 로드할 상품 개수
+const categoryNo = window.location.pathname.split('/').pop(); // URL에서 categoryNo 추출
 
 document.addEventListener("DOMContentLoaded", function () {
-    const categoryNo = window.location.pathname.split('/').pop(); // URL에서 categoryNo 추출
-    loadProducts(categoryNo);
+    loadProducts();
 });
 
-function loadProducts(categoryNo) {
-    axios.get(`/api/products/${categoryNo}`)
+function loadProducts() {
+    axios.get(`/api/products/${categoryNo}?page=${currentPage}&size=${itemsPerPage}`)
         .then(response => {
-            allProducts = response.data;
-            currentPage = 0;
-            renderProducts();
+            const products = response.data.content; // Page 객체의 content 값 (상품 리스트)
+            renderProducts(products);
+            currentPage++;
+
+            // 모든 상품이 로드되었으면 '더보기' 버튼 숨김
+            if (response.data.last) {
+                document.getElementById('load-more').style.display = 'none';
+            } else {
+                document.getElementById('load-more').style.display = 'block';
+            }
         })
         .catch(error => {
             console.error("상품 목록을 불러오는 중 오류 발생:", error);
         });
 }
 
-function renderProducts() {
+function renderProducts(products) {
     const productGrid = document.getElementById('product-grid');
-    const loadMoreBtn = document.getElementById('load-more');
 
-    // 처음 로드 시 기존 내용 초기화
-    if (currentPage === 0) {
-        productGrid.innerHTML = '';
-    }
-
-    // 현재 페이지에서 보여줄 상품 범위 설정
-    const startIndex = currentPage * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const productsToShow = allProducts.slice(startIndex, endIndex);
-
-    productsToShow.forEach(product => {
+    products.forEach(product => {
         const productDiv = document.createElement('div');
         productDiv.classList.add('product-item');
         const formattedPrice = product.productPrice.toLocaleString('ko-KR');
 
         productDiv.innerHTML = `
             <img src="/img/product_img/${product.productImg}" alt="${product.productName}" />
-            <p id="product-name">${product.productName}</p>
-            <p id="product-price">${formattedPrice}원</p>
+            <p class="product-name">${product.productName}</p>
+            <p class="product-price">${formattedPrice}원</p>
         `;
 
         productDiv.addEventListener('click', () => {
@@ -50,22 +45,12 @@ function renderProducts() {
 
         productGrid.appendChild(productDiv);
     });
-
-    currentPage++;
-
-    // 모든 상품을 표시하면 '더보기' 버튼 숨김
-    if (endIndex >= allProducts.length) {
-        loadMoreBtn.style.display = 'none';
-    } else {
-        loadMoreBtn.style.display = 'block';
-    }
 }
 
-// "더보기" 버튼 이벤트 리스너 설정
-document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('load-more').addEventListener('click', renderProducts);
-});
+// "더보기" 버튼 클릭 시 추가 상품 요청
+document.getElementById('load-more').addEventListener('click', loadProducts);
 
+// 상품 클릭 시 상품 상세정보 페이지로 이동
 document.addEventListener("DOMContentLoaded", function () {
     const productNo = window.location.pathname.split('/').pop(); // URL에서 productNo 추출
     loadProductDetail(productNo);
