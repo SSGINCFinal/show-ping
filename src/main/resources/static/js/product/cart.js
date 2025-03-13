@@ -5,8 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     axios.get("/api/carts/info")
         .then(response => {
             member = response.data;
-            memberNo = member.productNo;
-            console.log(memberNo)
+            memberNo = member.memberNo;
             loadCartItems(memberNo);
         })
         .catch(error => {
@@ -111,7 +110,6 @@ function setupEventListeners() {
     document.querySelectorAll(".quantity-input").forEach(input => {
         input.addEventListener("input", function () {
             if (this.value < 1) this.value = 1; // 최소값 유지
-            if (this.value > product.quantity) this.value = product.quantity;
             if (this.value > 50) this.value = 50; //최댓값 유지
 
             const row = this.closest("tr");
