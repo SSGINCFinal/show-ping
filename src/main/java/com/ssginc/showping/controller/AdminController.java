@@ -40,37 +40,45 @@ public class AdminController {
     }
 
     /**
-     * ✅ (1) 로그인 처리 (관리자인 경우 2FA 진행)
+     * ✅ (1) 로그인 처리 (관리자는 2FA 진행)
      */
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> request) {
-        String adminId = request.get("adminId");
+        String memberId = request.get("adminId");
         String password = request.get("password");
 
-        if (adminId == null || password == null) {
+        if (memberId == null || password == null) {
             return ResponseEntity.status(400).body(Map.of("status", "BAD_REQUEST", "message", "Missing required parameters"));
         }
 
-        boolean isPasswordValid = memberService.verifyPassword(adminId, password);
+        boolean isPasswordValid = memberService.verifyPassword(memberId, password);
 
-        if (isPasswordValid) {
-            // ✅ 관리자 로그인 처리
-            String accessToken = jwtUtil.generateAccessToken(adminId, "ROLE_ADMIN");
-            String refreshToken = jwtUtil.generateRefreshToken(adminId);
-
-            refreshTokenService.saveRefreshToken(adminId, refreshToken);
-
-            System.out.println("🚀 [1차 로그인] 생성된 Access Token: " + accessToken);
-            System.out.println("생성된 Refresh Token: " + refreshToken);
-
-            return ResponseEntity.ok(Map.of(
-                    "status", "2FA_REQUIRED",
-                    "accessToken", accessToken,
-                    "refreshToken", refreshToken
-            ));
-        } else {
+        if (!isPasswordValid) {
             return ResponseEntity.status(401).body(Map.of("status", "LOGIN_FAILED"));
         }
+
+        Member member = memberService.findMemberById(memberId);
+
+        // ✅ Access Token 및 Refresh Token 생성
+        String accessToken = jwtUtil.generateAccessToken(memberId, member.getMemberRole().name());
+        String refreshToken = jwtUtil.generateRefreshToken(memberId);
+        refreshTokenService.saveRefreshToken(memberId, refreshToken);
+
+        // ✅ 관리자일 경우 2FA 필요
+        if ("ROLE_ADMIN".equals(member.getMemberRole().name())) {
+            return ResponseEntity.ok(Map.of(
+                    "status", "2FA_REQUIRED",
+                    "accessToken", accessToken,  // ✅ 2차 인증 시 사용
+                    "refreshToken", refreshToken // ✅ 2차 인증 시 사용
+            ));
+        }
+
+        // ✅ 일반 사용자는 2차 인증 없이 로그인 성공 처리
+        return ResponseEntity.ok(Map.of(
+                "status", "LOGIN_SUCCESS",
+                "accessToken", accessToken,
+                "refreshToken", refreshToken
+        ));
     }
     /**
      * ✅ (2) 2FA TOTP 입력 후 인증 (MemberService의 verifyTOTP 사용)
