@@ -22,7 +22,7 @@
                    onfocus="this.removeAttribute('readonly');">
             <input type="password" name="memberPassword" id="memberPassword" placeholder="Password" required autocomplete="off" readonly
                    onfocus="this.removeAttribute('readonly');">
-            <button type="button" onclick="login()">로그인</button> <!-- ✅ 로그인 버튼 클릭 시 login() 호출 -->
+            <button type="button" onclick="login(event)">로그인</button> <!-- ✅ 로그인 버튼 클릭 시 login() 호출 -->
         </form>
     </div>
 
@@ -31,7 +31,7 @@
         <h2>2단계 인증</h2>
         <p>Google Authenticator 앱에서 생성된 6자리 코드를 입력하세요.</p>
         <input type="text" id="totpCode" placeholder="6자리 코드 입력" required>
-        <button type="button" onclick="verifyTOTP()">인증</button> <!-- ✅ TOTP 버튼 클릭 시 verifyTOTP() 호출 -->
+        <button type="button" onclick="verifyTOTP(event)">인증</button> <!-- ✅ TOTP 버튼 클릭 시 verifyTOTP() 호출 -->
     </div>
 
     <div class="social-login">

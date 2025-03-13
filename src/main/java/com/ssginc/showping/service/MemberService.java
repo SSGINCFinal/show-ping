@@ -5,6 +5,7 @@ import com.ssginc.showping.entity.Member;
 import com.ssginc.showping.entity.MemberRole;
 import com.ssginc.showping.jwt.JwtUtil;
 import com.ssginc.showping.repository.MemberRepository;
+import com.warrenstrange.googleauth.GoogleAuthenticator;
 import com.warrenstrange.googleauth.IGoogleAuthenticator;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,6 +39,7 @@ public class MemberService {
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
     private final RefreshTokenService refreshTokenService;
+    private final GoogleAuthenticator googleAuthenticator;
 
     /**
      * ✅ 로그인 처리 메서드 (컨트롤러에서 호출)
@@ -72,7 +74,28 @@ public class MemberService {
         // 역할(Role) 가져오기
         String role = userDetails.getAuthorities().isEmpty() ? "ROLE_USER" : userDetails.getAuthorities().iterator().next().getAuthority();
 
-        // ✅ JWT 토큰 생성
+        // ✅ 관리자(`ROLE_ADMIN`)이면 2차 인증 필요
+        if ("ROLE_ADMIN".equals(role)) {
+            System.out.println("🔹 관리자 계정 로그인 → 2FA 필요");
+
+            // ✅ JWT 발급 (이 단계에서는 2FA 미완료 상태)
+            String accessToken = jwtUtil.generateAccessToken(userDetails.getUsername(), role);
+            String refreshToken = jwtUtil.generateRefreshToken(userDetails.getUsername());
+            refreshTokenService.saveRefreshToken(memberId, refreshToken);
+
+            System.out.println("✅ 생성된 JWT Access Token: " + accessToken);
+            System.out.println("✅ 생성된 JWT Refresh Token: " + refreshToken);
+
+            return ResponseEntity.ok(Map.of(
+                    "status", "2FA_REQUIRED",  // ✅ 프론트엔드에서 OTP 입력 요청
+                    "accessToken", accessToken, // ✅ 2FA 후 최종 사용
+                    "refreshToken", refreshToken // ✅ Redis 저장
+            ));
+        }
+
+        // ✅ 일반 사용자(`ROLE_USER`)는 2FA 없이 바로 로그인 성공
+        System.out.println("✅ 일반 사용자 로그인 성공!");
+
         String accessToken = jwtUtil.generateAccessToken(userDetails.getUsername(), role);
         String refreshToken = jwtUtil.generateRefreshToken(userDetails.getUsername());
 
@@ -81,8 +104,8 @@ public class MemberService {
 
         refreshTokenService.saveRefreshToken(memberId, refreshToken);
 
-        // JSON 응답으로 Access Token 반환
         return ResponseEntity.ok(Map.of(
+                "status", "LOGIN_SUCCESS",
                 "accessToken", accessToken,
                 "refreshToken", refreshToken
         ));
@@ -152,5 +175,28 @@ public class MemberService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + memberId));
     }
 
+    public ResponseEntity<Map<String, String>> verifyTOTP(String memberId, int totpCode) {
+        Member member = memberRepository.findByMemberId(memberId).orElse(null);
+
+        if (member == null) {
+            System.out.println("❌ 회원을 찾을 수 없음!");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "사용자를 찾을 수 없습니다."));
+        }
+
+        // ✅ 일반 사용자(`ROLE_USER`)는 2FA 검증 없이 바로 로그인 성공 처리
+        if (!"ROLE_ADMIN".equals(member.getMemberRole().name())) {
+            return ResponseEntity.ok(Map.of("status", "LOGIN_SUCCESS"));
+        }
+
+        // ✅ OTP 검증
+        boolean isTotpValid = googleAuthenticator.authorize(member.getOtpSecretKey(), totpCode);
+        if (isTotpValid) {
+            System.out.println("✅ 관리자 2차 인증 성공!");
+            return ResponseEntity.ok(Map.of("status", "LOGIN_SUCCESS"));
+        } else {
+            System.out.println("❌ TOTP 인증 실패!");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("status", "TOTP_FAILED"));
+        }
+    }
 
 }

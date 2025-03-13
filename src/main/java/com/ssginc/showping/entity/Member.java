@@ -103,7 +103,14 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Report> reports;
 
-    // ⭐ 기본값 설정
+    // memberId & memberPassword만 받는 생성자 추가
+    public Member(String memberId, String memberPassword) {
+        this.memberId = memberId;
+        this.memberPassword = memberPassword;
+    }
+
+
+    // 기본값 설정
     @PrePersist
     public void setDefaultValues() {
         if (this.streamKey == null || this.streamKey.isEmpty()) {
