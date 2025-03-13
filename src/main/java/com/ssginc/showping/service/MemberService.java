@@ -5,6 +5,7 @@ import com.ssginc.showping.entity.Member;
 import com.ssginc.showping.entity.MemberRole;
 import com.ssginc.showping.jwt.JwtUtil;
 import com.ssginc.showping.repository.MemberRepository;
+import com.warrenstrange.googleauth.IGoogleAuthenticator;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;

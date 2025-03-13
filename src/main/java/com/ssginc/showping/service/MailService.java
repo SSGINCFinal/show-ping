@@ -66,5 +66,13 @@ public class MailService {
         return isValid;
     }
 
+    // TOTP 인증 코드 전송
+    public void send(String to, String subject, String text) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+        mailSender.send(message);
+    }
 
 }
