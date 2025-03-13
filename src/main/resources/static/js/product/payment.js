@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             document.getElementById("name").value = response.data.memberName || "";
             document.getElementById("phone").value = response.data.memberPhone || "";
             document.getElementById("email").value = response.data.memberEmail || "";
+            document.getElementById("address").value = response.data.memberAddress || "";
         }
 
         // sessionStorage에서 선택된 상품 정보 가져오기
@@ -48,6 +49,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const name = document.getElementById("name").value.trim();
         const phone = document.getElementById("phone").value.trim();
         const email = document.getElementById("email").value.trim();
+        const address = document.getElementById("address").value.trim();
         const totalPrice = parseInt(document.getElementById("total-price").textContent.replace(" 원", "").replaceAll(",", ""), 10);
         const selectedItems = JSON.parse(sessionStorage.getItem("selectedItems")) || [];
 
@@ -91,9 +93,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                     name,
                     email,
                     phone,
+                    address,
                 },
                 customData: {
-                    userInfo: { name, phone, email },
+                    userInfo: { name, phone, email, address },
                 },
             });
 
