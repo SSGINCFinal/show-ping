@@ -103,16 +103,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 return;
             }
 
-            console.log("결제 요청 데이터:", JSON.stringify({
-                memberNo: memberNo,
-                totalPrice: totalPrice,
-                orderItems: selectedItems.map(item => ({
-                    productNo: item.productNo,
-                    quantity: item.quantity,
-                    totalPrice: item.totalPrice
-                }))
-            }));
-
             // 결제 성공 후 주문 정보 서버에 저장
             const orderResponse = await fetch("/api/orders/create", {
                 method: "POST",
