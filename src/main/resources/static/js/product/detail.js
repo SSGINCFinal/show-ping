@@ -18,7 +18,7 @@ function loadProductDetail(productNo) {
             // 상품 상세 정보를 동적으로 삽입
             productDetail.innerHTML = `
                 <div class="product-detail">
-                    <img src="/img/product_img/${product.productImg}" alt="${product.productName}" />
+                    <img src="${product.productImg}" alt="${product.productName}" />
 
                     <div class="product-info">
                         <h1>${product.productName}</h1>
@@ -43,7 +43,7 @@ function loadProductDetail(productNo) {
 
                 <!-- 상품 상세 설명 이미지 추가 -->
                 <div class="promotion-banner">
-                    <img src="/img/product_img/${product.productDescript}" alt="상품 상세 설명 이미지" />
+                    <img src="${product.productDescript}" alt="상품 상세 설명 이미지" />
                 </div>
                 
             `;

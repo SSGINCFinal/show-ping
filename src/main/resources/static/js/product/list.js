@@ -38,7 +38,7 @@ function renderProducts(products) {
         const formattedPrice = product.productPrice.toLocaleString('ko-KR');
 
         productDiv.innerHTML = `
-            <img src="/img/product_img/${product.productImg}" alt="${product.productName}" />
+            <img src="${product.productImg}" alt="${product.productName}" />
             <p class="product-name">${product.productName}</p>
             <p class="product-price">${formattedPrice}원</p>
         `;
