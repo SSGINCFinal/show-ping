@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -197,6 +198,29 @@ public class MemberService {
             System.out.println("❌ TOTP 인증 실패!");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("status", "TOTP_FAILED"));
         }
+    }
+
+    /**
+     * ✅ 사용자 비밀번호 검증 메서드
+     */
+    public boolean verifyPassword(String memberId, String password) {
+        Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
+
+        if (optionalMember.isEmpty()) {
+            System.out.println("❌ 사용자 없음: " + memberId);
+            return false;
+        }
+
+        Member member = optionalMember.get();
+        boolean isMatch = passwordEncoder.matches(password, member.getMemberPassword());
+
+        if (isMatch) {
+            System.out.println("✅ 비밀번호 일치! 로그인 가능: " + memberId);
+        } else {
+            System.out.println("❌ 비밀번호 불일치: " + memberId);
+        }
+
+        return isMatch;
     }
 
 }
