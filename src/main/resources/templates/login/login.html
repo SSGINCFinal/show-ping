@@ -4,7 +4,7 @@
 
 <head>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script defer src="/js/login.js"></script> <!-- ✅ login.js 로드 -->
+    <script defer src="/js/login/login.js"></script> <!-- ✅ login.js 로드 -->
     <link rel="stylesheet" href="/css/login/login.css">
 </head>
 <body>
@@ -14,30 +14,38 @@
         <div class="logo">S</div>
     </div>
 
-    <div class="login-form" onsubmit="login(event)">
-        <form th:action="@{/login}" method="post" autocomplete="off">
+    <div class="login-form">
+        <form id="loginForm" onsubmit="login(event)" autocomplete="off">
             <h2>ShowPing에 오신 것을 환영합니다.</h2>
-            <input type="text" name="memberId" id = "memberId" placeholder="ID" required autocomplete="off" readonly
-            onfocus="this.removeAttribute('readonly');">
+            <input type="text" name="memberId" id="memberId" placeholder="ID" required autocomplete="off" readonly
+                   onfocus="this.removeAttribute('readonly');">
             <input type="password" name="memberPassword" id="memberPassword" placeholder="Password" required autocomplete="off" readonly
-            onfocus="this.removeAttribute('readonly');">
+                   onfocus="this.removeAttribute('readonly');">
             <button type="submit">로그인</button>
         </form>
+    </div>
 
-        <div class="social-login">
-            <button class="naver-login">
-                <img src="/img/naver.png" alt="네이버 로고" class="social-icon">
-                네이버 로그인
-            </button>
-            <button class="kakao-login">
-                <img src="/img/kakao.png" alt="카카오 로고" class="social-icon">
-                카카오 로그인
-            </button>
-        </div>
+    <!-- ✅ 2FA (TOTP) 입력 폼 (초기 상태: 숨김) -->
+    <div id="totp-form" style="display: none;">
+        <h2>2단계 인증</h2>
+        <p>Google Authenticator 앱에서 생성된 6자리 코드를 입력하세요.</p>
+        <input type="text" id="totpCode" placeholder="6자리 코드 입력" required>
+        <button type="button" onclick="verifyTOTP(event)">인증</button>
+    </div>
 
-        <div class="signup-link">
-            <p>아직 회원이 아니신가요? <a href="/login/signup">회원가입</a></p>
-        </div>
+    <div class="social-login">
+        <button class="naver-login">
+            <img src="/img/naver.png" alt="네이버 로고" class="social-icon">
+            네이버 로그인
+        </button>
+        <button class="kakao-login">
+            <img src="/img/kakao.png" alt="카카오 로고" class="social-icon">
+            카카오 로그인
+        </button>
+    </div>
+
+    <div class="signup-link">
+        <p>아직 회원이 아니신가요? <a href="/login/signup">회원가입</a></p>
     </div>
 
     <!-- ✅ 메시지를 전달하는 hidden 요소 -->
