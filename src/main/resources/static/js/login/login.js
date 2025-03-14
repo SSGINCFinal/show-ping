@@ -29,7 +29,7 @@ async function login(event) {  // ✅ event 파라미터 추가
             console.log("✅ 2FA 인증이 필요합니다! TOTP 입력창을 표시합니다.");
             sessionStorage.setItem("accessToken", response.data.accessToken);
             sessionStorage.setItem("memberId", memberId); // ✅ 사용자 ID 저장 (TOTP 검증에 필요)
-            document.getElementById("login-form").style.display = "none";
+            document.querySelector(".login-form").style.display = "none";
             document.getElementById("totp-form").style.display = "block";
         } else if (response.data.status === "LOGIN_SUCCESS") {
             console.log("✅ 일반 사용자 로그인 성공!");
@@ -58,7 +58,6 @@ async function verifyTOTP(event) {
     const memberId = sessionStorage.getItem("memberId"); // ✅ 저장된 사용자 ID 가져오기
     const totpCode = document.getElementById("totpCode").value;
     const accessToken = sessionStorage.getItem("accessToken"); // ✅ 기존 Access Token 유지
-    const refreshToken = sessionStorage.getItem("refreshToken"); // ✅ 기존 Refresh Token 유지
 
     if (!memberId) {
         alert("로그인 정보가 없습니다. 다시 로그인해주세요.");
@@ -70,8 +69,7 @@ async function verifyTOTP(event) {
         const response = await axios.post("/api/admin/verify-totp", {
             adminId: memberId,
             totpCode: totpCode,
-            accessToken: accessToken, // ✅ 기존 Access Token 전달
-            refreshToken: refreshToken
+            accessToken: accessToken // ✅ 기존 Access Token 전달
         });
 
         console.log("🚀 TOTP 응답 데이터:", response.data);

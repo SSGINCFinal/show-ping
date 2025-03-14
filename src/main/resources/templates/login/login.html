@@ -14,15 +14,14 @@
         <div class="logo">S</div>
     </div>
 
-    <!-- ✅ 로그인 폼 -->
-    <div id="login-form">
-        <form id="loginForm" autocomplete="off">
+    <div class="login-form">
+        <form id="loginForm" onsubmit="login(event)" autocomplete="off">
             <h2>ShowPing에 오신 것을 환영합니다.</h2>
             <input type="text" name="memberId" id="memberId" placeholder="ID" required autocomplete="off" readonly
                    onfocus="this.removeAttribute('readonly');">
             <input type="password" name="memberPassword" id="memberPassword" placeholder="Password" required autocomplete="off" readonly
                    onfocus="this.removeAttribute('readonly');">
-            <button type="button" onclick="login(event)">로그인</button> <!-- ✅ 로그인 버튼 클릭 시 login() 호출 -->
+            <button type="submit">로그인</button>
         </form>
     </div>
 
@@ -31,7 +30,7 @@
         <h2>2단계 인증</h2>
         <p>Google Authenticator 앱에서 생성된 6자리 코드를 입력하세요.</p>
         <input type="text" id="totpCode" placeholder="6자리 코드 입력" required>
-        <button type="button" onclick="verifyTOTP(event)">인증</button> <!-- ✅ TOTP 버튼 클릭 시 verifyTOTP() 호출 -->
+        <button type="button" onclick="verifyTOTP(event)">인증</button>
     </div>
 
     <div class="social-login">
