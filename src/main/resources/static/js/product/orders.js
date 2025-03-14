@@ -1,12 +1,30 @@
+let memberNo = null;
+
 document.addEventListener("DOMContentLoaded", async function () {
+    // JWT 토큰 가져오기 (sessionStorage 사용)
+    const token = sessionStorage.getItem("accessToken");
+
+    if (!token) {
+        console.error("로그인이 필요합니다.");
+        alert("로그인이 필요합니다.");
+        window.location.href = "/login"; // 로그인 페이지로 이동
+        return; // 토큰이 없으면 함수 종료
+    }
+
     try {
-        // 사용자 정보 가져오기
-        const userResponse = await axios.get("/api/carts/info");
-        const memberNo = userResponse.data.memberNo;
+        // JWT 토큰을 Authorization 헤더에 포함시켜 API 호출
+        const response = await axios.get("/api/carts/info", {
+            headers: {
+                Authorization: `Bearer ${token}` // JWT 토큰을 Authorization 헤더에 포함
+            }
+        });
+
+        console.log("로그인된 사용자 정보:", response.data);
+
+        memberNo = response.data.memberNo; // 로그인된 사용자 정보에서 memberNo 추출
 
         if (!memberNo) {
-            alert("로그인이 필요합니다.");
-            window.location.href = "/login";
+            alert("사용자 정보가 없습니다.");
             return;
         }
 

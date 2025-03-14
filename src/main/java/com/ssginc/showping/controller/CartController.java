@@ -1,5 +1,6 @@
 package com.ssginc.showping.controller;
 
+import com.ssginc.showping.dto.object.MemberDTO;
 import com.ssginc.showping.dto.request.CartRequestDto;
 import com.ssginc.showping.dto.response.CartDto;
 import com.ssginc.showping.entity.Member;
@@ -53,8 +54,6 @@ public class CartController {
 
     @GetMapping("/info")
     public ResponseEntity<?> getMemberInfo(@AuthenticationPrincipal UserDetails userDetails) {
-        System.out.println("============================");
-        System.out.println(userDetails.getUsername());
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
@@ -63,6 +62,15 @@ public class CartController {
         Member member = memberRepository.findByMemberId(username)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
-        return ResponseEntity.ok(member);
+        // Member 엔티티에서 필요한 데이터만 추출하여 MemberDTO로 변환
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setMemberNo(member.getMemberNo());
+        memberDTO.setMemberId(member.getMemberId());
+        memberDTO.setMemberName(member.getMemberName());
+        memberDTO.setMemberEmail(member.getMemberEmail());
+        memberDTO.setMemberAddress(member.getMemberAddress());
+        memberDTO.setMemberPhone(member.getMemberPhone());
+
+        return ResponseEntity.ok(memberDTO);
     }
 }

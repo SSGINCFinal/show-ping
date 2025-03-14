@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class MemberDTO {
+    private Long memberNo;
     private String memberId;
     private String memberName;
     private String memberEmail;
