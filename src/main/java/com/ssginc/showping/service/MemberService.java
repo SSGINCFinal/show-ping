@@ -171,6 +171,10 @@ public class MemberService {
         return memberRepository.existsByMemberId(memberId);
     }
 
+    public boolean isDuplicateEmail(String memberEmail) {
+        return memberRepository.existsByMemberEmail(memberEmail);
+    }
+
     public Member findMemberById(String memberId) {
         return memberRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + memberId));
