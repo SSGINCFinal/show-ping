@@ -2,10 +2,7 @@ package com.ssginc.showping.entity;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "stream")
@@ -33,7 +31,7 @@ public class Stream {
     // 상품
     // 영상 : 상품은 1 : 1의 관계를 가진다.
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_no", referencedColumnName = "product_no")
     private Product product;
 
@@ -66,8 +64,8 @@ public class Stream {
     private List<Watch> watches;
 
     // 채팅방
-    // 영상 : 채팅방은 1 : N의 관계를 가진다.
-    @OneToMany(mappedBy = "stream", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ChatRoom> chatRooms;
+    // 영상 : 채팅방은 1 : 1의 관계를 가진다.
+    @OneToOne(mappedBy = "stream", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private ChatRoom chatRoom;
 
 }

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout.html">
+
+<head>
+    <link rel="stylesheet" th:href="@{/css/stream/stream.css}">
+    <link rel="stylesheet" href="/css/watch/vod.css">
+
+    <script defer th:src="@{/js/watch/vod.js}"></script>
+</head>
+
+<div layout:fragment="content">
+    <div class="main-contents">
+        <div class="title">
+            <h1>VOD Streaming</h1>
+        </div>
+        <div class="content-container">
+            <div class="vod-container">
+                    <video id="vod" th:value="${vodDto.streamTitle}" controls>
+                    </video>
+            </div>
+            <div class="chat-container">
+                <div id="chat">
+                    <h1>채팅화면</h1>
+                </div>
+            </div>
+            <div class="product-container">
+                <div id="product">
+                    <h1>상품화면</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <div class="settings-buttons">
+        <div class="buttons-container">
+            <button id="subtitle-on">
+                <span class="glyphicon glyphicon-play">자막켜기</span>
+            </button>
+            <button id="subtitle-off">
+                <span class="glyphicon glyphicon-play">자막끄기</span>
+            </button>
+        </div>
+    </div>
+</div>
+</html>

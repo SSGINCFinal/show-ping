@@ -1,0 +1,114 @@
+.live-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); /* 1개씩 한 줄 */
+    justify-items: center; /* 그리드 아이템을 가운데 정렬 */
+    gap: 10px;
+    width: 100%;
+}
+
+
+.vod-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4개씩 한 줄 */
+    justify-items: center; /* 그리드 아이템을 가운데 정렬 */
+    gap: 10px;
+    width: 100%;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    padding-top: 15px;
+}
+
+.page-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+/* 개별 상품 박스 */
+.item {
+    padding: 15px;
+    width: 180px; /* 상품 카드 크기 조정 */
+    height: 300px;
+    text-align: center; /* 텍스트 가운데 정렬 */
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 내부 요소 수직 정렬 */
+    align-items: center; /* 내부 요소 수평 정렬 */
+}
+
+/* 개별 페이지 박스 */
+.page-item {
+    padding: 15px;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.item:hover {
+    padding: 15px;
+    width: 180px; /* 상품 카드 크기 조정 */
+    height: 300px;
+    text-align: center; /* 텍스트 가운데 정렬 */
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 내부 요소 수직 정렬 */
+    align-items: center; /* 내부 요소 수평 정렬 */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 이미지 스타일 */
+.item img {
+    width: 100px; /* 이미지 크기 조정 */
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.vod-list {
+    justify-content: center;
+    padding: 5%;
+}
+
+#date {
+    font-size: 15px;
+    text-align: left;
+    color: #999999;
+}
+
+#title {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#product-price {
+    font-size: 10px;
+}
+
+
+.prev-next {
+    width: 40px;
+    height: 40px;
+    background-color: #E7F1F9;
+    border-radius: 6px;
+    color: black;
+    border: none;
+}
+
+.current {
+    width: 40px;
+    height: 40px;
+    background-color: #38A7FF;
+    border-radius: 6px;
+    color: white;
+    border: none;
+}
