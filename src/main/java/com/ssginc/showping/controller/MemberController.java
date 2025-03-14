@@ -90,4 +90,18 @@ public class MemberController {
         }
     }
 
+    @GetMapping("/check-email-duplicate")
+    public ResponseEntity<?> checkEmailDuplicate(@RequestParam("email") String memberEmail) {
+        // 이메일 중복 확인 로직을 추가
+        boolean isDuplicate = memberService.isDuplicateEmail(memberEmail);
+
+        // 중복 여부에 따라 응답 처리
+        if (isDuplicate) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("중복된 이메일입니다");
+        } else {
+            return ResponseEntity.ok("사용 가능한 이메일입니다.");
+        }
+    }
+
 }
