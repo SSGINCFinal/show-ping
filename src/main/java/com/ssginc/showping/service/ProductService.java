@@ -22,8 +22,8 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    @Value("${ncp.storage.product-url}")
-    private String productUrl;
+//    @Value("${ncp.storage.product-url}")
+//    private String productUrl;
 
     public Page<ProductDto> getProductsByCategory(Long categoryNo, Pageable pageable) {
         Page<Product> productPage = productRepository.findByCategoryCategoryNo(categoryNo, pageable);
