@@ -3,18 +3,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script defer src="/js/login.js"></script> <!-- ✅ login.js 로드 -->
     <link rel="stylesheet" href="/css/login/login.css">
-    <script>
-        window.onload = function () {
-            // ✅ data-message 속성에서 메시지 가져오기
-            const message = document.getElementById("login-message").dataset.message;
-            console.log("전달된 메시지:", message); // 값이 정상적으로 오는지 확인
-
-            if (message.trim() !== '') {
-                alert(message);
-            }
-        }
-    </script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -23,11 +14,13 @@
         <div class="logo">S</div>
     </div>
 
-    <div class="login-form">
-        <form th:action="@{/login}" method="post">
+    <div class="login-form" onsubmit="login(event)">
+        <form th:action="@{/login}" method="post" autocomplete="off">
             <h2>ShowPing에 오신 것을 환영합니다.</h2>
-            <input type="text" name="memberId" placeholder="ID" required>
-            <input type="password" name="memberPassword" placeholder="Password" required>
+            <input type="text" name="memberId" id = "memberId" placeholder="ID" required autocomplete="off" readonly
+            onfocus="this.removeAttribute('readonly');">
+            <input type="password" name="memberPassword" id="memberPassword" placeholder="Password" required autocomplete="off" readonly
+            onfocus="this.removeAttribute('readonly');">
             <button type="submit">로그인</button>
         </form>
 

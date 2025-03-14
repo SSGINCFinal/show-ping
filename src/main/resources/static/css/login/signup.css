@@ -1,96 +1,146 @@
+/* 기본 스타일 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f4f7;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
+    background-color: #f8f9fa;
 }
 
 .container {
-    background-color: #ffffff;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
+/* 로고 영역 */
 .logo-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     margin-bottom: 20px;
-}
-
-.logo-area h1 {
-    color: #498af0;
-    margin-bottom: 10px;
 }
 
 .logo {
-    background-color: #498af0;
-    color: white;
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
+    font-size: 24px;
     font-weight: bold;
+    color: #007bff;
 }
 
-.signup-form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
+/* 입력 폼 스타일 */
 .signup-form h2 {
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.signup-form input {
-    width: 80%;
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-.signup-form button {
-    background-color: #498af0;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 22px;
 }
 
 .input-group {
     display: flex;
     align-items: center;
-    gap: 10px; /* 입력창과 버튼 사이 간격 */
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
 }
 
 .input-group input {
-    flex: 1; /* 입력 필드가 남은 공간을 채우도록 설정 */
-    margin-left: 0;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    outline: none;
 }
 
-.verify-btn {
-    height: 40px; /* 다른 입력란과 높이 맞추기 */
-    padding: 0 15px;
-    white-space: nowrap; /* 버튼 크기 고정 */
+.input-group button {
+    padding: 10px 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-.verify-btn:hover {
-    background-color: #0288D1;
+.input-group button:hover {
+    background: #0056b3;
+}
+
+/* 버튼 스타일 */
+.signup-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.signup-btn:hover {
+    background-color: #0056b3;
+}
+
+/* 비밀번호 토글 버튼 */
+.toggle-password {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 10px;
+}
+
+/* 숨김 처리 */
+.hidden {
+    display: none;
+}
+
+label {
+    font-size: 12px;
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+#password-message {
+    text-align: left;
+    color: red;
+    font-size: 12px;
+    display: none
+}
+
+#confirm-password-message {
+    text-align: left;
+    color: red;
+    font-size: 12px;
+    display: none
+}
+
+#memberId-message {
+    text-align: left;
+    color: red;
+    font-size: 12px;
+    display: none
+}
+
+/* 버튼 스타일 조정 */
+button {
+    font-size: 8px;  /* 글자 크기 줄이기 */
+    padding: 5px 10px; /* 버튼 내부 여백 조절 */
+    height: auto; /* 버튼 높이를 자동으로 맞춤 */
+    line-height: 1.2; /* 글자가 너무 커지는 문제 방지 */
+}
+
+/* 특정 버튼 스타일 */
+.button, .toggle-password, .verify-btn, .verify-code-btn, .find-address-btn {
+    font-size: 12px; /* 모든 버튼의 글자 크기를 작게 */
+    padding: 5px 8px; /* 버튼의 내부 여백을 조절 */
 }
