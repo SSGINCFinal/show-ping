@@ -147,34 +147,52 @@ function setupEventListeners(productNo) {
     // 장바구니 버튼 클릭 시 상품 추가 요청
     addToCartBtn.addEventListener("click", async function () {
         try {
-            const response = await axios.get("/api/carts/info");
-            console.log(response)
-            const memberNo = response.data.memberNo;
+            // JWT 토큰 가져오기 (sessionStorage 사용)
+            const token = sessionStorage.getItem("accessToken");
+
+            if (!token) {
+                // 로그인하지 않은 경우 로그인 페이지로 리디렉션
+                if (confirm("로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) {
+                    window.location.href = "/login";
+                }
+                return; // 로그인하지 않았다면 함수 종료
+            }
+
+            // JWT 토큰을 Authorization 헤더에 포함시켜 API 호출
+            const response = await axios.get("/api/carts/info", {
+                headers: {
+                    Authorization: `Bearer ${token}`  // JWT 토큰을 Authorization 헤더에 포함
+                }
+            });
+
+            console.log(response.data);
+
+            const memberNo = response.data.memberNo;  // 로그인된 사용자 정보에서 memberNo 추출
 
             // 로그인 여부 확인
             if (!memberNo) {
-                if (confirm("로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) {
-                    window.location.href = "/login"; // 로그인 페이지로 이동
-                }
-                return; // 함수 종료
+                alert("사용자 정보가 없습니다.");
+                return;
             }
 
+            // 장바구니에 상품 추가 요청
             axios.post(`/api/carts/add?memberNo=${memberNo}`, {
                 productNo: productNo,
                 quantity: quantity
             })
                 .then(response => {
-                    quantityInput.value = 1;
+                    quantityInput.value = 1;  // 수량 초기화
                     if (confirm("장바구니에 상품이 추가되었습니다. 장바구니로 이동하시겠습니까?")) {
-                        window.location.href = "/cart"; // 장바구니 페이지로 이동
+                        window.location.href = "/cart";  // 장바구니 페이지로 이동
                     }
                 })
                 .catch(error => {
                     alert("장바구니 추가 실패: " + (error.response?.data || "알 수 없는 오류"));
                 });
         } catch (error) {
+            console.error("로그인 이후 장바구니를 사용할 수 있습니다.", error);
             if (confirm("로그인 이후 장바구니를 사용할 수 있습니다. 로그인 하시겠습니까?")) {
-                window.location.href = "/login"
+                window.location.href = "/login";  // 로그인 페이지로 이동
             }
         }
     });
