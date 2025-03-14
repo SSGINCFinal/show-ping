@@ -35,7 +35,7 @@ function loadCartItems(memberNo) {
                                    data-quantity="${item.cartProductQuantity}">
                         </td>
                         <td class="product-order">
-                            <img class="product-img" src="/img/product_img/${item.productImg}" alt="${item.productName}">
+                            <img class="product-img" src="${item.productImg}" alt="${item.productName}">
                             ${item.productName}
                         </td>
                         <td>

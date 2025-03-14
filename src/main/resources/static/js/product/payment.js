@@ -93,10 +93,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                     name,
                     email,
                     phone,
-                    address,
                 },
                 customData: {
-                    userInfo: { name, phone, email, address },
+                    userInfo: { name, phone, email },
                 },
             });
 
