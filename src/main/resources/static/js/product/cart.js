@@ -41,12 +41,12 @@ function loadCartItems(memberNo) {
                         <td>
                             <input type="number" class="quantity-input" 
                                    data-product-no="${item.productNo}" 
-                                   data-unit-price="${item.productPrice}" 
+                                   data-unit-price="${item.discountedPrice}" 
                                    value="${item.cartProductQuantity}" 
                                    min="1" style="width: 40px;">
                         </td>
-                        <td class="product-price" style="width: 200px;" data-price="${item.productPrice * item.cartProductQuantity}">
-                            ${(item.productPrice * item.cartProductQuantity).toLocaleString('ko-KR')}원
+                        <td class="product-price" style="width: 200px;" data-price="${item.discountedPrice * item.cartProductQuantity}">
+                            ${(item.discountedPrice * item.cartProductQuantity).toLocaleString('ko-KR')}원
                         </td>
                         <td class="remove-btn" data-product-no="${item.productNo}">🗑</td>
                     </tr>

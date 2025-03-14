@@ -9,11 +9,12 @@ function loadProductDetail(productNo) {
     axios.get(`/api/products/detail/${productNo}`)
         .then(response => {
             const product = response.data;
-            console.log(product)
+            const productSale = product.productSale;  // productSale 값을 가져옵니다.
             const productDetail = document.getElementById('product-detail-page');
 
             const formattedPrice = product.productPrice.toLocaleString('ko-KR'); // 가격 콤마 포맷팅
-            const formattedQuantity = product.productQuantity.toLocaleString('ko-KR'); // 재고 콤마 포맷팅
+            const formattedFinalPrice = product.discountedPrice.toLocaleString('ko-KR');
+
 
             // 상품 상세 정보를 동적으로 삽입
             productDetail.innerHTML = `
@@ -22,10 +23,15 @@ function loadProductDetail(productNo) {
 
                     <div class="product-info">
                         <h1>${product.productName}</h1>
-
-                        <div class="final-price">
-                            <p>가격: ${formattedPrice}원</p>
-                        </div>
+                        
+                    <div class="product-price" id="product-sale" style="font-size: 25px">
+                        <p style="text-decoration: line-through">${formattedPrice}원</p>
+                        <p style="color: red">${product.productSale} %</p>
+                    </div>
+                    
+                    <div class="product-price-final" id="product-price-final">
+                        <p>${formattedFinalPrice}원</p>
+                    </div>
 
                         <div class="purchase-section">
                             <div class="quantity-control">
@@ -45,8 +51,14 @@ function loadProductDetail(productNo) {
                 <div class="promotion-banner">
                     <img src="${product.productDescript}" alt="상품 상세 설명 이미지" />
                 </div>
-                
             `;
+
+            // productSale이 0일 경우 product-price를 숨기기
+            if (productSale === 0) {
+                document.getElementById("product-sale").style.display = "none"; // product-price 숨기기
+            } else {
+                document.getElementById("product-sale").style.display = "block"; // product-price 보이기
+            }
 
             setupEventListeners(productNo); // 수량 조절 및 장바구니 추가 기능 연결
 
@@ -55,8 +67,6 @@ function loadProductDetail(productNo) {
             console.error("상품 상세 정보를 불러오는 중 오류 발생:", error);
         });
 }
-
-
 
 
 function loadProductReview(productNo) {
@@ -163,7 +173,7 @@ function setupEventListeners(productNo) {
                     alert("장바구니 추가 실패: " + (error.response?.data || "알 수 없는 오류"));
                 });
         } catch (error) {
-            if(confirm("로그인 이후 장바구니를 사용할 수 있습니다. 로그인 하시겠습니까?")){
+            if (confirm("로그인 이후 장바구니를 사용할 수 있습니다. 로그인 하시겠습니까?")) {
                 window.location.href = "/login"
             }
         }

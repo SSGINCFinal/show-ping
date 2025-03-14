@@ -14,4 +14,6 @@ public class ProductDto {
     private Long productQuantity;
     private String productImg;
     private String productDescript;
+    private Integer productSale;
+    private Long discountedPrice;
 }

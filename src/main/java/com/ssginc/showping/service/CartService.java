@@ -34,7 +34,9 @@ public class CartService {
                         cart.getProduct().getProductName(),
                         cart.getProduct().getProductPrice(),
                         cart.getCartProductQuantity(),
-                        cart.getProduct().getProductImg()
+                        cart.getProduct().getProductImg(),
+                        cart.getProduct().getProductSale(),
+                        cart.getProduct().getProductPrice() - (cart.getProduct().getProductPrice() * cart.getProduct().getProductSale() / 100)
                 ))
                 .collect(Collectors.toList());
     }

@@ -35,7 +35,9 @@ public class ProductService {
                         product.getProductPrice(),
                         product.getProductQuantity(),
                         product.getProductImg(),
-                        product.getProductDescript()
+                        product.getProductDescript(),
+                        product.getProductSale(),
+                        product.getProductPrice() - (product.getProductPrice() * product.getProductSale() / 100)
                 ))
                 .collect(Collectors.toList());
 
@@ -52,9 +54,11 @@ public class ProductService {
                     product.getProductPrice(),
                     product.getProductQuantity(),
                     product.getProductImg(),
-                    product.getProductDescript()
+                    product.getProductDescript(),
+                    product.getProductSale(),
+                    product.getProductPrice() - (product.getProductPrice() * product.getProductSale() / 100)
             );
-        }else{
+        } else {
             throw new RuntimeException("상품을 찾을 수 없습니다: " + productId);
         }
     }
