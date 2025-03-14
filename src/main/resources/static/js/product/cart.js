@@ -1,10 +1,11 @@
 let memberNo = null;
+let member = null
 
 document.addEventListener("DOMContentLoaded", function () {
     axios.get("/api/carts/info")
         .then(response => {
-            memberNo = response.data.memberNo;
-            console.log(memberNo)
+            member = response.data;
+            memberNo = member.memberNo;
             loadCartItems(memberNo);
         })
         .catch(error => {
@@ -34,7 +35,7 @@ function loadCartItems(memberNo) {
                                    data-quantity="${item.cartProductQuantity}">
                         </td>
                         <td class="product-order">
-                            <img class="product-img" src="/img/product_img/${item.productImg}" alt="${item.productName}">
+                            <img class="product-img" src="${item.productImg}" alt="${item.productName}">
                             ${item.productName}
                         </td>
                         <td>
@@ -44,7 +45,7 @@ function loadCartItems(memberNo) {
                                    value="${item.cartProductQuantity}" 
                                    min="1" style="width: 40px;">
                         </td>
-                        <td class="product-price" data-price="${item.productPrice * item.cartProductQuantity}">
+                        <td class="product-price" style="width: 200px;" data-price="${item.productPrice * item.cartProductQuantity}">
                             ${(item.productPrice * item.cartProductQuantity).toLocaleString('ko-KR')}원
                         </td>
                         <td class="remove-btn" data-product-no="${item.productNo}">🗑</td>
@@ -109,6 +110,7 @@ function setupEventListeners() {
     document.querySelectorAll(".quantity-input").forEach(input => {
         input.addEventListener("input", function () {
             if (this.value < 1) this.value = 1; // 최소값 유지
+            if (this.value > 50) this.value = 50; //최댓값 유지
 
             const row = this.closest("tr");
             const productNo = this.getAttribute("data-product-no");

@@ -1,52 +1,15 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const categoryNo = window.location.pathname.split('/').pop(); // URL에서 categoryNo 추출
-    loadProducts(categoryNo);
-});
-
-function loadProducts(categoryNo) {
-    axios.get(`/api/products/${categoryNo}`)
-        .then(response => {
-            const products = response.data;
-            const productGrid = document.getElementById('product-grid');
-            productGrid.innerHTML = '';
-
-            if (products.length === 0) {
-                productGrid.innerHTML = '<p>등록된 상품이 없습니다.</p>';
-            } else {
-                products.forEach(product => {
-                    const productDiv = document.createElement('div');
-                    productDiv.classList.add('product-item');
-                    const formattedPrice = product.productPrice.toLocaleString('ko-KR');
-
-                    productDiv.innerHTML = `
-                        <img src="/img/product_img/${product.productImg}" alt="${product.productName}" />
-                        <p id="product-name">${product.productName}</p>
-                        <p id="product-price">${formattedPrice}원</p>
-                    `;
-
-                    // 상품 클릭 시 상세 페이지로 이동
-                    productDiv.addEventListener('click', () => {
-                        window.location.href = `/product/detail/${product.productNo}`;
-                    });
-
-                    productGrid.appendChild(productDiv);
-                });
-            }
-        })
-        .catch(error => {
-            console.error("상품 목록을 불러오는 중 오류 발생:", error);
-        });
-}
-
+// 상품 클릭 시 상품 상세정보 페이지로 이동
 document.addEventListener("DOMContentLoaded", function () {
     const productNo = window.location.pathname.split('/').pop(); // URL에서 productNo 추출
     loadProductDetail(productNo);
+    loadProductReview(productNo);
 });
 
 function loadProductDetail(productNo) {
     axios.get(`/api/products/detail/${productNo}`)
         .then(response => {
             const product = response.data;
+            console.log(product)
             const productDetail = document.getElementById('product-detail-page');
 
             const formattedPrice = product.productPrice.toLocaleString('ko-KR'); // 가격 콤마 포맷팅
@@ -55,7 +18,7 @@ function loadProductDetail(productNo) {
             // 상품 상세 정보를 동적으로 삽입
             productDetail.innerHTML = `
                 <div class="product-detail">
-                    <img src="/img/product_img/${product.productImg}" alt="${product.productName}" />
+                    <img src="${product.productImg}" alt="${product.productName}" />
 
                     <div class="product-info">
                         <h1>${product.productName}</h1>
@@ -80,7 +43,7 @@ function loadProductDetail(productNo) {
 
                 <!-- 상품 상세 설명 이미지 추가 -->
                 <div class="promotion-banner">
-                    <img src="/img/product_img/${product.productDescript}" alt="상품 상세 설명 이미지" />
+                    <img src="${product.productDescript}" alt="상품 상세 설명 이미지" />
                 </div>
                 
             `;
@@ -93,10 +56,8 @@ function loadProductDetail(productNo) {
         });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const productNo = window.location.pathname.split('/').pop(); // URL에서 productNo 추출
-    loadProductReview(productNo);
-});
+
+
 
 function loadProductReview(productNo) {
     axios.get(`/api/products/reviews/${productNo}`)

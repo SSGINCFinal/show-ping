@@ -284,6 +284,7 @@ th {
 .product-order {
     display: flex;
     align-items: center;
+    justify-content: space-around;
 }
 .product-img {
     width: 80px;
@@ -430,4 +431,124 @@ th {
 .payment-button:hover {
     background-color: #E7F1F9;
     color: black;
+}
+
+#order-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.order-box {
+    background: white;
+    padding: 20px;
+    margin: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.toggle-details {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.toggle-details:hover {
+    background-color: #0056b3;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.status.ready {
+    background-color: #ffcc00;
+    color: #fff;
+}
+
+.status.transit {
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+.status.complete {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.price {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.order-details {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+
+.order-details ul {
+    list-style: none;
+    padding: 0;
+}
+
+.order-details li {
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-details li:last-child {
+    border-bottom: none;
+}
+
+.no-orders {
+    text-align: center;
+    font-size: 16px;
+    color: #777;
+}
+
+.error-message {
+    text-align: center;
+    font-size: 16px;
+    color: red;
+}
+
+.load-more-btn {
+    display: block;
+    margin: 20px auto; /* 가운데 정렬 */
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #007bff; /* 파란색 */
+    background-color: #e3efff;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    text-align: center;
+    width: fit-content; /* 텍스트 길이에 맞게 조정 */
+    border-radius: 8px;
+    transition: color 0.3s ease-in-out;
+}
+
+.load-more-btn:hover {
+    color: #2B4C94; /* 더 어두운 파란색 */
 }

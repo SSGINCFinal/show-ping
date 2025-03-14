@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             document.getElementById("name").value = response.data.memberName || "";
             document.getElementById("phone").value = response.data.memberPhone || "";
             document.getElementById("email").value = response.data.memberEmail || "";
+            document.getElementById("address").value = response.data.memberAddress || "";
         }
 
         // sessionStorage에서 선택된 상품 정보 가져오기
@@ -48,6 +49,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const name = document.getElementById("name").value.trim();
         const phone = document.getElementById("phone").value.trim();
         const email = document.getElementById("email").value.trim();
+        const address = document.getElementById("address").value.trim();
         const totalPrice = parseInt(document.getElementById("total-price").textContent.replace(" 원", "").replaceAll(",", ""), 10);
         const selectedItems = JSON.parse(sessionStorage.getItem("selectedItems")) || [];
 
@@ -102,16 +104,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 alert(`결제 실패: ${payment.message}`);
                 return;
             }
-
-            console.log("결제 요청 데이터:", JSON.stringify({
-                memberNo: memberNo,
-                totalPrice: totalPrice,
-                orderItems: selectedItems.map(item => ({
-                    productNo: item.productNo,
-                    quantity: item.quantity,
-                    totalPrice: item.totalPrice
-                }))
-            }));
 
             // 결제 성공 후 주문 정보 서버에 저장
             const orderResponse = await fetch("/api/orders/create", {

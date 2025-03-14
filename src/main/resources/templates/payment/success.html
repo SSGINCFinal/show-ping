@@ -5,39 +5,11 @@
 
 <head>
     <title>결제 성공</title>
+    <link rel="stylesheet" href="/css/product/product.css">
     <script defer src="/js/product/orders.js"></script>
-    <style>
-        .order-box {
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        .order-details {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        button.toggle-details {
-            cursor: pointer;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            margin-top: 5px;
-        }
-        button.toggle-details:hover {
-            background-color: #0056b3;
-        }
-    </style>
 </head>
 
 <div layout:fragment="content">
-    <h2>결제가 성공적으로 완료되었습니다!</h2>
 
     <!-- 주문 목록 -->
     <div id="order-list"></div>
