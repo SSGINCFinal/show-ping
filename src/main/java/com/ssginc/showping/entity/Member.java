@@ -103,6 +103,11 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Report> reports;
 
+    // 소셜회원
+    // 회원 : 소셜회원은 1 : N의 관계를 가진다.
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<SocialMember> socialmembers;
+
     // memberId & memberPassword만 받는 생성자 추가
     public Member(String memberId, String memberPassword) {
         this.memberId = memberId;
