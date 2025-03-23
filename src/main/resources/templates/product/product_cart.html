@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout.html">
+
+<head>
+    <link rel="stylesheet" href="/css/product/product.css">
+    <script defer src="/js/product/cart.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="cart-container">
+        <div class="cart-items">
+            <table>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="product-checkbox-all"></th>
+                    <th>상품명</th>
+                    <th>수량</th>
+                    <th>가격</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- 장바구니 데이터가 JS에서 동적으로 삽입됨 -->
+                </tbody>
+            </table>
+        </div>
+        <div class="cart-summary">
+            <h3>주문 예상 금액</h3>
+            <p>총 상품 금액 <strong style="color: blue;">0원</strong></p>
+            <button class="checkout-btn" id="checkout-btn">구매하기</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

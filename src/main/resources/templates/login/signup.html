@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 | ShowPing</title>
+    <link rel="stylesheet" href="/css/login/signup.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="logo-area">
+        <h2>ShowPing</h2>
+        <h5>회원가입</h5>
+        <h6>회원이 되어 다양한 혜택을 경험해보세요!</h6>
+    </div>
+
+    <div class="signup-form">
+        <form id="signup-form" autocomplete="off">
+            <label for="memberId">아이디</label>
+            <div id="memberId-message" style="color: red; font-size: 12px; display: none;"></div> <!-- 아이디 메시지 추가 -->
+            <div class="input-group">
+                <input type="text" id="memberId" placeholder="아이디 입력 (6~20자)" required>
+                <button type="button" class="button" onclick="checkDuplicate()">중복 확인</button>
+            </div>
+
+            <label for="password">비밀번호</label>
+            <div id="password-message" style="color: red; font-size: 12px; display: none;"></div> <!-- 🔹 메시지 위치 변경 -->
+            <div class="input-group">
+                <input type="password" id="password" placeholder="비밀번호 입력 (문자, 숫자, 특수문자 포함 8~20자)" required autocomplete="new-password">
+                <button type="button" class="toggle-password">👁</button>
+            </div>
+
+            <label for="confirm-password">비밀번호 확인</label>
+            <div id="confirm-password-message" style="color: red; font-size: 12px; display: none;"></div>
+            <div class="input-group">
+                <input type="password" id="confirm-password" placeholder="비밀번호 재입력" required autocomplete="new-password">
+                <button type="button" class="toggle-password">👁</button>
+            </div>
+
+            <label for="name">이름</label>
+            <div class="input-group">
+                <input type="text" id="name" placeholder="이름을 입력해주세요" required>
+            </div>
+
+            <label for="phone">전화번호</label>
+            <div class="input-group">
+                <input type="text" id="phone" placeholder="휴대폰 번호 입력('-' 포함 11자리 입력)" required>
+            </div>
+
+            <label for="email">이메일</label>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="이메일 입력" required autocomplete="off">
+                <button type="button" class="verify-btn" onclick="sendVerificationCode()">인증 코드 보내기</button>
+            </div>
+
+            <div class="input-group hidden" id="email-verify-section">
+                <input type="text" id="email-code" placeholder="인증 코드 입력">
+                <button type="button" class="verify-code-btn">확인</button>
+            </div>
+
+            <label for="address">주소</label>
+            <div class="input-group">
+                <input type="text" id="address" placeholder="주소 입력">
+            </div>
+
+            <button type="submit" class="signup-btn">가입하기</button>
+        </form>
+    </div>
+</div>
+
+<script src="/js/login/signup.js"></script>
+</body>
+</html>

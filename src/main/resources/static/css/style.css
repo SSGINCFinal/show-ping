@@ -8,30 +8,42 @@
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
+    /*background-color: #E7F1F9;*/
 }
 
 main {
-    background-color: #FFD700;
+    background-color: #38A7FF;
+}
+
+.main-content {
+    max-width: 1300px;
+    min-height: 600px;
+    margin: auto;
+    background-color: white;
+    /*border: 1px solid gainsboro;*/
 }
 
 /* 네비게이션 바 스타일 */
 .navbar {
-    background-color: #4B0082; /* 어두운 보라색 */
-    color: white;
-    padding: 10px 20px;
-    position: relative;
+    color: black;
+    position: sticky;
+    top: 0;
+    border-bottom: 1px gainsboro;
 }
 
 .navbar-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1300px;
+    margin: auto;
+    /*border: 1px solid gainsboro;*/
+    background-color: white;
 }
 
 .navbar-logo a {
-    color: white;
+    padding: 30px;
+    color: black;
     text-decoration: none;
     font-size: 1.5rem;
     font-weight: bold;
@@ -40,6 +52,7 @@ main {
 .navbar-menu .menu-list {
     display: flex;
     list-style: none;
+    padding: 30px;
 }
 
 .menu-list .menu-item {
@@ -48,14 +61,15 @@ main {
 }
 
 .menu-list .menu-item a {
-    color: white;
+    color: black;
     text-decoration: none;
     padding: 5px 10px;
     transition: color 0.3s;
+    justify-content: space-between;
 }
 
 .menu-list .menu-item a:hover {
-    color: #FFD700; /* 황금색 */
+    color: #38A7FF;
 }
 
 /* 드롭다운 */
@@ -66,16 +80,20 @@ main {
     position: absolute;
     top: 100%;
     left: 0;
-    background-color: #6A0DAD;
     list-style: none;
     padding: 10px 0;
     border-radius: 5px;
     z-index: 1000;
-    white-space: nowrap;
+    white-space: nowrap; /* 수정된 부분 */
+}
+
+.dropdown .dropdown-menu li {
+    display: inline-block; /* 가로 정렬 */
+    background-color: white;
 }
 
 .dropdown .dropdown-menu li a {
-    color: white;
+    color: black;
     padding: 5px 20px;
     display: block;
     text-decoration: none;
@@ -83,12 +101,13 @@ main {
 }
 
 .dropdown .dropdown-menu li a:hover {
-    background-color: #4B0082;
+    /*background-color: #D0E4F1;*/
 }
 
 /* 드롭다운 메뉴 표시 */
 .dropdown:hover .dropdown-menu {
-    display: block;
+    display: flex; /* 가로 정렬 */
+    flex-direction: row; /* 가로로 표시 */
 }
 
 /* 오른쪽 검색 및 언어 선택 */
@@ -109,31 +128,32 @@ main {
 
 /* 검색 입력 필드 */
 .search-bar input[type="text"] {
-    width: 300px; /* 입력 필드 너비 */
+    width: 400px; /* 입력 필드 너비 */
+    height: 30px;
     padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 2px solid black;
+    margin-right: 50px;
     font-size: 14px;
-    background-color: #4B0082;
-    color: white;
+    border-radius: 20px;
 }
 
 /* 검색 버튼 */
 .search-bar button {
-    background-color: #4B0082;
-    color: white;
+    background-color: white;
+    color: black;
     border: none;
     border-radius: 4px;
-    padding: 5px 10px;
+    padding: 10px;
+    padding-top: 10px;
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-/* 검색 버튼 호버 효과 */
-.search-bar button:hover {
-    background-color: #6A0DAD;
-    color: #FFD700;
+.cart-bar {
+    padding: 10px;
+    padding-top: 10px;
+    margin-right: 80px;
 }
 
 /* 스크롤 */
@@ -145,8 +165,8 @@ main {
     right: 20px;
     width: 50px;
     height: 50px;
-    background-color: #4B0082;
-    color: white;
+    background-color: #E7F1F9;
+    color: black;
     border: none;
     border-radius: 50%;
     font-size: 20px;
@@ -161,7 +181,7 @@ main {
 
 /* 버튼 호버 효과 */
 .scroll-to-top:hover {
-    background-color: #6A0DAD;
+    background-color: #38A7FF;
 }
 
 /* 버튼이 보일 때 */
@@ -179,7 +199,7 @@ main {
 /* 로그인 */
 
 .login-button {
-    color: white;
+    color: black;
     padding: 5px 15px;
     text-decoration: none;
     font-size: 14px;
@@ -190,16 +210,16 @@ main {
 }
 
 .login-button:hover {
-    background-color: #6A0DAD;
-    color: #FFD700;
+    background-color: #E7F1F9;
+    color: #38A7FF;
 }
 
 /* 푸터 */
 
 /* Footer 스타일 */
 .footer {
-    background-color: #4B0082;
-    color: white;
+    background-color: #E7F1F9;
+    color: black;
     padding: 40px 20px;
     font-family: Arial, sans-serif;
     font-size: 14px;
@@ -218,7 +238,7 @@ main {
     margin-bottom: 15px;
     font-size: 16px;
     font-weight: bold;
-    color: #FFD700; /* 황금색 */
+    color: #38A7FF;
 }
 
 .footer-column ul {
@@ -231,13 +251,13 @@ main {
 }
 
 .footer-column ul li a {
-    color: white;
+    color: black;
     text-decoration: none;
     transition: color 0.3s;
 }
 
 .footer-column ul li a:hover {
-    color: #FFD700; /* 링크 호버 시 황금색 */
+    color: #38A7FF;
 }
 
 /* 하단 섹션 */
@@ -251,17 +271,17 @@ main {
 .footer-bottom p {
     margin: 10px 0;
     font-size: 12px;
-    color: white;
+    color: black;
 }
 
 .social-icons a {
     margin: 0 10px;
-    color: #FFD700; /* 황금색 아이콘 */
+    color: #38A7FF;
     text-decoration: none;
     font-size: 16px;
     transition: color 0.3s;
 }
 
 .social-icons a:hover {
-    color: white; /* 아이콘 호버 시 색상 변경 */
+    color: black; /* 아이콘 호버 시 색상 변경 */
 }

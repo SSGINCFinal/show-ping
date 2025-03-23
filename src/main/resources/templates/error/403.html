@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>403 - 접근 금지</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 100px;
+        }
+        h1 {
+            color: #dc3545;
+        }
+        .error-details {
+            font-size: 18px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+
+<body>
+<h1>403 Forbidden</h1>
+<p>이 페이지에 접근할 권한이 없습니다.</p>
+<img th:src="@{/images/034.png}" alt="403" />
+<hr color="red">
+<a   href="/">
+    <button>홈으로 돌아가기</button>
+</a>
+</body>
+</html>
